@@ -1,6 +1,63 @@
 {
-  "extends": "expo/tsconfig.base",
   "compilerOptions": {
-    "strict": true
-  }
+    "target": "es2015",
+    "module": "commonjs",
+    "lib": [
+      "DOM",
+      "ES2015"
+    ],
+    "jsx": "react-native",
+    "baseUrl": ".",
+    "outDir": "./build",
+    "rootDir": ".",
+    "strict": true,
+    "noImplicitAny": true,
+    "noUnusedLocals": false,
+    "noUnusedParameters": false,
+    "moduleResolution": "node",
+    "esModuleInterop": true,
+    "sourceMap": true,
+    "experimentalDecorators": true,
+    "emitDecoratorMetadata": true,
+    "forceConsistentCasingInFileNames": true,
+    "allowSyntheticDefaultImports": true,
+    "pretty": true,
+    "resolveJsonModule": true,
+    "plugins": [
+      {
+        "transform": "typescript-transform-paths"
+      },
+      {
+        "transform": "typescript-transform-paths",
+        "afterDeclarations": "true"
+      }
+    ],
+    "paths": {
+      "@component/*": [
+        "src/component/*"
+      ],
+      "@tab/*": [
+        "src/tabs/*"
+      ],
+      "@navigation/*": [
+        "src/navigation/*"
+      ],
+      "@screen/*": [
+        "src/screens/*"
+      ],
+      "@hook/*": [
+        "src/hooks/*"
+      ],
+      "@constant/*": [
+        "src/constants/*"
+      ],
+      "@asset/*": [
+        "src/assets/*"
+      ],
+      "@root/*": [
+        "src/*"
+      ]
+    }
+  },
+  "extends": "expo/tsconfig.base"
 }
