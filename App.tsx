@@ -9,6 +9,10 @@ import SignIn from '@screen/SignIn';
 import SignUp from '@screen/SignUp';
 import InterestScreen from '@screen/InterestScreen';
 import EnglishTest from '@screen/EnglishTest';
+import QuestionsScreen from '@screen/QuestionsScreen';
+import HomeScreen from '@screen/learners/HomeScreen';
+import Tabs from '@navigation/Tabs';
+import DoubleTab from '@navigation/DoubleTab';
 
 // const getFonts = async () => {
 //   return Font.loadAsync({
@@ -30,12 +34,14 @@ export default function App() {
       <StatusBar style="auto" />
       <SafeAreaProvider>
         <NavigationContainer>
-          <Stack.Navigator initialRouteName='Welcome' screenOptions={{ headerShown: false }}>
+          <Stack.Navigator initialRouteName='Tabs' screenOptions={{ headerShown: false }}>
             <Stack.Screen name='Welcome' component={Welcome}/>
             <Stack.Screen name='SignIn' component={SignIn}/>
             <Stack.Screen name='SignUp' component={SignUp}/>
             <Stack.Screen name='Interest' component={InterestScreen}/>
             <Stack.Screen name='EnglishTest' component={EnglishTest}/>
+            <Stack.Screen name='QuestionsScreen' component={QuestionsScreen}/>
+            <Stack.Screen name='Tabs' component={Tabs} />
           </Stack.Navigator>
         </NavigationContainer>
       </SafeAreaProvider>

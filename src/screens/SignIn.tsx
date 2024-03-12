@@ -9,12 +9,11 @@ const SignIn = ({ navigation }: SignInScreenProps) => {
     return (
         <SafeAreaView className='flex bg-sky-400 flex-1 justify-between'>
             <View className='mx-3 flex flex-col h-[40%]'>
-                <View className='flex flex-row justify-between'>
+                <View className='flex flex-row'>
                     <TouchableOpacity className='bg-yellow-400 p-2 rounded-tl-xl rounded-br-xl w-[35px]' onPress={() => navigation.pop()}>
                         <ArrowLeftIcon color='black' size='20'/>
                     </TouchableOpacity>
-                    <Text className='font-bold text-white text-2xl'>Sign In</Text>
-                    <View></View>
+                    <Text className='text-center w-full -left-[35px] font-bold text-white text-2xl'>Sign In</Text>
                 </View>
                 <View className='flex justify-center items-center'>
                     <Image source={require('@asset/images/SignUp.png')} style={{resizeMode: 'contain', width: '100%', height: '100%'}}/>

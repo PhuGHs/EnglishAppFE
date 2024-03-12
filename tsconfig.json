@@ -34,7 +34,10 @@
     ],
     "paths": {
       "@component/*": [
-        "src/component/*"
+        "src/components/*"
+      ],
+      "@type/*": [
+        "src/types/*"
       ],
       "@tab/*": [
         "src/tabs/*"
