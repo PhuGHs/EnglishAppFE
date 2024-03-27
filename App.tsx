@@ -44,7 +44,7 @@ export default function App() {
       <StatusBar style="auto" />
       <SafeAreaProvider>
         <NavigationContainer>
-          <Stack.Navigator initialRouteName='StoryDetails' screenOptions={{ headerShown: false }}>
+          <Stack.Navigator initialRouteName='ShortStories' screenOptions={{ headerShown: false }}>
             <Stack.Screen name='Welcome' component={Welcome}/>
             <Stack.Screen name='SignIn' component={SignIn}/>
             <Stack.Screen name='SignUp' component={SignUp}/>

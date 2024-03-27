@@ -12,7 +12,7 @@ const StoryDetails = () => {
                 <TouchableOpacity className="bg-yellow-400 p-2 rounded-tl-xl rounded-br-xl w-[40px] h-[40px] flex items-center justify-center">
                     <FontAwesomeIcon icon={faArrowLeft} color="#374151" size={25} />
                 </TouchableOpacity>
-                <Text className="text-[22px] text-sky-600 font-medium">Căn bệnh hiểm nghèo</Text>
+                <Text className="text-[22px] text-sky-600 font-medium">Là ai</Text>
                 <TouchableOpacity>
                     <FontAwesomeIcon icon={faLanguage} color="#0ea5e9" size={40} />
                 </TouchableOpacity>

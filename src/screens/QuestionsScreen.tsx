@@ -6,6 +6,7 @@ import { TouchableOpacity, View, Text, StyleSheet } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { RadioButtonProps } from 'react-native-radio-buttons-group';
 import { FontAwesomeIcon } from '@fortawesome/react-native-fontawesome';
+import { faClock, faMapLocation } from '@fortawesome/free-solid-svg-icons';
 
 const arr: IQuestionProps[] = [
     {
@@ -125,13 +126,13 @@ const QuestionsScreen = ({ navigation }: QuestionsScreenProps) => {
     return (
         <SafeAreaView className="mx-3 space-y-4 flex flex-col justify-between h-full">
             <View>
-                <Text className="w-full text-center text-xl text-sky-500 font-semibold">
+                <Text className="w-full text-center text-2xl text-sky-500 font-semibold my-2">
                     Assessment Test
                 </Text>
                 <View className="flex flex-row justify-between items-center">
                     <Text className="text-lg text-gray-700 font-bold">6/10</Text>
                     <View className="flex flex-row justify-between items-center bg-orange-100 p-2 rounded-full">
-                        <FontAwesomeIcon icon={'clock'} color="#fb923c" size={20} />
+                        <FontAwesomeIcon icon={faClock} color="#fb923c" size={20} />
                         <Text className="text-lg text-orange-400 font-semibold"> 3min 55s</Text>
                     </View>
                 </View>
@@ -170,7 +171,7 @@ const QuestionsScreen = ({ navigation }: QuestionsScreenProps) => {
                     <Text className="font-semibold text-gray-700 text-base">Previous</Text>
                 </TouchableOpacity>
                 <TouchableOpacity className="p-2 flex justify-center items-center bg-sky-100 mb-5 rounded-2xl">
-                    <FontAwesomeIcon icon={'map-location'} size={40} color="#38bdf8" />
+                    <FontAwesomeIcon icon={faMapLocation} size={40} color="#38bdf8" />
                 </TouchableOpacity>
                 <TouchableOpacity
                     className="rounded-2xl bg-yellow-400 p-4 mb-5 flex justify-center items-center w-[30%]"

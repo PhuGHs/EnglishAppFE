@@ -1,3 +1,4 @@
+import { faAngleLeft } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-native-fontawesome';
 import { SignInScreenProps, SignUpScreenProps } from '@root/types';
 import React from 'react';
@@ -10,10 +11,10 @@ const SignUp = ({ navigation }: SignUpScreenProps) => {
             <View className="mx-3 flex flex-col h-[25%]">
                 <View className="flex flex-row w-full">
                     <TouchableOpacity
-                        className="bg-yellow-400 p-2 rounded-tl-xl rounded-br-xl w-[35px]"
+                        className="bg-yellow-400 p-2 rounded-tl-xl rounded-br-xl w-[40px] h-[40px]"
                         onPress={() => navigation.pop()}
                     >
-                        <FontAwesomeIcon icon={'arrow-left'} color="black" size={25} />
+                        <FontAwesomeIcon icon={faAngleLeft} color="#374151" size={25} />
                     </TouchableOpacity>
                     <Text className="w-full text-center font-bold text-white text-2xl -left-[35px]">
                         Register

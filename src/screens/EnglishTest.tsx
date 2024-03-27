@@ -4,6 +4,7 @@ import React from 'react';
 import { Text, TouchableOpacity, View, Image } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { FontAwesomeIcon } from '@fortawesome/react-native-fontawesome';
+import { faAngleLeft } from '@fortawesome/free-solid-svg-icons';
 
 const EnglishTest = ({ navigation }: EnglishTestScreenProps) => {
     return (
@@ -11,12 +12,12 @@ const EnglishTest = ({ navigation }: EnglishTestScreenProps) => {
             <View>
                 <View className="flex flex-row mb-5 items-center">
                     <TouchableOpacity
-                        className="bg-yellow-400 p-2 rounded-tl-xl rounded-br-xl w-[35px]"
+                        className="bg-yellow-400 p-2 rounded-tl-xl rounded-br-xl w-[40px] h-[40px]"
                         onPress={() => navigation.pop()}
                     >
-                        <FontAwesomeIcon icon={'arrow-left'} color="black" size={25} />
+                        <FontAwesomeIcon icon={faAngleLeft} color="#374151" size={25} />
                     </TouchableOpacity>
-                    <Text className="text-center w-full -left-[35px] text-sky-600 text-[22px] font-medium">
+                    <Text className="text-center w-full -left-[35px] text-sky-600 text-2xl font-medium">
                         Assessment Test
                     </Text>
                 </View>

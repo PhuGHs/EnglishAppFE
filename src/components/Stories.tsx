@@ -50,8 +50,8 @@ const sample: IStory[] = [
 
 const Story = ({ image, like, title, horizontal }: IStory) => {
     return (
-        <TouchableOpacity className={`flex flex-col space-y-2 mt-4 ${horizontal && 'mr-3'}`}>
-            <View className="w-[180px] rounded-xl h-[250px] bg-zinc-300">
+        <TouchableOpacity className={`flex flex-col w-[48%] space-y-2 mt-4 ${horizontal && 'mr-3'}`}>
+            <View className="w-full rounded-xl h-[250px] bg-zinc-300">
                 <View className="absolute top-2 right-2 bg-gray-400 flex flex-row items-center justify-center space-x-2 p-2 rounded-full">
                     <Text className="text-white font-medium">{like}</Text>
                     <FontAwesomeIcon icon={faHeart} color="#F06D6D" size={20} />
