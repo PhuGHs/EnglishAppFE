@@ -1,15 +1,16 @@
+import MyQuestionsTab from '@screen/learners/MyQuestionsTab';
+import QuestionsTab from '@screen/learners/QuestionsTab';
 import React, { useState } from 'react';
-import { Text, TouchableOpacity, View, useWindowDimensions } from 'react-native';
+import { TouchableOpacity, View, useWindowDimensions } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { SceneMap, TabBar, TabView } from 'react-native-tab-view';
-import LiveTab from './LiveTab';
-import LaterTab from './LaterTab';
+import { Text } from 'react-native';
 import { FontAwesomeIcon } from '@fortawesome/react-native-fontawesome';
 import { faArrowLeft } from '@fortawesome/free-solid-svg-icons';
 
 const renderScene = SceneMap({
-    first: LiveTab,
-    second: LaterTab,
+    first: QuestionsTab,
+    second: MyQuestionsTab,
 });
 
 const renderTabBar = (props): any => (
@@ -27,17 +28,17 @@ const renderTabBar = (props): any => (
     />
 );
 
-const EngComRoomsScreen = () => {
+const EngComAskScreen = () => {
     const layout = useWindowDimensions();
     const [index, setIndex] = useState(0);
     const [routes] = React.useState([
         {
             key: 'first',
-            title: 'Live',
+            title: 'Questions',
         },
         {
             key: 'second',
-            title: 'Later',
+            title: 'My Questions',
         },
     ]);
     return (
@@ -45,11 +46,11 @@ const EngComRoomsScreen = () => {
             <View className="flex flex-1 bg-white">
                 <View className="px-3">
                     <View className="flex flex-row mb-5 items-center">
-                        <TouchableOpacity className="bg-yellow-400 p-2 rounded-tl-xl rounded-br-xl w-[40px] h-[40px]">
+                        <TouchableOpacity className="bg-yellow-400 p-2 rounded-tl-xl rounded-br-xl w-[40px]">
                             <FontAwesomeIcon icon={faArrowLeft} color="#374151" size={25} />
                         </TouchableOpacity>
                         <Text className="text-center w-full -left-[40px] text-sky-600 text-[22px] font-medium">
-                            EngCom Rooms
+                            EngCom QA
                         </Text>
                     </View>
                 </View>
@@ -75,4 +76,4 @@ const EngComRoomsScreen = () => {
     );
 };
 
-export default EngComRoomsScreen;
+export default EngComAskScreen;

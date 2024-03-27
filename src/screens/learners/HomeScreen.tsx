@@ -11,57 +11,57 @@ const missions: IMissionProps[] = [
     {
         missionName: 'Watch a blog post',
         rewardedPoints: 3,
-        isDone: false
+        isDone: false,
     },
     {
         missionName: 'Join a speaking room',
         rewardedPoints: 5,
-        isDone: true
+        isDone: true,
     },
     {
         missionName: 'Create a speaking room',
         rewardedPoints: 5,
-        isDone: true
+        isDone: true,
     },
     {
         missionName: 'Ask a question',
         rewardedPoints: 5,
-        isDone: true
+        isDone: true,
     },
 ];
 
 const HomeScreen = () => {
     return (
-        <SafeAreaView className='flex mx-3' style={{marginBottom: 160}}>
-            <View className='flex flex-row justify-between mb-4 mt-2'>
-                <View className='flex flex-row items-center'>
-                    <Text className='text-base font-bold text-3xl text-[#005DB2]'>Eng</Text>
-                    <Text className='text-base font-bold text-3xl text-[#4C337E]'>Com</Text>
+        <SafeAreaView className="flex mx-3" style={{ marginBottom: 160 }}>
+            <View className="flex flex-row justify-between mb-4 mt-2">
+                <View className="flex flex-row items-center">
+                    <Text className="text-base font-bold text-3xl text-[#005DB2]">Eng</Text>
+                    <Text className="text-base font-bold text-3xl text-[#4C337E]">Com</Text>
                 </View>
                 <BellBadge numberOfNotifications={2} />
             </View>
-            <ScrollView className='space-y-4'>
-                <View className='flex flex-col gap-y-2'>
-                    <Text className='text-gray-700 text-xl font-medium'>Daily Missions</Text>
-                    <DailyMissions missions={missions}/>
+            <ScrollView className="space-y-4">
+                <View className="flex flex-col gap-y-2">
+                    <Text className="text-gray-700 text-xl font-medium">Daily Missions</Text>
+                    <DailyMissions missions={missions} />
                 </View>
-                <View className='flex flex-col'>
-                    <View className='flex flex-row justify-between items-center'>
-                        <Text className='text-gray-700 text-xl font-medium'>EngCom Rooms</Text>
-                        <TouchableOpacity className=''>
-                            <Text className='text-[#005DB2] text-lg font-medium'>Show all</Text>
+                <View className="flex flex-col">
+                    <View className="flex flex-row justify-between items-center">
+                        <Text className="text-gray-700 text-xl font-medium">EngCom Rooms</Text>
+                        <TouchableOpacity className="">
+                            <Text className="text-[#005DB2] text-lg font-medium">Show all</Text>
                         </TouchableOpacity>
                     </View>
-                    <EngComRooms />
+                    <EngComRooms horizontal={true} />
                 </View>
-                <View className='flex flex-col'>
-                    <View className='flex flex-row justify-between items-center'>
-                        <Text className='text-gray-700 text-xl font-medium'>EngCom QAs</Text>
-                        <TouchableOpacity className=''>
-                            <Text className='text-[#005DB2] text-lg font-medium'>Show all</Text>
+                <View className="flex flex-col">
+                    <View className="flex flex-row justify-between items-center">
+                        <Text className="text-gray-700 text-xl font-medium">EngCom QAs</Text>
+                        <TouchableOpacity className="">
+                            <Text className="text-[#005DB2] text-lg font-medium">Show all</Text>
                         </TouchableOpacity>
                     </View>
-                    <EngComQAs />
+                    <EngComQAs horizontal={true} />
                 </View>
             </ScrollView>
         </SafeAreaView>

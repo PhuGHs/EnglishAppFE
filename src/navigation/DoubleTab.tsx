@@ -10,16 +10,16 @@ const Tab = createMaterialTopTabNavigator<LearnersTopTabParamList>();
 const DoubleTab = () => {
     const insets = useSafeAreaInsets();
     return (
-        <Tab.Navigator screenOptions={
-            {
-                tabBarStyle: {paddingTop: insets.top, paddingBottom: insets.bottom},
+        <Tab.Navigator
+            screenOptions={{
+                tabBarStyle: { paddingTop: insets.top, paddingBottom: insets.bottom },
                 tabBarActiveTintColor: '#38bdf8',
-                tabBarIndicatorStyle: {backgroundColor: '#38bdf8'},
-                tabBarLabelStyle: {textTransform: 'capitalize', fontSize: 18, fontWeight: '600'},
-            }
-        }>
-            <Tab.Screen name='Recommendations' component={RecommendationTab} />
-            <Tab.Screen name='Level' component={LevelTab} />
+                tabBarIndicatorStyle: { backgroundColor: '#38bdf8' },
+                tabBarLabelStyle: { textTransform: 'capitalize', fontSize: 18, fontWeight: '600' },
+            }}
+        >
+            <Tab.Screen name="Recommendations" component={RecommendationTab} />
+            <Tab.Screen name="Level" component={LevelTab} />
         </Tab.Navigator>
     );
 };

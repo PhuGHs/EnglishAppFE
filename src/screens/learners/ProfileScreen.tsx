@@ -4,7 +4,7 @@ import { SafeAreaView } from 'react-native-safe-area-context';
 
 const ProfileScreen = () => {
     return (
-        <SafeAreaView className='flex mx-3'>
+        <SafeAreaView className="flex mx-3">
             <Text>This is ProfileScreen Page</Text>
         </SafeAreaView>
     );

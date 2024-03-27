@@ -5,8 +5,8 @@ import UserProfileSearch from '@component/UserProfileSearch';
 
 const LevelTab = () => {
     return (
-        <View className='flex mx-3'>
-            <View className='mt-4'>
+        <View className="flex mx-3">
+            <View className="mt-4">
                 <SearchBar />
             </View>
             <UserProfileSearch />

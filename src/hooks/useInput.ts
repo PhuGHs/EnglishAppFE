@@ -1,34 +1,34 @@
 import { useState, useEffect } from 'react';
 
 interface UseInputProps {
-  defaultValue: string | undefined;
-  validationFn: (value: string | undefined) => boolean;
+    defaultValue: string | undefined;
+    validationFn: (value: string | undefined) => boolean;
 }
 
 export function useInput({ defaultValue, validationFn }: UseInputProps) {
-  const [enteredValue, setEnteredValue] = useState(defaultValue);
-  const [didEdit, setDidEdit] = useState(false);
+    const [enteredValue, setEnteredValue] = useState(defaultValue);
+    const [didEdit, setDidEdit] = useState(false);
 
-  useEffect(() => {
-    console.log(defaultValue);
-  }, []);
+    useEffect(() => {
+        console.log(defaultValue);
+    }, []);
 
-  const handleInputChange = (text: string) => {
-    setEnteredValue(text);
-    setDidEdit(false);
-  };
+    const handleInputChange = (text: string) => {
+        setEnteredValue(text);
+        setDidEdit(false);
+    };
 
-  const handleInputBlur = () => {
-    setDidEdit(true);
-  };
+    const handleInputBlur = () => {
+        setDidEdit(true);
+    };
 
-  const valueIsValid = validationFn(enteredValue);
+    const valueIsValid = validationFn(enteredValue);
 
-  return {
-    value: enteredValue,
-    handleInputChange,
-    handleInputBlur,
-    setValue: setEnteredValue,
-    hasError: didEdit && !valueIsValid
-  };
+    return {
+        value: enteredValue,
+        handleInputChange,
+        handleInputBlur,
+        setValue: setEnteredValue,
+        hasError: didEdit && !valueIsValid,
+    };
 }
