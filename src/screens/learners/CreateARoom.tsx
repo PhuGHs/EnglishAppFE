@@ -39,68 +39,74 @@ const CreateARoom = () => {
     );
 
     return (
-        <SafeAreaView className="flex flex-1 bg-white">
-            <View className="flex flex-1">
-                <View className="px-3 mt-4">
-                    <View className="flex flex-row mb-5 items-center">
-                        <TouchableOpacity className="bg-yellow-400 p-2 rounded-tl-xl rounded-br-xl w-[40px] h-[40px]">
-                            <FontAwesomeIcon icon={faArrowLeft} color="#374151" size={25} />
+        <SafeAreaView className='flex flex-1 bg-white'>
+            <View className='flex flex-1'>
+                <View className='px-3 mt-4'>
+                    <View className='flex flex-row mb-5 items-center'>
+                        <TouchableOpacity className='bg-yellow-400 p-2 rounded-tl-xl rounded-br-xl w-[40px] h-[40px]'>
+                            <FontAwesomeIcon icon={faArrowLeft} color='#374151' size={25} />
                         </TouchableOpacity>
-                        <Text className="text-center w-full -left-[35px] text-sky-600 text-[22px] font-medium">
+                        <Text className='text-center w-full -left-[35px] text-sky-600 text-[22px] font-nunitoSemi'>
                             Create A Room
                         </Text>
                     </View>
                 </View>
-                <ScrollView horizontal={false} className="flex flex-1 space-y-4 bg-[#F0EEEC]">
-                    <View className="px-3 flex flex-1 space-y-4">
-                        <Text className="text-xl font-medium text-gray-700 mt-4">
+                <ScrollView horizontal={false} className='flex flex-1 space-y-4 bg-[#F0EEEC]'>
+                    <View className='px-3 flex flex-1 space-y-4'>
+                        <Text className='text-xl font-nunitoSemi text-gray-700 mt-4'>
                             Select your language level for this room
                         </Text>
                         {radGroup.map((value, index) => (
                             <TouchableOpacity
                                 key={value.id}
                                 onPress={() => setSelectedId(value.id)}
-                                className="flex justify-center items-start w-full"
+                                className='flex justify-center items-start w-full'
                             >
                                 <Text
-                                    className={`p-3 w-full ${selectedId === value.id ? 'bg-sky-400 font-semibold text-white' : 'bg-white text-gray-800'} text-lg font-bold rounded-xl`}
+                                    className={`p-3 w-full ${selectedId === value.id ? 'bg-sky-400 font-semibold text-white' : 'bg-white text-gray-800'} text-lg font-nunitoBold rounded-xl`}
                                 >
                                     {value.label}
                                 </Text>
                             </TouchableOpacity>
                         ))}
                     </View>
-                    <View className="px-3 flex flex-1 space-y-4">
-                        <Text className="text-xl font-medium text-gray-700 mt-4">Room Topic</Text>
-                        <TouchableOpacity className="bg-white py-4 px-2 rounded-xl flex flex-row justify-between items-center">
-                            <Text className="text-lg font-medium text-gray-700">
+                    <View className='px-3 flex flex-1 space-y-4'>
+                        <Text className='text-xl font-nunitoSemi text-gray-700 mt-4'>
+                            Room Topic
+                        </Text>
+                        <TouchableOpacity className='bg-white py-4 px-2 rounded-xl flex flex-row justify-between items-center'>
+                            <Text className='text-lg font-nunitoSemi text-gray-700'>
                                 Select a topic
                             </Text>
-                            <FontAwesomeIcon icon={faAngleRight} size={25} color="#374151" />
+                            <FontAwesomeIcon icon={faAngleRight} size={25} color='#374151' />
                         </TouchableOpacity>
                     </View>
-                    <View className="px-3 flex flex-1 space-y-4">
-                        <Text className="text-xl font-medium text-gray-700 mt-4">Start Date</Text>
-                        <TouchableOpacity className="bg-white py-4 px-2 rounded-xl flex flex-row justify-between items-center">
-                            <Text className="text-lg font-medium text-gray-700">Today</Text>
-                            <CalendarDaysIcon size={25} color="#374151" />
+                    <View className='px-3 flex flex-1 space-y-4'>
+                        <Text className='text-xl font-nunitoSemi text-gray-700 mt-4'>
+                            Start Date
+                        </Text>
+                        <TouchableOpacity className='bg-white py-4 px-2 rounded-xl flex flex-row justify-between items-center'>
+                            <Text className='text-lg font-nunitoSemi text-gray-700'>Today</Text>
+                            <CalendarDaysIcon size={25} color='#374151' />
                         </TouchableOpacity>
                     </View>
-                    <View className="px-3 flex flex-1 space-y-4">
-                        <Text className="text-xl font-medium text-gray-700 mt-4">Start Hour</Text>
-                        <TouchableOpacity className="bg-white py-4 px-2 rounded-xl flex flex-row justify-between items-center">
-                            <Text className="text-lg font-medium text-gray-700">10:32</Text>
-                            <ClockIcon size={25} color="#374151" />
+                    <View className='px-3 flex flex-1 space-y-4'>
+                        <Text className='text-xl font-nunitoSemi text-gray-700 mt-4'>
+                            Start Hour
+                        </Text>
+                        <TouchableOpacity className='bg-white py-4 px-2 rounded-xl flex flex-row justify-between items-center'>
+                            <Text className='text-lg font-nunitoSemi text-gray-700'>10:32</Text>
+                            <ClockIcon size={25} color='#374151' />
                         </TouchableOpacity>
                     </View>
                 </ScrollView>
             </View>
-            <View className="absolute bottom-8 left-0 right-0 flex items-center justify-center">
+            <View className='absolute bottom-8 left-0 right-0 flex items-center justify-center'>
                 <TouchableOpacity
-                    className="py-2 bg-yellow-400 rounded-xl"
+                    className='py-2 bg-yellow-400 rounded-xl'
                     style={{ elevation: 6, shadowColor: '#0f172a' }}
                 >
-                    <Text className="text-xl font-bold text-center text-gray-700 px-8 py-2">
+                    <Text className='text-xl font-nunitoBold text-center text-gray-700 px-8 py-2'>
                         Create a room
                     </Text>
                 </TouchableOpacity>

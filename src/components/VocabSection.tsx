@@ -12,13 +12,13 @@ interface IVocabSection {
 
 const VocabSection = ({ icon, header, subtitle }: IVocabSection) => {
     return (
-        <TouchableOpacity className="rounded-xl bg-white w-full h-fit p-4 mt-4 flex flex-row items-center justify-between">
-            {icon && <FontAwesomeIcon icon={icon} size={40} color="#005DB2" />}
-            <View className="ml-4 flex flex-col justify-between items-start w-[78%]">
-                <Text className="text-gray-700 text-xl font-bold">{header}</Text>
-                <Text className="text-gray-500 text-base">{subtitle}</Text>
+        <TouchableOpacity className='rounded-xl bg-white w-full h-fit p-4 mt-4 flex flex-row items-center justify-between'>
+            {icon && <FontAwesomeIcon icon={icon} size={40} color='#0284c7' />}
+            <View className='ml-4 flex flex-col justify-between items-start w-[78%]'>
+                <Text className='text-gray-700 text-xl font-nunitoBold'>{header}</Text>
+                <Text className='text-gray-500 text-base font-nunitoMedium'>{subtitle}</Text>
             </View>
-            <FontAwesomeIcon icon={faAngleRight} size={25} color="#374151" />
+            <FontAwesomeIcon icon={faAngleRight} size={25} color='#374151' />
         </TouchableOpacity>
     );
 };

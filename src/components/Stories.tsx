@@ -12,7 +12,7 @@ interface IStory {
 }
 
 interface IStories {
-    horizontal: boolean
+    horizontal: boolean;
 }
 
 const sample: IStory[] = [
@@ -50,29 +50,33 @@ const sample: IStory[] = [
 
 const Story = ({ image, like, title, horizontal }: IStory) => {
     return (
-        <TouchableOpacity className={`flex flex-col w-[48%] space-y-2 mt-4 ${horizontal && 'mr-3'}`}>
-            <View className="w-full rounded-xl h-[250px] bg-zinc-300">
-                <View className="absolute top-2 right-2 bg-gray-400 flex flex-row items-center justify-center space-x-2 p-2 rounded-full">
-                    <Text className="text-white font-medium">{like}</Text>
-                    <FontAwesomeIcon icon={faHeart} color="#F06D6D" size={20} />
+        <TouchableOpacity
+            className={`flex flex-col w-[48%] space-y-2 mt-4 ${horizontal && 'mr-3'}`}
+        >
+            <View className='w-full rounded-xl h-[250px] bg-zinc-300'>
+                <View className='absolute top-2 right-2 bg-gray-400 flex flex-row items-center justify-center space-x-2 p-2 rounded-full'>
+                    <Text className='text-white font-nunitoSemi'>{like}</Text>
+                    <FontAwesomeIcon icon={faHeart} color='#F06D6D' size={20} />
                 </View>
             </View>
-            <Text className="text-base text-gray-700 text-center">{title}</Text>
+            <Text className='text-base text-gray-700 text-center'>{title}</Text>
         </TouchableOpacity>
     );
 };
 
-const Stories = ({horizontal}: IStories) => {
-    if(horizontal) {
+const Stories = ({ horizontal }: IStories) => {
+    if (horizontal) {
         return (
             <FlatList
                 horizontal={horizontal}
                 data={sample}
-                renderItem={({ item }) => <Story like={item.like} title={item.title} horizontal={true} />}
+                renderItem={({ item }) => (
+                    <Story like={item.like} title={item.title} horizontal={true} />
+                )}
                 keyExtractor={(item) => `id-${item.id}`}
             />
         );
-    }        
+    }
     return (
         <FlatList
             data={sample}

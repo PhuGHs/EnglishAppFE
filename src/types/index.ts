@@ -21,6 +21,7 @@ export type RootStackParamList = {
     TopicDetails: undefined;
     ShortStories: undefined;
     StoryDetails: undefined;
+    LeaderBoard: undefined;
 };
 
 export type WelcomeScreenProps = NativeStackScreenProps<RootStackParamList, 'Welcome'>;
@@ -41,6 +42,7 @@ export type TopicScreenProps = NativeStackScreenProps<RootStackParamList, 'Topic
 export type TopicDetailsScreenProps = NativeStackScreenProps<RootStackParamList, 'TopicDetails'>;
 export type ShortStoriesScreenProps = NativeStackScreenProps<RootStackParamList, 'ShortStories'>;
 export type StoryDetailsScreenProps = NativeStackScreenProps<RootStackParamList, 'StoryDetails'>;
+export type LeaderBoardScreenProps = NativeStackScreenProps<RootStackParamList, 'LeaderBoard'>;
 
 export type BottomTabParamList = {
     Home: undefined;

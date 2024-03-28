@@ -23,22 +23,22 @@ const arr: ChipProps[] = [
 
 const InterestScreen = ({ navigation }: InterestScreenProps) => {
     return (
-        <SafeAreaView className="flex-1 bg-neutral-100 px-4 space-y-4 justify-between">
+        <SafeAreaView className='flex-1 bg-neutral-100 px-4 space-y-4 justify-between'>
             <View>
-                <View className="flex flex-col gap-2 mt-2">
-                    <Text className="text-3xl text-[#3085C3] font-medium">Choose your</Text>
-                    <Text className="text-6xl font-bold text-[#3085C3]">Interests</Text>
-                    <Text className="text-lg text-[#3085C3]">
+                <View className='flex flex-col gap-2 mt-2'>
+                    <Text className='text-3xl text-[#3085C3] font-nunitoSemi'>Choose your</Text>
+                    <Text className='text-6xl font-nunitoBold text-[#3085C3]'>Interests</Text>
+                    <Text className='text-lg text-[#3085C3]'>
                         Get better friends recommendation
                     </Text>
                 </View>
                 <Chips chips={arr} searchOptions={false} />
             </View>
             <TouchableOpacity
-                className="rounded-2xl bg-yellow-400 p-4 mb-5 flex justify-center items-center"
+                className='rounded-2xl bg-yellow-400 p-4 mb-5 flex justify-center items-center'
                 onPress={() => navigation.navigate('EnglishTest')}
             >
-                <Text className="font-bold text-gray-700 text-xl">Next</Text>
+                <Text className='font-nunitoBold text-gray-700 text-xl'>Next</Text>
             </TouchableOpacity>
         </SafeAreaView>
     );

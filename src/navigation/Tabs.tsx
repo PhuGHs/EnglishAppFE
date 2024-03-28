@@ -30,32 +30,32 @@ const Tabs = () => {
             }}
         >
             <Tab.Screen
-                name="Home"
+                name='Home'
                 component={HomeScreen}
-                options={{ tabBarIcon: HomeIcon, tabBarActiveTintColor: '#0ea5e9' }}
+                options={{ tabBarIcon: HomeIcon, tabBarActiveTintColor: '#0284c7' }}
             />
             <Tab.Screen
-                name="Chat"
+                name='Chat'
                 component={ChatScreen}
                 options={{
                     tabBarIcon: ChatBubbleBottomCenterTextIcon,
-                    tabBarActiveTintColor: '#0ea5e9',
+                    tabBarActiveTintColor: '#0284c7',
                 }}
             />
             <Tab.Screen
-                name="Learners"
+                name='Learners'
                 component={DoubleTab}
-                options={{ tabBarIcon: UsersIcon, tabBarActiveTintColor: '#0ea5e9' }}
+                options={{ tabBarIcon: UsersIcon, tabBarActiveTintColor: '#0284c7' }}
             />
             <Tab.Screen
-                name="Skills"
+                name='Skills'
                 component={Skills}
-                options={{ tabBarIcon: AcademicCapIcon, tabBarActiveTintColor: '#0ea5e9' }}
+                options={{ tabBarIcon: AcademicCapIcon, tabBarActiveTintColor: '#0284c7' }}
             />
             <Tab.Screen
-                name="Profile"
+                name='Profile'
                 component={ProfileScreen}
-                options={{ tabBarIcon: UserCircleIcon, tabBarActiveTintColor: '#0ea5e9' }}
+                options={{ tabBarIcon: UserCircleIcon, tabBarActiveTintColor: '#0284c7' }}
             />
         </Tab.Navigator>
     );
@@ -63,22 +63,10 @@ const Tabs = () => {
 
 const styles = StyleSheet.create({
     tabBar: {
-        position: 'absolute',
-        bottom: 15,
-        left: 15,
-        right: 15,
-        borderRadius: 15,
         height: 70,
         backgroundColor: '#FFFFFF',
-        borderTopWidth: 0,
-        elevation: 5,
-        shadowColor: '#000000',
-        shadowOffset: {
-            width: 0,
-            height: 0,
-        },
-        shadowOpacity: 0.25,
-        shadowRadius: 3.5,
+        borderTopStartRadius: 20,
+        borderTopEndRadius: 20,
     },
 });
 

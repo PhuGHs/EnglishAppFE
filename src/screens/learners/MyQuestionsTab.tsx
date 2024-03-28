@@ -5,7 +5,7 @@ import { Text, View } from 'react-native';
 
 const MyQuestionsTab = () => {
     return (
-        <View className="flex bg-neutral-100 flex-1 p-3">
+        <View className='flex bg-neutral-100 flex-1 p-3'>
             <SearchBar />
             <EngComQAs horizontal={false} />
         </View>

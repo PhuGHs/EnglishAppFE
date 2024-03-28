@@ -23,7 +23,7 @@ const renderTabBar = (props): any => (
         }}
         indicatorContainerStyle={{ backgroundColor: '#fff' }}
         indicatorStyle={{ backgroundColor: '#0284c7' }}
-        activeColor="#0284c7"
+        activeColor='#0284c7'
     />
 );
 
@@ -41,14 +41,14 @@ const EngComRoomsScreen = () => {
         },
     ]);
     return (
-        <SafeAreaView className="flex flex-1 bg-white">
-            <View className="flex flex-1 bg-white">
-                <View className="px-3">
-                    <View className="flex flex-row mb-5 items-center">
-                        <TouchableOpacity className="bg-yellow-400 p-2 rounded-tl-xl rounded-br-xl w-[40px] h-[40px]">
-                            <FontAwesomeIcon icon={faArrowLeft} color="#374151" size={25} />
+        <SafeAreaView className='flex flex-1 bg-white'>
+            <View className='flex flex-1 bg-white'>
+                <View className='px-3'>
+                    <View className='flex flex-row mb-5 items-center'>
+                        <TouchableOpacity className='bg-yellow-400 p-2 rounded-tl-xl rounded-br-xl w-[40px] h-[40px]'>
+                            <FontAwesomeIcon icon={faArrowLeft} color='#374151' size={25} />
                         </TouchableOpacity>
-                        <Text className="text-center w-full -left-[40px] text-sky-600 text-[22px] font-medium">
+                        <Text className='text-center w-full -left-[40px] text-sky-600 text-[22px] font-nunitoSemi'>
                             EngCom Rooms
                         </Text>
                     </View>
@@ -60,12 +60,12 @@ const EngComRoomsScreen = () => {
                     initialLayout={{ width: layout.width }}
                     renderScene={renderScene}
                 />
-                <View className="absolute bottom-10 flex items-center justify-center w-full">
+                <View className='absolute bottom-10 flex items-center justify-center w-full'>
                     <TouchableOpacity
-                        className="py-3 bg-yellow-400 rounded-xl"
+                        className='py-3 bg-yellow-400 rounded-xl'
                         style={{ elevation: 10, shadowColor: '#0f172a' }}
                     >
-                        <Text className="text-xl font-bold text-center text-gray-700 px-10 py-1">
+                        <Text className='text-xl font-nunitoBold text-center text-gray-700 px-10 py-1'>
                             Ask a question
                         </Text>
                     </TouchableOpacity>

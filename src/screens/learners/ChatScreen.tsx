@@ -6,10 +6,10 @@ import SearchBar from '@component/SearchBar';
 
 const ChatScreen = () => {
     return (
-        <SafeAreaView className="flex mx-3">
-            <View className="flex flex-col justify-between mb-4">
-                <Text className="text-center w-full text-sky-500 font-semibold text-2xl my-4">
-                    CHAT
+        <SafeAreaView className='flex px-4 bg-slate-100'>
+            <View className='flex flex-col justify-between mb-4'>
+                <Text className='text-center w-full text-sky-600 font-semibold text-2xl my-4'>
+                    Chats
                 </Text>
                 <SearchBar />
             </View>

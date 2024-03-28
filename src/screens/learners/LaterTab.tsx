@@ -5,8 +5,8 @@ import { View } from 'react-native';
 
 const LaterTab = () => {
     return (
-        <View className="flex m-2 flex-col justify-center">
-            <View className="flex flex-row justify-around">
+        <View className='flex m-2 flex-col justify-center'>
+            <View className='flex flex-row justify-around'>
                 <FilterButton />
                 <FilterButton />
             </View>

@@ -18,8 +18,8 @@ const DoubleTab = () => {
                 tabBarLabelStyle: { textTransform: 'capitalize', fontSize: 18, fontWeight: '600' },
             }}
         >
-            <Tab.Screen name="Recommendations" component={RecommendationTab} />
-            <Tab.Screen name="Level" component={LevelTab} />
+            <Tab.Screen name='Recommendations' component={RecommendationTab} />
+            <Tab.Screen name='Level' component={LevelTab} />
         </Tab.Navigator>
     );
 };

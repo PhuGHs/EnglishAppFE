@@ -19,7 +19,7 @@ const Chip = ({ isSelected, chipName, searchOptions }: ChipProps) => {
         >
             <TouchableOpacity>
                 <Text
-                    className={`text-[#0174BE] text-base ${isSelected && 'font-bold text-white'}`}
+                    className={`text-[#0174BE] text-base ${isSelected && 'font-nunitoBold text-white'}`}
                 >
                     {chipName}
                 </Text>
@@ -30,7 +30,7 @@ const Chip = ({ isSelected, chipName, searchOptions }: ChipProps) => {
 
 const Chips = ({ chips, searchOptions }: ChipsProps) => {
     return (
-        <View className="flex flex-row flex-wrap  gap-1">
+        <View className='flex flex-row flex-wrap  gap-1'>
             {chips.map((value, index) => (
                 <Chip
                     isSelected={value.isSelected}

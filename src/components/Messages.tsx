@@ -30,7 +30,7 @@ const Message = ({ isSender }: IMessage) => {
 
 const Messages = () => {
     return (
-        <ScrollView className="flex flex-col p-4">
+        <ScrollView className='flex flex-col p-4'>
             <Message isSender={true} />
             <Message isSender={false} />
             <Message isSender={false} />

@@ -13,7 +13,7 @@ const User = ({ isModerator, nameOnRight = false, room }: IUserProps) => {
         <View
             className={`w-fit h-fit flex mr-2 mt-2 justify-center ${nameOnRight ? 'flex-row' : 'flex-col'}`}
         >
-            <View className="w-fit h-fit flex">
+            <View className='w-fit h-fit flex'>
                 {isModerator && room ? (
                     <Image
                         source={require('@asset/images/avatar.jpg')}
@@ -26,9 +26,9 @@ const User = ({ isModerator, nameOnRight = false, room }: IUserProps) => {
                     />
                 )}
                 {isModerator && (
-                    <View className="flex flex-row items-center absolute left-0 bottom-1 bg-white rounded-2xl">
-                        <Text className="font-bold text-gray-700">4.2 </Text>
-                        <StarIcon color="#facc15" size={20} />
+                    <View className='flex flex-row items-center absolute left-0 bottom-1 bg-white rounded-2xl'>
+                        <Text className='font-nunitoBold text-gray-700'>4.2 </Text>
+                        <StarIcon color='#facc15' size={20} />
                     </View>
                 )}
             </View>
@@ -36,12 +36,12 @@ const User = ({ isModerator, nameOnRight = false, room }: IUserProps) => {
                 className={`flex flex-col ${nameOnRight ? 'items-start' : 'items-center'} justify-evenly ml-2`}
             >
                 <Text
-                    className={`text-center font-bold text-gray-700 ${nameOnRight ? 'text-xl' : ''}`}
+                    className={`text-center font-nunitoBold text-gray-700 ${nameOnRight ? 'text-xl' : ''}`}
                 >
                     PhuGHs
                 </Text>
                 {nameOnRight && (
-                    <Text className="text-[#005DB2] text-base font-medium">Intermediate</Text>
+                    <Text className='text-[#005DB2] text-base font-nunitoSemi'>Intermediate</Text>
                 )}
             </View>
         </View>

@@ -9,14 +9,14 @@ import { SafeAreaView } from 'react-native-safe-area-context';
 
 const DetailChat = () => {
     return (
-        <SafeAreaView className="flex flex-1 bg-[#F0EEEC]">
-            <View className="px-3 h-[10%]">
-                <View className="flex flex-row justify-between items-center">
-                    <TouchableOpacity className="bg-yellow-400 p-2 rounded-tl-xl rounded-br-xl w-[40px] h-[40px] flex items-center justify-center">
-                        <FontAwesomeIcon icon={faArrowLeft} color="#374151" size={25} />
+        <SafeAreaView className='flex flex-1 bg-[#F0EEEC]'>
+            <View className='px-3 h-[10%]'>
+                <View className='flex flex-row justify-between items-center'>
+                    <TouchableOpacity className='bg-yellow-400 p-2 rounded-tl-xl rounded-br-xl w-[40px] h-[40px] flex items-center justify-center'>
+                        <FontAwesomeIcon icon={faArrowLeft} color='#374151' size={25} />
                     </TouchableOpacity>
-                    <Text className="text-[26px] text-sky-600 font-medium">Phu Le</Text>
-                    <TouchableOpacity className="w-fit h-fit flex">
+                    <Text className='text-[26px] text-sky-600 font-nunitoSemi'>Phu Le</Text>
+                    <TouchableOpacity className='w-fit h-fit flex'>
                         <Image
                             source={require('@asset/images/avatar.jpg')}
                             style={{
@@ -29,17 +29,17 @@ const DetailChat = () => {
                     </TouchableOpacity>
                 </View>
             </View>
-            <View className="px-3 bg-white h-[80%] rounded-t-[40px]">
+            <View className='px-3 bg-white h-[80%] rounded-t-[40px]'>
                 <Messages />
             </View>
-            <View className="w-full h-[10%] bg-white flex flex-row justify-between items-center px-3">
+            <View className='w-full h-[10%] bg-white flex flex-row justify-between items-center px-3'>
                 <TextInput
-                    placeholder="Type your messages here"
-                    placeholderTextColor="#1D84C6"
-                    className="bg-[#E9E9E9] w-[80%] text-lg p-3 rounded-xl"
+                    placeholder='Type your messages here'
+                    placeholderTextColor='#1D84C6'
+                    className='bg-[#E9E9E9] w-[80%] text-lg p-3 rounded-xl'
                     multiline={true}
                 />
-                <TouchableOpacity className="bg-[#E9E9E9] p-3 rounded-xl">
+                <TouchableOpacity className='bg-[#E9E9E9] p-3 rounded-xl'>
                     <PaperAirplaneIcon size={30} color={'#1D84C6'} />
                 </TouchableOpacity>
             </View>
