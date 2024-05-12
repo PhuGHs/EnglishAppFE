@@ -14,7 +14,7 @@ export class ChatApi {
         try {
             const response = await http.get(`/conversations/${roomId}`);
             return response.data;
-        } catch(error) {
+        } catch (error) {
             console.log(error);
         }
     }

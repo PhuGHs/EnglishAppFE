@@ -13,7 +13,10 @@ interface IVocabSection {
 
 const VocabSection = ({ icon, header, subtitle, press }: IVocabSection) => {
     return (
-        <TouchableOpacity className='rounded-xl bg-white w-full h-fit p-4 mt-4 flex flex-row items-center justify-between' onPress={press}>
+        <TouchableOpacity
+            className='rounded-xl bg-white w-full h-fit p-4 mt-4 flex flex-row items-center justify-between'
+            onPress={press}
+        >
             {icon && <FontAwesomeIcon icon={icon} size={40} color='#0284c7' />}
             <View className='ml-4 flex flex-col justify-between items-start w-[78%]'>
                 <Text className='text-gray-700 text-xl font-nunitoBold'>{header}</Text>

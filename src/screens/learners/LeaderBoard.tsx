@@ -19,12 +19,12 @@ const LeaderBoard = ({ navigation }: LeaderBoardScreenProps) => {
                     Leaderboard
                 </Text>
             </View>
-            <LeaderboardTabs handlePress={() => {}}/>
+            <LeaderboardTabs handlePress={() => {}} />
             <ScrollView>
                 <View className='flex flex-row items-end justify-evenly my-4'>
-                    <LeaderboardTopUser top={2} points={10020}/>
-                    <LeaderboardTopUser top={1} points={10120}/>
-                    <LeaderboardTopUser top={3} points={9000}/>
+                    <LeaderboardTopUser top={2} points={10020} />
+                    <LeaderboardTopUser top={1} points={10120} />
+                    <LeaderboardTopUser top={3} points={9000} />
                 </View>
                 <View className='flex flex-col mx-3 px-3'>
                     <LeaderboardUser />

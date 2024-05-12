@@ -20,7 +20,7 @@ const ChatScreen = ({ navigation }: TabsScreenProps) => {
                 </Text>
                 <SearchBar />
             </View>
-            <Conversations navigateToDetails={handlePress}/>
+            <Conversations navigateToDetails={handlePress} />
         </SafeAreaView>
     );
 };

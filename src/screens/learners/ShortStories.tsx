@@ -13,16 +13,19 @@ const ShortStories = ({ navigation }: ShortStoriesScreenProps) => {
     };
     return (
         <SafeAreaView className='flex flex-1 mx-4'>
-        <View className='flex flex-row mb-5 items-center mt-4'>
-                <TouchableOpacity className='bg-yellow-400 p-2 rounded-tl-xl rounded-br-xl w-[40px] h-[40px]' onPress={handleBackButton}>
+            <View className='flex flex-row mb-5 items-center mt-4'>
+                <TouchableOpacity
+                    className='bg-yellow-400 p-2 rounded-tl-xl rounded-br-xl w-[40px] h-[40px]'
+                    onPress={handleBackButton}
+                >
                     <FontAwesomeIcon icon={faArrowLeft} color='#374151' size={25} />
                 </TouchableOpacity>
                 <Text className='text-center w-full -left-[40px] text-sky-600 text-[22px] font-nunitoSemi'>
                     SHORT STORIES
                 </Text>
             </View>
-        <Stories horizontal={false} press={() => navigation.push('StoryDetails')}/>
-    </SafeAreaView>
+            <Stories horizontal={false} press={() => navigation.push('StoryDetails')} />
+        </SafeAreaView>
     );
 };
 

@@ -14,7 +14,7 @@ const renderScene = SceneMap({
     second: MyQuestionsTab,
 });
 
-const renderTabBar = (props): any => (
+const renderTabBar = (props) => (
     <TabBar
         {...props}
         labelStyle={{

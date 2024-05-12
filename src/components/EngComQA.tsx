@@ -17,19 +17,19 @@ const data: TEngcomAsk[] = [
             englishLevel: {
                 levelId: 1,
                 levelName: 'Intermediate',
-                description: ''
-            }
+                description: '',
+            },
         },
         title: 'It is long established face that a reader will be distracted by the readable content of a page when looking at its layout',
         topic: {
             topicId: 1,
             header: 'Daily routines',
             content: '',
-            englishLevelId: 1
+            englishLevelId: 1,
         },
         numberOfAnswers: 3,
         createdAt: '2024-05-08 16:09:32.714176',
-        updatedAt: '2024-05-08 16:09:32.714176'
+        updatedAt: '2024-05-08 16:09:32.714176',
     },
     {
         id: 2,
@@ -40,19 +40,19 @@ const data: TEngcomAsk[] = [
             englishLevel: {
                 levelId: 1,
                 levelName: 'Intermediate',
-                description: ''
-            }
+                description: '',
+            },
         },
         title: 'It is long established face that a reader will be distracted by the readable content of a page when looking at its layout',
         topic: {
             topicId: 1,
             header: 'Daily routines',
             content: '',
-            englishLevelId: 1
+            englishLevelId: 1,
         },
         numberOfAnswers: 3,
         createdAt: '2024-05-08 16:09:32.714176',
-        updatedAt: '2024-05-08 16:09:32.714176'
+        updatedAt: '2024-05-08 16:09:32.714176',
     },
     {
         id: 3,
@@ -63,19 +63,19 @@ const data: TEngcomAsk[] = [
             englishLevel: {
                 levelId: 1,
                 levelName: 'Intermediate',
-                description: ''
-            }
+                description: '',
+            },
         },
         title: 'It is long established face that a reader will be distracted by the readable content of a page when looking at its layout',
         topic: {
             topicId: 1,
             header: 'Daily routines',
             content: '',
-            englishLevelId: 1
+            englishLevelId: 1,
         },
         numberOfAnswers: 3,
         createdAt: '2024-05-08 16:09:32.714176',
-        updatedAt: '2024-05-08 16:09:32.714176'
+        updatedAt: '2024-05-08 16:09:32.714176',
     },
 ];
 
@@ -108,9 +108,7 @@ const EngComQAs = ({ horizontal }: IEngComQAs) => {
         <FlatList
             horizontal={horizontal}
             data={data}
-            renderItem={({ item }) => (
-                <EngComQA />
-            )}
+            renderItem={({ item }) => <EngComQA />}
             keyExtractor={(item) => item.id.toString()}
         />
     );

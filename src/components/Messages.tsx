@@ -35,11 +35,11 @@ export interface IMessages {
 
 const Messages = ({ messages }: IMessages) => {
     return (
-        <FlatList 
+        <FlatList
             data={messages}
-            renderItem={({item}) => <Message isSender={1 === item.user.id} message={item}/>}
+            renderItem={({ item }) => <Message isSender={1 === item.user.id} message={item} />}
             keyExtractor={(item) => item.id.toString()}
-            contentContainerStyle={{padding: 10}}
+            contentContainerStyle={{ padding: 10 }}
         />
     );
 };

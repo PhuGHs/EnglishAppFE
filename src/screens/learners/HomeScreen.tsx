@@ -72,7 +72,10 @@ const HomeScreen = ({ navigation }: TabsScreenProps) => {
                             <Text className='font-nunitoBold text-xl text-sky-600'>Completed</Text>
                         </View>
                     </View>
-                    <TouchableOpacity className='px-2 py-3 bg-sky-600 rounded-xl' onPress={() => navigation.push('MissionScreen')}>
+                    <TouchableOpacity
+                        className='px-2 py-3 bg-sky-600 rounded-xl'
+                        onPress={() => navigation.push('MissionScreen')}
+                    >
                         <Text className='text-white font-nunitoBold text-base'>Details</Text>
                     </TouchableOpacity>
                 </View>
@@ -81,7 +84,10 @@ const HomeScreen = ({ navigation }: TabsScreenProps) => {
                         <Text className='text-xl text-slate-800 font-nunitoXBold'>
                             EngCom Rooms
                         </Text>
-                        <TouchableOpacity className='' onPress={() => navigation.push('EngComRooms')}>
+                        <TouchableOpacity
+                            className=''
+                            onPress={() => navigation.push('EngComRooms')}
+                        >
                             <Text className='text-sky-600 text-lg font-nunitoBold'>Show all</Text>
                         </TouchableOpacity>
                     </View>
@@ -90,7 +96,10 @@ const HomeScreen = ({ navigation }: TabsScreenProps) => {
                 <View className='flex flex-col'>
                     <View className='flex flex-row justify-between items-center'>
                         <Text className='text-xl text-slate-800 font-nunitoXBold'>EngCom QAs</Text>
-                        <TouchableOpacity className='' onPress={() => navigation.push('EngComAskScreen')}>
+                        <TouchableOpacity
+                            className=''
+                            onPress={() => navigation.push('EngComAskScreen')}
+                        >
                             <Text className='text-sky-600 text-lg font-nunitoBold'>Show all</Text>
                         </TouchableOpacity>
                     </View>

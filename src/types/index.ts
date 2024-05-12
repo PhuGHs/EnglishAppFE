@@ -79,10 +79,10 @@ export type TUser = {
 };
 
 export type TUser1 = {
-    id: number,
-    fullName: string,
-    avatar: string
-}
+    id: number;
+    fullName: string;
+    avatar: string;
+};
 
 export type TParticipant = {
     participantId: string;
@@ -93,7 +93,7 @@ export type TConversation = {
     id: number;
     lastMessage: string;
     lastSentUser: TUser1;
-}
+};
 
 export type TTopic = {
     topicId: number;
@@ -117,28 +117,28 @@ export type TMessage = {
     id: number;
     user: TUser1;
     message: string;
-    createdAt: Date
-}
+    createdAt: Date;
+};
 
 export type TEnglishLevel = {
     levelId: number;
     levelName: string;
     description: string;
-}
+};
 
 export type TEnglishTopic = {
     topicId: number;
     header: string;
     content: string;
     englishLevelId: number;
-}
+};
 
 export type TUserNecessary = {
     userId: number;
     fullName: string;
     profilePicture: string;
-    englishLevel: TEnglishLevel
-}
+    englishLevel: TEnglishLevel;
+};
 
 export type TEngcomAsk = {
     id: number;
@@ -148,14 +148,14 @@ export type TEngcomAsk = {
     numberOfAnswers: number;
     createdAt: string;
     updatedAt: string;
-}
+};
 
 export type TMission = {
     missionId: number;
     missionName: string;
     pointsAwarded: number;
     maxCompletionCount: number;
-}
+};
 
 export type TUserMission = {
     id: number;
@@ -163,4 +163,4 @@ export type TUserMission = {
     mission: TMission;
     isCompleted: boolean;
     completionCount: number;
-}
+};

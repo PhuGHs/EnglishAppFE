@@ -74,7 +74,7 @@ const Stories = ({ horizontal, press }: IStories) => {
                 horizontal={horizontal}
                 data={sample}
                 renderItem={({ item }) => (
-                    <Story like={item.like} title={item.title} horizontal={true} press={press}/>
+                    <Story like={item.like} title={item.title} horizontal={true} press={press} />
                 )}
                 keyExtractor={(item) => `id-${item.id}`}
             />
@@ -84,7 +84,7 @@ const Stories = ({ horizontal, press }: IStories) => {
         <FlatList
             data={sample}
             numColumns={2}
-            renderItem={({ item }) => <Story like={item.like} title={item.title} press={press}/>}
+            renderItem={({ item }) => <Story like={item.like} title={item.title} press={press} />}
             keyExtractor={(item) => `id-${item.id}`}
             columnWrapperStyle={{ justifyContent: 'space-between' }}
         />

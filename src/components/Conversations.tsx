@@ -4,11 +4,11 @@ import React, { useEffect, useState } from 'react';
 import { View, Image, Text, ScrollView, TouchableOpacity, FlatList } from 'react-native';
 
 interface IConversation {
-    conversation: TConversation,
-    onPress: (roomId) => void
+    conversation: TConversation;
+    onPress: (roomId) => void;
 }
 
-const Conversation = ({conversation, onPress}: IConversation) => {
+const Conversation = ({ conversation, onPress }: IConversation) => {
     return (
         <TouchableOpacity
             className='flex flex-row justify-start items-center mb-4 bg-white p-2 rounded-2xl'
@@ -20,7 +20,9 @@ const Conversation = ({conversation, onPress}: IConversation) => {
                 style={{ resizeMode: 'cover', width: 70, height: 70, borderRadius: 70 / 2 }}
             />
             <View className='flex flex-col gap-y-2 ml-3'>
-                <Text className='text-gray-700 font-nunitoBold text-xl'>{conversation.lastSentUser.fullName}</Text>
+                <Text className='text-gray-700 font-nunitoBold text-xl'>
+                    {conversation.lastSentUser.fullName}
+                </Text>
                 <View
                     style={{
                         display: 'flex',
@@ -40,7 +42,7 @@ const Conversation = ({conversation, onPress}: IConversation) => {
 };
 
 interface IConversationsProps {
-    navigateToDetails: (roomId) => void
+    navigateToDetails: (roomId) => void;
 }
 
 const Conversations = ({ navigateToDetails }: IConversationsProps) => {
@@ -56,7 +58,9 @@ const Conversations = ({ navigateToDetails }: IConversationsProps) => {
     return (
         <FlatList
             data={conversations}
-            renderItem={({item}) => <Conversation onPress={() => navigateToDetails(item.id)} conversation={item} />}
+            renderItem={({ item }) => (
+                <Conversation onPress={() => navigateToDetails(item.id)} conversation={item} />
+            )}
             keyExtractor={(item) => item.id.toString()}
         />
     );
