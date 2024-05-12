@@ -1,15 +1,16 @@
 import Stories from '@component/Stories';
 import { faArrowLeft, faHeart, faLanguage } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-native-fontawesome';
+import { StoryDetailsScreenProps } from '@type/index';
 import React from 'react';
 import { TouchableOpacity, View, Text, ScrollView } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
 
-const StoryDetails = () => {
+const StoryDetails = ({ navigation }: StoryDetailsScreenProps) => {
     return (
         <SafeAreaView className='flex flex-1 mx-4'>
             <View className='flex flex-row justify-between items-center mt-3'>
-                <TouchableOpacity className='bg-yellow-400 p-2 rounded-tl-xl rounded-br-xl w-[40px] h-[40px] flex items-center justify-center'>
+                <TouchableOpacity className='bg-yellow-400 p-2 rounded-tl-xl rounded-br-xl w-[40px] h-[40px] flex items-center justify-center' onPress={() => navigation.pop()}>
                     <FontAwesomeIcon icon={faArrowLeft} color='#374151' size={25} />
                 </TouchableOpacity>
                 <Text className='text-[22px] text-sky-600 font-nunitoSemi'>Là ai</Text>
@@ -35,7 +36,7 @@ const StoryDetails = () => {
                 </Text>
                 <View className='border border-gray-300' />
                 <Text className='text-xl text-gray-700 font-nunitoSemi'>You might like</Text>
-                <Stories horizontal={true} />
+                <Stories horizontal={true} press={() => {}}/>
             </ScrollView>
         </SafeAreaView>
     );

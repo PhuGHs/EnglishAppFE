@@ -25,6 +25,7 @@ import { useFonts } from 'expo-font';
 import * as SplashScreen from 'expo-splash-screen';
 import { Nunito_400Regular, Nunito_500Medium, Nunito_600SemiBold, Nunito_700Bold, Nunito_800ExtraBold } from '@expo-google-fonts/nunito';
 import LeaderBoard from '@screen/learners/LeaderBoard';
+import MissionScreen from '@screen/learners/MissionScreen';
 
 const Stack = createNativeStackNavigator<RootStackParamList>();
 
@@ -51,7 +52,7 @@ export default function App() {
         <StatusBar style="auto" />
         <SafeAreaProvider>
           <NavigationContainer>
-            <Stack.Navigator initialRouteName='LeaderBoard' screenOptions={{ headerShown: false }}>
+            <Stack.Navigator initialRouteName='Tabs' screenOptions={{ headerShown: false }}>
               <Stack.Screen name='Welcome' component={Welcome}/>
               <Stack.Screen name='SignIn' component={SignIn}/>
               <Stack.Screen name='SignUp' component={SignUp}/>
@@ -69,6 +70,7 @@ export default function App() {
               <Stack.Screen name='ShortStories' component={ShortStories}/>
               <Stack.Screen name='StoryDetails' component={StoryDetails}/>
               <Stack.Screen name='LeaderBoard' component={LeaderBoard}/>
+              <Stack.Screen name='MissionScreen' component={MissionScreen}/>
               <Stack.Screen name='Tabs' component={Tabs} />
             </Stack.Navigator>
           </NavigationContainer>

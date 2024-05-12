@@ -6,28 +6,9 @@ import LiveTab from './LiveTab';
 import LaterTab from './LaterTab';
 import { FontAwesomeIcon } from '@fortawesome/react-native-fontawesome';
 import { faArrowLeft } from '@fortawesome/free-solid-svg-icons';
+import { EngComRoomsScreenProps } from '@type/index';
 
-const renderScene = SceneMap({
-    first: LiveTab,
-    second: LaterTab,
-});
-
-const renderTabBar = (props): any => (
-    <TabBar
-        {...props}
-        labelStyle={{
-            textTransform: 'capitalize',
-            fontSize: 18,
-            fontWeight: '600',
-            color: '#7dd3fc',
-        }}
-        indicatorContainerStyle={{ backgroundColor: '#fff' }}
-        indicatorStyle={{ backgroundColor: '#0284c7' }}
-        activeColor='#0284c7'
-    />
-);
-
-const EngComRoomsScreen = () => {
+const EngComRoomsScreen = ({ navigation }: EngComRoomsScreenProps) => {
     const layout = useWindowDimensions();
     const [index, setIndex] = useState(0);
     const [routes] = React.useState([
@@ -54,11 +35,27 @@ const EngComRoomsScreen = () => {
                     </View>
                 </View>
                 <TabView
-                    renderTabBar={renderTabBar}
+                    renderTabBar={(props) => (
+                        <TabBar
+                            {...props}
+                            labelStyle={{
+                                textTransform: 'capitalize',
+                                fontSize: 18,
+                                fontWeight: '600',
+                                color: '#7dd3fc',
+                            }}
+                            indicatorContainerStyle={{ backgroundColor: '#fff' }}
+                            indicatorStyle={{ backgroundColor: '#0284c7' }}
+                            activeColor='#0284c7'
+                        />
+                    )}
                     navigationState={{ index, routes }}
                     onIndexChange={setIndex}
                     initialLayout={{ width: layout.width }}
-                    renderScene={renderScene}
+                    renderScene={SceneMap({
+                        first: () => <LiveTab navigation={navigation} />,
+                        second: () => <LaterTab navigation={navigation} />,
+                    })}
                 />
                 <View className='absolute bottom-10 flex items-center justify-center w-full'>
                     <TouchableOpacity

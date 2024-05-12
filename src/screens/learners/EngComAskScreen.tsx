@@ -7,6 +7,7 @@ import { SceneMap, TabBar, TabView } from 'react-native-tab-view';
 import { Text } from 'react-native';
 import { FontAwesomeIcon } from '@fortawesome/react-native-fontawesome';
 import { faArrowLeft } from '@fortawesome/free-solid-svg-icons';
+import { EngComAskScreenProps } from '@type/index';
 
 const renderScene = SceneMap({
     first: QuestionsTab,
@@ -28,7 +29,7 @@ const renderTabBar = (props): any => (
     />
 );
 
-const EngComAskScreen = () => {
+const EngComAskScreen = ({ navigation }: EngComAskScreenProps) => {
     const layout = useWindowDimensions();
     const [index, setIndex] = useState(0);
     const [routes] = React.useState([
@@ -65,6 +66,7 @@ const EngComAskScreen = () => {
                     <TouchableOpacity
                         className='py-3 bg-yellow-400 rounded-xl'
                         style={{ elevation: 10, shadowColor: '#0f172a' }}
+                        onPress={() => navigation.push('AskAQuestion')}
                     >
                         <Text className='text-xl font-nunitoBold text-center text-gray-700 px-10 py-1'>
                             Ask a question

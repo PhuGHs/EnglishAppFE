@@ -6,7 +6,7 @@ import UserProfileSearch from '@component/UserProfileSearch';
 const RecommendationTab = () => {
     return (
         <View className='flex px-3'>
-            <View className='my-4'>
+            <View className='mt-4'>
                 <SearchBar />
             </View>
             <UserProfileSearch />

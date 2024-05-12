@@ -1,18 +1,26 @@
-import React from 'react';
-import { View, Image, Text, ScrollView, TouchableOpacity } from 'react-native';
+import { ChatApi } from '@root/api/chat.api';
+import { TConversation } from '@type/index';
+import React, { useEffect, useState } from 'react';
+import { View, Image, Text, ScrollView, TouchableOpacity, FlatList } from 'react-native';
 
-const Conversation = () => {
+interface IConversation {
+    conversation: TConversation,
+    onPress: (roomId) => void
+}
+
+const Conversation = ({conversation, onPress}: IConversation) => {
     return (
         <TouchableOpacity
             className='flex flex-row justify-start items-center mb-4 bg-white p-2 rounded-2xl'
             style={{ elevation: 10, shadowColor: '#7dd3fc' }}
+            onPress={onPress}
         >
             <Image
                 source={require('@asset/images/avatar.jpg')}
                 style={{ resizeMode: 'cover', width: 70, height: 70, borderRadius: 70 / 2 }}
             />
             <View className='flex flex-col gap-y-2 ml-3'>
-                <Text className='text-gray-700 font-nunitoBold text-xl'>Phu Le</Text>
+                <Text className='text-gray-700 font-nunitoBold text-xl'>{conversation.lastSentUser.fullName}</Text>
                 <View
                     style={{
                         display: 'flex',
@@ -22,7 +30,7 @@ const Conversation = () => {
                     }}
                 >
                     <Text className='w-fit text-gray-500 text-base font-nunitoSemi'>
-                        Is it fine?
+                        {conversation.lastMessage}
                     </Text>
                     <Text className='text-gray-400 text-base font-nunitoSemi'>11/20/2022</Text>
                 </View>
@@ -31,20 +39,26 @@ const Conversation = () => {
     );
 };
 
-const Conversations = () => {
+interface IConversationsProps {
+    navigateToDetails: (roomId) => void
+}
+
+const Conversations = ({ navigateToDetails }: IConversationsProps) => {
+    const [conversations, setConversations] = useState<TConversation[]>();
+    useEffect(() => {
+        const fetch = async () => {
+            const data = await ChatApi.getConversations(1);
+            setConversations(data);
+            console.log(data);
+        };
+        fetch();
+    }, []);
     return (
-        <ScrollView className='mb-[120px]'>
-            <Conversation />
-            <Conversation />
-            <Conversation />
-            <Conversation />
-            <Conversation />
-            <Conversation />
-            <Conversation />
-            <Conversation />
-            <Conversation />
-            <Conversation />
-        </ScrollView>
+        <FlatList
+            data={conversations}
+            renderItem={({item}) => <Conversation onPress={() => navigateToDetails(item.id)} conversation={item} />}
+            keyExtractor={(item) => item.id.toString()}
+        />
     );
 };
 

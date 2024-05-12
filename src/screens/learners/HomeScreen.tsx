@@ -8,6 +8,7 @@ import EngComRooms from '@component/EngComRooms';
 import EngComQAs from '@component/EngComQA';
 import EngComUser from '@component/EngComUser';
 import CircularProgress from '@component/CircularProgress';
+import { TabsScreenProps } from '@type/index';
 
 const missions: IMissionProps[] = [
     {
@@ -32,10 +33,10 @@ const missions: IMissionProps[] = [
     },
 ];
 
-const HomeScreen = () => {
+const HomeScreen = ({ navigation }: TabsScreenProps) => {
     return (
         <SafeAreaView className='flex px-4 bg-slate-100 space-y-3' style={{ marginBottom: 70 }}>
-            <View className='flex flex-row justify-between my-4 items-center'>
+            <View className='flex flex-row justify-between mt-4 items-center'>
                 <View className='flex flex-row space-x-2 items-center'>
                     <EngComUser withName={false} isCreator={false} noUser={false} />
                     <View className='flex flex-col space-y-2'>
@@ -71,7 +72,7 @@ const HomeScreen = () => {
                             <Text className='font-nunitoBold text-xl text-sky-600'>Completed</Text>
                         </View>
                     </View>
-                    <TouchableOpacity className='px-2 py-3 bg-sky-600 rounded-xl'>
+                    <TouchableOpacity className='px-2 py-3 bg-sky-600 rounded-xl' onPress={() => navigation.push('MissionScreen')}>
                         <Text className='text-white font-nunitoBold text-base'>Details</Text>
                     </TouchableOpacity>
                 </View>
@@ -80,16 +81,16 @@ const HomeScreen = () => {
                         <Text className='text-xl text-slate-800 font-nunitoXBold'>
                             EngCom Rooms
                         </Text>
-                        <TouchableOpacity className=''>
+                        <TouchableOpacity className='' onPress={() => navigation.push('EngComRooms')}>
                             <Text className='text-sky-600 text-lg font-nunitoBold'>Show all</Text>
                         </TouchableOpacity>
                     </View>
-                    <EngComRooms horizontal={true} />
+                    <EngComRooms horizontal={true} navigation={navigation} />
                 </View>
                 <View className='flex flex-col'>
                     <View className='flex flex-row justify-between items-center'>
                         <Text className='text-xl text-slate-800 font-nunitoXBold'>EngCom QAs</Text>
-                        <TouchableOpacity className=''>
+                        <TouchableOpacity className='' onPress={() => navigation.push('EngComAskScreen')}>
                             <Text className='text-sky-600 text-lg font-nunitoBold'>Show all</Text>
                         </TouchableOpacity>
                     </View>

@@ -15,13 +15,15 @@ export interface IEngComRoomProps {
     topicName?: string;
     topicSection?: string;
     horizontal: boolean;
+    navigation
 }
 
 export interface IEngComRoomsProps {
     horizontal: boolean;
+    navigation
 }
 
-const EngComRoom = ({ horizontal }: IEngComRoomProps) => {
+const EngComRoom = ({ horizontal, navigation }: IEngComRoomProps) => {
     return (
         <View
             className={`p-4 rounded-2xl bg-white border-4 border-sky-500 mt-4 ${horizontal ? 'mr-4' : 'w-full'}`}
@@ -54,7 +56,7 @@ const EngComRoom = ({ horizontal }: IEngComRoomProps) => {
                         <FontAwesomeIcon icon={faHeadphones} color='#fb923c' size={25} />
                     </View>
                 </View>
-                <TouchableOpacity className='bg-yellow-400 rounded-xl flex'>
+                <TouchableOpacity className='bg-yellow-400 rounded-xl flex' onPress={() => navigation.push('RoomDetails')}>
                     <Text className='p-2 text-lg font-nunitoBold text-gray-700 px-5'>Join</Text>
                 </TouchableOpacity>
             </View>
@@ -62,7 +64,7 @@ const EngComRoom = ({ horizontal }: IEngComRoomProps) => {
     );
 };
 
-const EngComRooms = ({ horizontal }: IEngComRoomsProps) => {
+const EngComRooms = ({ horizontal, navigation }: IEngComRoomsProps) => {
     return (
         <ScrollView
             horizontal={horizontal}
@@ -72,10 +74,10 @@ const EngComRooms = ({ horizontal }: IEngComRoomsProps) => {
                 alignItems: horizontal ? 'center' : 'flex-start',
             }}
         >
-            <EngComRoom horizontal={horizontal} />
-            <EngComRoom horizontal={horizontal} />
-            <EngComRoom horizontal={horizontal} />
-            <EngComRoom horizontal={horizontal} />
+            <EngComRoom horizontal={horizontal} navigation={navigation}/>
+            <EngComRoom horizontal={horizontal} navigation={navigation}/>
+            <EngComRoom horizontal={horizontal} navigation={navigation}/>
+            <EngComRoom horizontal={horizontal} navigation={navigation}/>
         </ScrollView>
     );
 };

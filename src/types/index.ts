@@ -13,7 +13,7 @@ export type RootStackParamList = {
     LearnersTab: undefined;
     EngComAskScreen: undefined;
     AskAQuestion: undefined;
-    DetailChat: undefined;
+    DetailChat: { roomId: number };
     EngComRooms: undefined;
     CreateARoom: undefined;
     RoomDetails: undefined;
@@ -22,6 +22,7 @@ export type RootStackParamList = {
     ShortStories: undefined;
     StoryDetails: undefined;
     LeaderBoard: undefined;
+    MissionScreen: undefined;
 };
 
 export type WelcomeScreenProps = NativeStackScreenProps<RootStackParamList, 'Welcome'>;
@@ -43,6 +44,7 @@ export type TopicDetailsScreenProps = NativeStackScreenProps<RootStackParamList,
 export type ShortStoriesScreenProps = NativeStackScreenProps<RootStackParamList, 'ShortStories'>;
 export type StoryDetailsScreenProps = NativeStackScreenProps<RootStackParamList, 'StoryDetails'>;
 export type LeaderBoardScreenProps = NativeStackScreenProps<RootStackParamList, 'LeaderBoard'>;
+export type MissionScreenProps = NativeStackScreenProps<RootStackParamList, 'MissionScreen'>;
 
 export type BottomTabParamList = {
     Home: undefined;
@@ -76,10 +78,22 @@ export type TUser = {
     updatedAt: string;
 };
 
+export type TUser1 = {
+    id: number,
+    fullName: string,
+    avatar: string
+}
+
 export type TParticipant = {
     participantId: string;
     user: TUser;
 };
+
+export type TConversation = {
+    id: number;
+    lastMessage: string;
+    lastSentUser: TUser1;
+}
 
 export type TTopic = {
     topicId: number;
@@ -97,3 +111,56 @@ export type TEngComRooms = {
     createdAt: Date;
     ScheduledTo?: Date;
 };
+
+export type TMessage = {
+    conversation: TConversation;
+    id: number;
+    user: TUser1;
+    message: string;
+    createdAt: Date
+}
+
+export type TEnglishLevel = {
+    levelId: number;
+    levelName: string;
+    description: string;
+}
+
+export type TEnglishTopic = {
+    topicId: number;
+    header: string;
+    content: string;
+    englishLevelId: number;
+}
+
+export type TUserNecessary = {
+    userId: number;
+    fullName: string;
+    profilePicture: string;
+    englishLevel: TEnglishLevel
+}
+
+export type TEngcomAsk = {
+    id: number;
+    user: TUserNecessary;
+    title: string;
+    topic: TEnglishTopic;
+    numberOfAnswers: number;
+    createdAt: string;
+    updatedAt: string;
+}
+
+export type TMission = {
+    missionId: number;
+    missionName: string;
+    pointsAwarded: number;
+    maxCompletionCount: number;
+}
+
+export type TUserMission = {
+    id: number;
+    user: TUserNecessary;
+    mission: TMission;
+    isCompleted: boolean;
+    completionCount: number;
+}

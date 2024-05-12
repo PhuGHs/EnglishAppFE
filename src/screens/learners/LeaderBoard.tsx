@@ -6,12 +6,13 @@ import { ScrollView, Text, TouchableOpacity, View } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import LeaderboardUser from '@component/LeaderboardUser';
 import LeaderboardTopUser from '@component/LeaderboardTopUser';
+import { LeaderBoardScreenProps } from '@type/index';
 
-const LeaderBoard = () => {
+const LeaderBoard = ({ navigation }: LeaderBoardScreenProps) => {
     return (
         <SafeAreaView className='flex flex-1 bg-[#00224D]'>
             <View className='flex flex-row my-4 px-3'>
-                <TouchableOpacity>
+                <TouchableOpacity onPress={() => navigation.pop()}>
                     <FontAwesomeIcon icon={faAngleLeft} size={25} color='white' />
                 </TouchableOpacity>
                 <Text className='text-center w-full -left-[25px] font-nunitoMedium text-white text-2xl'>
@@ -20,7 +21,7 @@ const LeaderBoard = () => {
             </View>
             <LeaderboardTabs handlePress={() => {}}/>
             <ScrollView>
-                <View className='flex flex-row items-end justify-around my-4'>
+                <View className='flex flex-row items-end justify-evenly my-4'>
                     <LeaderboardTopUser top={2} points={10020}/>
                     <LeaderboardTopUser top={1} points={10120}/>
                     <LeaderboardTopUser top={3} points={9000}/>
