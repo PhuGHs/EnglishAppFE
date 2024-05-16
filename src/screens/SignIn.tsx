@@ -1,11 +1,81 @@
 import { faAngleLeft } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-native-fontawesome';
+import { useInput } from '@hook/useInput';
+import { AuthApi } from '@root/api/auth.api';
+import { useToast } from '@root/context/toast-context';
 import { SignInScreenProps } from '@root/types';
-import React from 'react';
-import { Text, Image, TextInput, TouchableOpacity, View } from 'react-native';
+import { storeData } from '@root/utils/asyncStorage';
+import { Helper } from '@root/utils/helper';
+import { AuthResponse } from '@type/T-type';
+import React, { useEffect, useRef, useState } from 'react';
+import { Text, Image, TextInput, TouchableOpacity, View, StyleSheet, ActivityIndicator } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
 
+
 const SignIn = ({ navigation }: SignInScreenProps) => {
+    const { showToast } = useToast();
+    const [hasExecuted, setExecuted] = useState<boolean>(true);
+    const {
+        value: emailValue,
+        handleInputChange: handleEmailChange,
+        handleInputBlur: handleEmailBlur,
+        setEnteredValue: setEmailValue,
+        hasError: emailHasError
+    } = useInput({defaultValue: '', validationFn: Helper.validateEmail});
+
+    const {
+        value: passwordValue,
+        handleInputBlur: handlePasswordBlur,
+        handleInputChange: handlePasswordChange,
+        setEnteredValue: setPasswordValue,
+        hasError: passwordHasError
+    } = useInput({defaultValue: '', validationFn: Helper.validatePassword});
+
+    const emailRef = useRef(null);
+
+    useEffect(() => {
+        emailRef.current.focus();
+    }, []);
+
+    const handleLogin = async () => {
+        if (emailHasError) {
+            showToast({ type: 'danger', description: 'Invalid email', timeout: 3000 });
+            return;
+        }
+        if (passwordHasError) {
+            showToast({ type: 'danger', description: 'Password must have more than 6 digits', timeout: 2000 });
+            return;
+        }
+
+        setExecuted(false);
+
+        try {
+            const { data } = await AuthApi.login({ email: emailValue, password: passwordValue });
+            const { accessToken, account } = data;
+
+            if (accessToken && account) {
+                storeData({ value: accessToken, item: 'token' });
+                storeData({ value: account, item: 'user' });
+                setEmailValue('');
+                setPasswordValue('');
+                setExecuted(true);
+
+                if (account.is_active) {
+                    navigation.push('Tabs');
+                } else {
+                    navigation.push('Interest', { userId: account.user.userId });
+                }
+
+                showToast({ type: 'success', description: 'Login success', timeout: 2000 });
+            } else {
+                throw new Error('Invalid response data');
+            }
+        } catch (error) {
+            setExecuted(true);
+            showToast({ type: 'danger', description: 'No account found with the username and password provided!', timeout: 3000 });
+        }
+    };
+
     return (
         <SafeAreaView className='flex bg-sky-400 flex-1 justify-between'>
             <View className='mx-3 flex flex-col h-[40%]'>
@@ -32,7 +102,10 @@ const SignIn = ({ navigation }: SignInScreenProps) => {
                     <Text className='text-gray-700 font-nunitoBold text-lg'>Email Address</Text>
                     <TextInput
                         className='p-4 bg-gray-100 text-gray-700 rounded-2xl text-lg'
-                        value='levanphu2003@gmail.com'
+                        value={emailValue}
+                        ref={emailRef}
+                        onChange={handleEmailChange}
+                        onBlur={handleEmailBlur}
                         placeholder='Enter your email'
                     />
                 </View>
@@ -41,7 +114,9 @@ const SignIn = ({ navigation }: SignInScreenProps) => {
                     <TextInput
                         secureTextEntry
                         className='p-4 bg-gray-100 text-gray-700 rounded-2xl text-lg'
-                        value='vanphudh2003'
+                        value={passwordValue}
+                        onChange={handlePasswordChange}
+                        onBlur={handlePasswordBlur}
                         placeholder='Enter your password'
                     />
                 </View>
@@ -55,7 +130,7 @@ const SignIn = ({ navigation }: SignInScreenProps) => {
                 <View>
                     <TouchableOpacity
                         className='py-3 bg-yellow-400 rounded-xl'
-                        onPress={() => navigation.navigate('Interest')}
+                        onPress={handleLogin}
                     >
                         <Text className='text-xl font-nunitoBold text-center text-gray-700'>
                             Login
@@ -64,15 +139,33 @@ const SignIn = ({ navigation }: SignInScreenProps) => {
                 </View>
                 <View className='flex flex-row justify-center'>
                     <Text className='text-gray-700 text-base'>Do not have an account? </Text>
-                    <TouchableOpacity onPress={() => navigation.navigate('SignUp')}>
+                    <TouchableOpacity onPress={() => navigation.navigate('SignUp')} >
                         <Text className='text-yellow-400 font-nunitoBold text-base'>
                             Register one
                         </Text>
                     </TouchableOpacity>
                 </View>
             </View>
+            {!hasExecuted && (
+                <View style={styles.overlay}>
+                    <ActivityIndicator size='large' color='#0000ff' />
+                </View>
+            )}
         </SafeAreaView>
     );
 };
+
+const styles = StyleSheet.create({
+    overlay: {
+        position: 'absolute',
+        top: 0,
+        left: 0,
+        right: 0,
+        bottom: 0,
+        justifyContent: 'center',
+        alignItems: 'center',
+        backgroundColor: 'rgba(0, 0, 0, 0.5)'
+    }
+});
 
 export default SignIn;

@@ -1,11 +1,12 @@
 import { BottomTabScreenProps } from '@react-navigation/bottom-tabs';
 import { NativeStackScreenProps } from '@react-navigation/native-stack';
+import { TAccount } from './T-type';
 
 export type RootStackParamList = {
     Welcome: undefined;
     SignUp: undefined;
     SignIn: undefined;
-    Interest: undefined;
+    Interest: { userId: number };
     EnglishTest: undefined;
     QuestionsScreen: undefined;
     HomeScreen: undefined;
@@ -91,8 +92,9 @@ export type TParticipant = {
 
 export type TConversation = {
     id: number;
-    lastMessage: string;
-    lastSentUser: TUser1;
+    roomName: string;
+    lastMessage: TMessage;
+    lastSentUser: TUserNecessary;
 };
 
 export type TTopic = {
@@ -113,11 +115,12 @@ export type TEngComRooms = {
 };
 
 export type TMessage = {
-    conversation: TConversation;
+    conversationId: number;
     id: number;
-    user: TUser1;
+    sender: TUserNecessary;
+    receiver: TUserNecessary
     message: string;
-    createdAt: Date;
+    createdAt: string;
 };
 
 export type TEnglishLevel = {

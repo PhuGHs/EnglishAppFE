@@ -5,13 +5,7 @@ import { SafeAreaView } from 'react-native-safe-area-context';
 import SearchBar from '@component/SearchBar';
 import { TabsScreenProps } from '@type/index';
 
-const ChatScreen = ({ navigation }: TabsScreenProps) => {
-    const handlePress = (roomId) => {
-        if (!roomId) {
-            return;
-        }
-        navigation.navigate('DetailChat', { roomId: roomId });
-    };
+const ChatScreen = ({navigation}: TabsScreenProps) => {
     return (
         <SafeAreaView className='flex px-4 bg-slate-100'>
             <View className='flex flex-col justify-between mb-4'>
@@ -20,7 +14,7 @@ const ChatScreen = ({ navigation }: TabsScreenProps) => {
                 </Text>
                 <SearchBar />
             </View>
-            <Conversations navigateToDetails={handlePress} />
+            <Conversations navigation={navigation}/>
         </SafeAreaView>
     );
 };

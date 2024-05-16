@@ -177,7 +177,7 @@ const QuestionsScreen = ({ navigation }: QuestionsScreenProps) => {
                     className='rounded-2xl bg-yellow-400 p-4 mb-5 flex justify-center items-center w-[30%]'
                     onPress={() => navigation.navigate('QuestionsScreen')}
                 >
-                    <Text className='font-semibold text-gray-700 text-base'>Next</Text>
+                    <Text className='font-semibold text-gray-700 text-base' onPress={() => navigation.push('Tabs')}>Next</Text>
                 </TouchableOpacity>
             </View>
         </SafeAreaView>

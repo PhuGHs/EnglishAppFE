@@ -2,15 +2,22 @@ import EngComUser from '@component/EngComUser';
 import { FontAwesomeIcon } from '@fortawesome/react-native-fontawesome';
 import React, { useState } from 'react';
 import { ScrollView, Text, TouchableOpacity, View } from 'react-native';
-import { SafeAreaView } from 'react-native-safe-area-context';
 import { faArrowLeft } from '@fortawesome/free-solid-svg-icons';
 import { faHeadphones } from '@fortawesome/free-solid-svg-icons';
 import Accordion from '@component/Accordion';
 import Modal from 'react-native-modal';
 import User from '@component/User';
+import { OpenVidu, Session } from 'openvidu-browser';
+import { RTCView, RTCPeerConnection, RTCIceCandidate, RTCSessionDescription, mediaDevices } from 'react-native-webrtc';
 
+import { SafeAreaView } from 'react-native-safe-area-context';
 const RoomDetails = () => {
+    const [session, setSession] = useState(null);
+    const [publisher, setPublisher] = useState(null);
+    const [subscribers, setSubscribers] = useState([]);
+    const [isConnected, setIsConnected] = useState(false);
     const [isVisible, setIsVisible] = useState(false);
+    const [sessionId, setSessionId] = useState(false);
     return (
         <SafeAreaView className='flex flex-1 bg-[#F0EEEC] px-3'>
             <View className='mt-4'>

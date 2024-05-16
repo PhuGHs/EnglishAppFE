@@ -1,4 +1,5 @@
 import { useState, useEffect } from 'react';
+import { NativeSyntheticEvent, TextInputChangeEventData } from 'react-native';
 
 interface UseInputProps {
     defaultValue: string | undefined;
@@ -9,11 +10,8 @@ export function useInput({ defaultValue, validationFn }: UseInputProps) {
     const [enteredValue, setEnteredValue] = useState(defaultValue);
     const [didEdit, setDidEdit] = useState(false);
 
-    useEffect(() => {
-        console.log(defaultValue);
-    }, []);
-
-    const handleInputChange = (text: string) => {
+    const handleInputChange = (e: NativeSyntheticEvent<TextInputChangeEventData>) => {
+        const text = e.nativeEvent.text;
         setEnteredValue(text);
         setDidEdit(false);
     };
@@ -23,12 +21,12 @@ export function useInput({ defaultValue, validationFn }: UseInputProps) {
     };
 
     const valueIsValid = validationFn(enteredValue);
-
     return {
         value: enteredValue,
         handleInputChange,
         handleInputBlur,
+        setEnteredValue,
         setValue: setEnteredValue,
-        hasError: didEdit && !valueIsValid,
+        hasError: !valueIsValid,
     };
 }

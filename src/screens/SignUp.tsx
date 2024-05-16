@@ -1,11 +1,93 @@
 import { faAngleLeft } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-native-fontawesome';
-import { SignInScreenProps, SignUpScreenProps } from '@root/types';
-import React from 'react';
-import { Text, Image, TextInput, TouchableOpacity, View } from 'react-native';
+import { useInput } from '@hook/useInput';
+import { AuthApi } from '@root/api/auth.api';
+import { SignUpScreenProps } from '@root/types';
+import { RegisterDto } from '@type/T-type';
+import React, { useState } from 'react';
+import { Text, Image, TextInput, TouchableOpacity, View, ActivityIndicator } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
 
 const SignUp = ({ navigation }: SignUpScreenProps) => {
+    const [hasExecuted, setExecuted] = useState<boolean>(true);
+    const {
+        value: firstNameValue,
+        handleInputChange: handleFirstNameChange,
+        handleInputBlur: handleFirstNameBlur,
+        setEnteredValue: setFirstNameValue,
+        hasError: firstNameHasError
+    } = useInput({defaultValue: '', validationFn: () => true});
+
+    const {
+        value: lastNameValue,
+        handleInputBlur: handleLastNameBlur,
+        handleInputChange: handleLastNameChange,
+        setEnteredValue: setLastNameValue,
+        hasError: lastNameHasError
+    } = useInput({defaultValue: '', validationFn: () => true});
+
+    const {
+        value: emailValue,
+        handleInputBlur: handleEmailBlur,
+        handleInputChange: handleEmailChange,
+        setEnteredValue: setEmailValue,
+        hasError: emailHasError
+    } = useInput({defaultValue: '', validationFn: () => true});
+
+    const {
+        value: passwordValue,
+        handleInputBlur: handlePasswordBlur,
+        handleInputChange: handlePasswordChange,
+        setEnteredValue: setPasswordValue,
+        hasError: passwordHasError
+    } = useInput({defaultValue: '', validationFn: () => true});
+
+    const {
+        value: confirmedPasswordValue,
+        handleInputBlur: handleConfirmedPasswordBlur,
+        handleInputChange: handleConfirmedPasswordChange,
+        setEnteredValue: setConfirmedPasswordValue,
+        hasError: confirmedPasswordHasError
+    } = useInput({defaultValue: '', validationFn: () => true});
+
+    const handleRegister = async () => {
+        if (passwordValue !== confirmedPasswordValue) {
+            console.log('passwords not match');
+            return;
+        }
+        const registerDto: RegisterDto = {
+            fullName: firstNameValue + ' ' + lastNameValue,
+            email: emailValue,
+            password: passwordValue,
+            confirmedPassword: confirmedPasswordValue,
+            isMale: true
+        };
+        setExecuted(false);
+        const data = await AuthApi.register(registerDto);
+        console.log(data);
+        const { status, message, data: account } = data;
+        const userId: number = account.user.user_id;
+        if (data) {
+            setExecuted(true);
+            setEmailValue('');
+            setFirstNameValue('');
+            setLastNameValue('');
+            setPasswordValue('');
+            setConfirmedPasswordValue('');
+            navigation.push('Interest', {userId});
+        }
+    };
+
+    if (!hasExecuted) {
+        return (
+            <SafeAreaView className='flex-1'>
+                <View className='flex justify-center items-center w-full h-full'>
+                    <ActivityIndicator size={'large'} />
+                </View>
+            </SafeAreaView>
+        );
+    }
+
     return (
         <SafeAreaView className='flex bg-sky-400 flex-1 justify-between'>
             <View className='mx-3 flex flex-col h-[25%]'>
@@ -33,14 +115,20 @@ const SignUp = ({ navigation }: SignUpScreenProps) => {
                         <Text className='text-gray-700 font-nunitoBold text-lg'>First Name</Text>
                         <TextInput
                             className='p-4 bg-gray-100 text-gray-700 rounded-2xl text-lg'
-                            value='Lê Văn'
+                            value={firstNameValue}
+                            onChange={handleFirstNameChange}
+                            onBlur={handleFirstNameBlur}
+                            placeholder='First name'
                         />
                     </View>
                     <View className='flex flex-col gap-2 w-[48%]'>
                         <Text className='text-gray-700 font-nunitoBold text-lg'>Last Name</Text>
                         <TextInput
                             className='p-4 bg-gray-100 text-gray-700 rounded-2xl text-lg'
-                            value='Phú'
+                            value={lastNameValue}
+                            onChange={handleLastNameChange}
+                            onBlur={handleLastNameBlur}
+                            placeholder='Last name'
                         />
                     </View>
                 </View>
@@ -48,7 +136,9 @@ const SignUp = ({ navigation }: SignUpScreenProps) => {
                     <Text className='text-gray-700 font-nunitoBold text-lg'>Email Address</Text>
                     <TextInput
                         className='p-4 bg-gray-100 text-gray-700 rounded-2xl text-lg'
-                        value='levanphu2003@gmail.com'
+                        value={emailValue}
+                        onChange={handleEmailChange}
+                        onBlur={handleEmailBlur}
                         placeholder='Enter your email'
                     />
                 </View>
@@ -57,7 +147,9 @@ const SignUp = ({ navigation }: SignUpScreenProps) => {
                     <TextInput
                         secureTextEntry
                         className='p-4 bg-gray-100 text-gray-700 rounded-2xl text-lg'
-                        value='vanphudh2003'
+                        value={passwordValue}
+                        onChange={handlePasswordChange}
+                        onBlur={handlePasswordBlur}
                         placeholder='Enter your password'
                     />
                 </View>
@@ -68,12 +160,14 @@ const SignUp = ({ navigation }: SignUpScreenProps) => {
                     <TextInput
                         secureTextEntry
                         className='p-4 bg-gray-100 text-gray-700 rounded-2xl text-lg'
-                        value='vanphudh2003'
+                        value={confirmedPasswordValue}
+                        onChange={handleConfirmedPasswordChange}
+                        onBlur={handleConfirmedPasswordBlur}
                         placeholder='Confirm your password'
                     />
                 </View>
                 <View>
-                    <TouchableOpacity className='mt-3 py-3 bg-yellow-400 rounded-xl'>
+                    <TouchableOpacity className='mt-3 py-3 bg-yellow-400 rounded-xl' onPress={handleRegister}>
                         <Text className='text-xl font-nunitoBold text-center text-gray-700'>
                             Sign Up
                         </Text>
