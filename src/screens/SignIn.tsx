@@ -3,17 +3,19 @@ import { FontAwesomeIcon } from '@fortawesome/react-native-fontawesome';
 import { useInput } from '@hook/useInput';
 import { AuthApi } from '@root/api/auth.api';
 import { useToast } from '@root/context/toast-context';
+import { UserContext } from '@root/context/user-context';
 import { SignInScreenProps } from '@root/types';
 import { storeData } from '@root/utils/asyncStorage';
 import { Helper } from '@root/utils/helper';
 import { AuthResponse } from '@type/T-type';
-import React, { useEffect, useRef, useState } from 'react';
+import React, { useContext, useEffect, useRef, useState } from 'react';
 import { Text, Image, TextInput, TouchableOpacity, View, StyleSheet, ActivityIndicator } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
 
 
 const SignIn = ({ navigation }: SignInScreenProps) => {
     const { showToast } = useToast();
+    const { setUser } = useContext(UserContext);
     const [hasExecuted, setExecuted] = useState<boolean>(true);
     const {
         value: emailValue,
@@ -54,16 +56,14 @@ const SignIn = ({ navigation }: SignInScreenProps) => {
             const { accessToken, account } = data;
 
             if (accessToken && account) {
-                storeData({ value: accessToken, item: 'token' });
-                storeData({ value: account, item: 'user' });
                 setEmailValue('');
                 setPasswordValue('');
                 setExecuted(true);
-
+                setUser(account);
                 if (account.is_active) {
                     navigation.push('Tabs');
                 } else {
-                    navigation.push('Interest', { userId: account.user.userId });
+                    navigation.push('Interest', { userId: account.user.user_id });
                 }
 
                 showToast({ type: 'success', description: 'Login success', timeout: 2000 });

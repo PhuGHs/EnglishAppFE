@@ -24,6 +24,7 @@ export type RootStackParamList = {
     StoryDetails: undefined;
     LeaderBoard: undefined;
     MissionScreen: undefined;
+    LearnerComment: { userId: number };
 };
 
 export type WelcomeScreenProps = NativeStackScreenProps<RootStackParamList, 'Welcome'>;
@@ -46,6 +47,7 @@ export type ShortStoriesScreenProps = NativeStackScreenProps<RootStackParamList,
 export type StoryDetailsScreenProps = NativeStackScreenProps<RootStackParamList, 'StoryDetails'>;
 export type LeaderBoardScreenProps = NativeStackScreenProps<RootStackParamList, 'LeaderBoard'>;
 export type MissionScreenProps = NativeStackScreenProps<RootStackParamList, 'MissionScreen'>;
+export type LearnerCommentScreenProps = NativeStackScreenProps<RootStackParamList, 'LearnerComment'>;
 
 export type BottomTabParamList = {
     Home: undefined;
@@ -154,16 +156,16 @@ export type TEngcomAsk = {
 };
 
 export type TMission = {
-    missionId: number;
-    missionName: string;
-    pointsAwarded: number;
-    maxCompletionCount: number;
+    mission_id: number;
+    mission_name: string;
+    points_awarded: number;
+    max_completion_count: number;
 };
 
 export type TUserMission = {
-    id: number;
-    user: TUserNecessary;
+    user_mission_id: number;
+    user_id: number;
     mission: TMission;
-    isCompleted: boolean;
-    completionCount: number;
+    is_completed: boolean;
+    completion_count: number;
 };

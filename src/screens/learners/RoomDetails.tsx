@@ -7,8 +7,6 @@ import { faHeadphones } from '@fortawesome/free-solid-svg-icons';
 import Accordion from '@component/Accordion';
 import Modal from 'react-native-modal';
 import User from '@component/User';
-import { OpenVidu, Session } from 'openvidu-browser';
-import { RTCView, RTCPeerConnection, RTCIceCandidate, RTCSessionDescription, mediaDevices } from 'react-native-webrtc';
 
 import { SafeAreaView } from 'react-native-safe-area-context';
 const RoomDetails = () => {

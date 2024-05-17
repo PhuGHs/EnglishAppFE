@@ -5,18 +5,22 @@ import Chips, { ChipProps } from './Chips';
 
 const data: ChipProps[] = [
     {
+        id: 1,
         isSelected: false,
         chipName: 'Reading',
     },
     {
+        id: 2,
         isSelected: false,
         chipName: 'Dancing',
     },
     {
+        id: 3,
         isSelected: false,
         chipName: 'IELTS',
     },
     {
+        id: 4,
         isSelected: false,
         chipName: 'Playing games',
     },

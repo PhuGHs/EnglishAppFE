@@ -1,5 +1,6 @@
 import axios, { AxiosError, AxiosInstance } from 'axios';
 import { getData, storeData } from './asyncStorage';
+import { useToast } from '@root/context/toast-context';
 
 export const BASE_ENDPOINT = 'http://10.0.2.2:8080/api/v1';
 const URL_LOGIN = '/auth/login';
@@ -49,7 +50,6 @@ class Http {
                         storeData({ value: accessToken, item: 'token' });
                         this.accessToken = 'Bearer ' + accessToken;
                         this.instance.defaults.headers.common['Authorization'] = this.accessToken;
-                        console.log(data);
                     }
                     return response;
                 },

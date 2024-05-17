@@ -8,9 +8,10 @@ interface IEngComUser {
     isCreator: boolean;
     noUser: boolean;
     withName?: boolean;
+    avatar?: string;
 }
 
-const EngComUser = ({ isCreator, noUser, withName = true }: IEngComUser) => {
+const EngComUser = ({ isCreator, noUser, withName = true, avatar }: IEngComUser) => {
     return (
         <View className={`flex flex-col ${withName && 'mb-3 mr-3'}`}>
             {noUser && (
@@ -25,7 +26,7 @@ const EngComUser = ({ isCreator, noUser, withName = true }: IEngComUser) => {
                     >
                         <TouchableOpacity className='w-fit h-fit flex'>
                             <Image
-                                source={require('@asset/images/avatar.jpg')}
+                                source={avatar ? {uri: avatar} : require('@asset/images/avatar.jpg')}
                                 style={{
                                     resizeMode: 'cover',
                                     width: 50,

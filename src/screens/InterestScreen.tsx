@@ -56,22 +56,17 @@ const InterestScreen = ({ route, navigation }: InterestScreenProps & { route: Ro
     };
 
     const handleSelectInterests = async () => {
-        
-        const ids: Set<number> = new Set(interests.filter(interest => interest.isSelected).map(interest => interest.id));
+        const ids: Array<number> = interests.filter(interest => interest.isSelected).map(interest => interest.id);
         const reqBody: TInterestPutDto = {
             user_id: userId,
-            interests: ids
+            interests: ids,
         };
 
-        if (ids.size < 3) {
+        if (ids.length < 3) {
             showToast({ type: 'warning', description: 'Please choose at least 3 items', timeout: 3000 });
             return;
         }
         const data = await InterestApi.selectInterests(reqBody);
-        if (data.status === 'FAIL') {
-            showToast({ type: 'danger', description: 'There is something wrong', timeout: 3000 });
-            return;
-        }
     };
 
     return (

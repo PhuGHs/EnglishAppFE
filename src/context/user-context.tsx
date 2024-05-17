@@ -2,7 +2,12 @@ import { getData } from '@root/utils/asyncStorage';
 import { TAccount } from '@type/T-type';
 import { createContext, useEffect, useState } from 'react';
 
-export const UserContext = createContext({});
+export type UserContextType = {
+    user?: TAccount,
+    setUser?: (user: TAccount) => void
+};
+
+export const UserContext = createContext<UserContextType>({});
 
 export const UserProvider = ({ children }) => {
     const [user, setUser] = useState<TAccount | null>(null);

@@ -5,7 +5,7 @@ import { AuthApi } from '@root/api/auth.api';
 import { SignUpScreenProps } from '@root/types';
 import { RegisterDto } from '@type/T-type';
 import React, { useState } from 'react';
-import { Text, Image, TextInput, TouchableOpacity, View, ActivityIndicator } from 'react-native';
+import { Text, Image, TextInput, TouchableOpacity, View, ActivityIndicator, StyleSheet } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
 
 const SignUp = ({ navigation }: SignUpScreenProps) => {
@@ -90,6 +90,11 @@ const SignUp = ({ navigation }: SignUpScreenProps) => {
 
     return (
         <SafeAreaView className='flex bg-sky-400 flex-1 justify-between'>
+            {!hasExecuted && (
+                <View style={styles.overlay}>
+                    <ActivityIndicator size='large' color='#0000ff' />
+                </View>
+            )}
             <View className='mx-3 flex flex-col h-[25%]'>
                 <View className='flex flex-row w-full'>
                     <TouchableOpacity
@@ -177,5 +182,18 @@ const SignUp = ({ navigation }: SignUpScreenProps) => {
         </SafeAreaView>
     );
 };
+
+const styles = StyleSheet.create({
+    overlay: {
+        position: 'absolute',
+        top: 0,
+        left: 0,
+        right: 0,
+        bottom: 0,
+        justifyContent: 'center',
+        alignItems: 'center',
+        backgroundColor: 'rgba(0, 0, 0, 0.5)'
+    }
+});
 
 export default SignUp;

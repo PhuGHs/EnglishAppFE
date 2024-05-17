@@ -11,7 +11,7 @@ interface IUserProps {
 const User = ({ isModerator, nameOnRight = false, room }: IUserProps) => {
     return (
         <View
-            className={`w-fit h-fit flex mr-2 mt-2 justify-center ${nameOnRight ? 'flex-row' : 'flex-col'}`}
+            className={`w-fit h-fit flex mr-2 mt-2 ${nameOnRight ? 'flex-row' : 'flex-col'}`}
         >
             <View className='w-fit h-fit flex'>
                 {isModerator && room ? (

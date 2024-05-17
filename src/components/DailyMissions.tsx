@@ -1,6 +1,7 @@
 import React from 'react';
-import { Text, View } from 'react-native';
+import { ListRenderItem, Text, View } from 'react-native';
 import { BoltIcon, CheckCircleIcon, PowerIcon, TrophyIcon } from 'react-native-heroicons/solid';
+import { FlatList } from 'react-native-reanimated/lib/typescript/Animated';
 
 export interface IMissionProps {
     missionName: string;
@@ -30,17 +31,20 @@ const Mission = ({ missionName, rewardedPoints, isDone }: IMissionProps) => {
 };
 
 const DailyMissions = ({ missions }: IMissionsProps) => {
+    const renderItem: ListRenderItem<IMissionProps> = ({ item }) => (
+        <Mission
+            missionName={item.missionName}
+            rewardedPoints={item.rewardedPoints}
+            isDone={item.isDone}
+        />
+    );
     return (
-        <View className='flex flex-col justify-center w-full bg-white mt-2 p-3 rounded-xl'>
-            {missions.map((value, index) => (
-                <Mission
-                    key={index}
-                    missionName={value.missionName}
-                    rewardedPoints={value.rewardedPoints}
-                    isDone={value.isDone}
-                />
-            ))}
-        </View>
+        <FlatList
+            horizontal={false}
+            data={missions}
+            keyExtractor={(item) => item.toString()}
+            renderItem={renderItem}
+        />
     );
 };
 

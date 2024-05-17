@@ -78,10 +78,10 @@ export type TEnglishTopic = {
 };
 
 export type TUserNecessary = {
-    userId: number;
-    fullName: string;
-    profilePicture: string;
-    englishLevel: TEnglishLevel;
+    user_id: number;
+    full_name: string;
+    profile_picture: string;
+    english_level: TEnglishLevel;
 };
 
 export type TEngcomAsk = {
@@ -128,11 +128,11 @@ export type TRole = {
 }
 
 export type TAccount = {
-    id: number;
+    account_id: number;
     user: TUserNecessary;
     role: TRole;
     email: string;
-    isActive: boolean;
+    is_active: boolean;
 }
 
 export type RegisterDto = {
@@ -161,5 +161,37 @@ export type AuthResponse = {
 
 export type TInterestPutDto = {
     user_id: number;
-    interests: Set<number>
+    interests: Array<number>
+}
+
+export type TInterest = {
+    interest_id: number;
+    interest_name: string;
+}
+
+export type TInterest2 = {
+    interestId: number;
+    interestName: string;
+}
+
+export type TUserProfile = {
+    user_id: number;
+    full_name: string;
+    gender: boolean;
+    profile_picture: string;
+    following_count: number;
+    followers_count: number;
+    reviews_count: number;
+    star: number;
+    english_level_name: string;
+    interests: TInterest2[]
+}
+
+export type TReview = {
+    review_id: number,
+    user_who_was_reviewed: TUserNecessary,
+    user_who_reviewed: TUserNecessary,
+    star: number,
+    comment: string,
+    createdAt: string
 }

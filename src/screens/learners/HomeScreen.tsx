@@ -1,47 +1,48 @@
-import React from 'react';
+import React, { useContext, useEffect, useState } from 'react';
 import { View, Text, TouchableOpacity, ScrollView } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
-import { StyleSheet } from 'react-native';
 import BellBadge from '@root/components/BellBadge';
-import DailyMissions, { IMissionProps } from '@root/components/DailyMissions';
 import EngComRooms from '@component/EngComRooms';
 import EngComQAs from '@component/EngComQA';
 import EngComUser from '@component/EngComUser';
 import CircularProgress from '@component/CircularProgress';
 import { TabsScreenProps } from '@type/index';
-
-const missions: IMissionProps[] = [
-    {
-        missionName: 'Watch a blog post',
-        rewardedPoints: 3,
-        isDone: false,
-    },
-    {
-        missionName: 'Join a speaking room',
-        rewardedPoints: 5,
-        isDone: true,
-    },
-    {
-        missionName: 'Create a speaking room',
-        rewardedPoints: 5,
-        isDone: true,
-    },
-    {
-        missionName: 'Ask a question',
-        rewardedPoints: 5,
-        isDone: true,
-    },
-];
+import { UserContext } from '@root/context/user-context';
+import { useToast } from '@root/context/toast-context';
+import { MissionApi } from '@root/api/mission.api';
 
 const HomeScreen = ({ navigation }: TabsScreenProps) => {
+    const { user } = useContext(UserContext);
+    const [isLoaded, setLoaded] = useState<boolean>();
+    const { user_id } = user.user;
+    const { showToast } = useToast();
+    const [percentage, setPercentage] = useState<number>(0);
+
+    if (!user) {
+        showToast({ type: 'danger', description: 'There is something wrong', timeout: 2000 });
+    }
+
+    useEffect(() => {
+        setLoaded(false);
+        const fetchPercentage = async () => {
+            const { data, status } = await MissionApi.getPercentage(user_id);
+            if (status == 'FAIL') {
+                return;
+            }
+            setPercentage(data as number);
+        };
+        fetchPercentage();
+        setLoaded(true);
+    }, []);
+
     return (
         <SafeAreaView className='flex px-4 bg-slate-100 space-y-3' style={{ marginBottom: 70 }}>
             <View className='flex flex-row justify-between mt-4 items-center'>
                 <View className='flex flex-row space-x-2 items-center'>
-                    <EngComUser withName={false} isCreator={false} noUser={false} />
+                    <EngComUser withName={false} isCreator={false} noUser={false} avatar={user.user.profile_picture}/>
                     <View className='flex flex-col space-y-2'>
                         <Text className='font-nunitoSemi text-slate-800 text-[16px]'>
-                            Hello Rachel,
+                            Hello {user.user.full_name},
                         </Text>
                         <View className='flex flex-row'>
                             <Text className='font-nunitoXBold text-sky-600 text-[18px]'>
@@ -61,7 +62,7 @@ const HomeScreen = ({ navigation }: TabsScreenProps) => {
                         <CircularProgress
                             size={100}
                             fontSize={24}
-                            progress={40}
+                            progress={percentage}
                             strokeWidth={10}
                             backgroundColor='#cbd5e1'
                             progressColor='#0891b2'
