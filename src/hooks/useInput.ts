@@ -12,8 +12,11 @@ export function useInput({ defaultValue, validationFn }: UseInputProps) {
 
     const handleInputChange = (e: NativeSyntheticEvent<TextInputChangeEventData>) => {
         const text = e.nativeEvent.text;
-        setEnteredValue(text);
-        setDidEdit(false);
+        const wordCount = text.trim().split(/\s+/).length;
+        if (wordCount <= 100) {
+            setEnteredValue(text);
+        }
+        setDidEdit(true);
     };
 
     const handleInputBlur = () => {

@@ -9,7 +9,7 @@ import { SafeAreaView, TouchableOpacity, View, Text } from 'react-native';
 const LearnerComment = ({ route, navigation }: LearnerCommentScreenProps & { route: RouteProp<RootStackParamList, 'LearnerComment'> }) => {
     return (
         <SafeAreaView className='flex px-4 space-y-3'>
-            <View className='my-6'>
+            <View className='mt-6'>
                 <View className='flex flex-row mb-5 items-center justify-between'>
                     <TouchableOpacity className='bg-yellow-400 p-2 rounded-tl-xl rounded-br-xl w-[40px]' onPress={() => navigation.pop()}>
                         <FontAwesomeIcon icon={faArrowLeft} color='#374151' size={25} />

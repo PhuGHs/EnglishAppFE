@@ -1,6 +1,4 @@
-import { BottomTabScreenProps } from '@react-navigation/bottom-tabs';
 import { NativeStackScreenProps } from '@react-navigation/native-stack';
-import { TAccount } from './T-type';
 
 export type RootStackParamList = {
     Welcome: undefined;
@@ -25,6 +23,8 @@ export type RootStackParamList = {
     LeaderBoard: undefined;
     MissionScreen: undefined;
     LearnerComment: { userId: number };
+    ReviewLearner: { userId: number };
+    FollowersScreen: { userId: number, type: 'followers' | 'following', username: string };
 };
 
 export type WelcomeScreenProps = NativeStackScreenProps<RootStackParamList, 'Welcome'>;
@@ -48,6 +48,8 @@ export type StoryDetailsScreenProps = NativeStackScreenProps<RootStackParamList,
 export type LeaderBoardScreenProps = NativeStackScreenProps<RootStackParamList, 'LeaderBoard'>;
 export type MissionScreenProps = NativeStackScreenProps<RootStackParamList, 'MissionScreen'>;
 export type LearnerCommentScreenProps = NativeStackScreenProps<RootStackParamList, 'LearnerComment'>;
+export type ReviewLearnerScreenProps = NativeStackScreenProps<RootStackParamList, 'ReviewLearner'>;
+export type FollowersScreenProps = NativeStackScreenProps<RootStackParamList, 'FollowersScreen'>;
 
 export type BottomTabParamList = {
     Home: undefined;
