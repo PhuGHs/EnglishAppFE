@@ -25,6 +25,8 @@ export type RootStackParamList = {
     LearnerComment: { userId: number };
     ReviewLearner: { userId: number };
     FollowersScreen: { userId: number, type: 'followers' | 'following', username: string };
+    NotificationScreen: undefined;
+    DiscussionDetails: { discussionId: number };
 };
 
 export type WelcomeScreenProps = NativeStackScreenProps<RootStackParamList, 'Welcome'>;
@@ -49,7 +51,9 @@ export type LeaderBoardScreenProps = NativeStackScreenProps<RootStackParamList, 
 export type MissionScreenProps = NativeStackScreenProps<RootStackParamList, 'MissionScreen'>;
 export type LearnerCommentScreenProps = NativeStackScreenProps<RootStackParamList, 'LearnerComment'>;
 export type ReviewLearnerScreenProps = NativeStackScreenProps<RootStackParamList, 'ReviewLearner'>;
+export type NotificationScreenProps = NativeStackScreenProps<RootStackParamList, 'NotificationScreen'>;
 export type FollowersScreenProps = NativeStackScreenProps<RootStackParamList, 'FollowersScreen'>;
+export type DiscussionDetailsScreenProps = NativeStackScreenProps<RootStackParamList, 'DiscussionDetails'>;
 
 export type BottomTabParamList = {
     Home: undefined;

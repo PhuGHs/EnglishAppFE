@@ -7,6 +7,7 @@ import { Nunito_400Regular, Nunito_500Medium, Nunito_600SemiBold, Nunito_700Bold
 import Navigator from '@navigation/Navigator';
 import { UserProvider } from '@root/context/user-context';
 import { ToastProvider } from '@root/context/toast-context';
+import { GestureHandlerRootView } from 'react-native-gesture-handler';
 
 if (__DEV__) {
   require('./ReactotronConfig');
@@ -30,8 +31,8 @@ export default function App() {
   SplashScreen.hideAsync();
 
   return (
-    <>
-    <View style={styles.container} className='bg-slate-100 font-nunito'>
+    <GestureHandlerRootView style={{flex: 1}}>
+      <View style={styles.container} className='bg-[#F0EEEC] font-nunito'>
             <StatusBar style="auto" />
             <SafeAreaProvider>
               <ToastProvider>
@@ -41,7 +42,7 @@ export default function App() {
               </ToastProvider>
             </SafeAreaProvider>
           </View>
-    </>
+    </GestureHandlerRootView>
   );
 }
 
