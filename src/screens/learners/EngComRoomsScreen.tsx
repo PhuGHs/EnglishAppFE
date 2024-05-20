@@ -61,9 +61,10 @@ const EngComRoomsScreen = ({ navigation }: EngComRoomsScreenProps) => {
                     <TouchableOpacity
                         className='py-3 bg-yellow-400 rounded-xl'
                         style={{ elevation: 10, shadowColor: '#0f172a' }}
+                        onPress={() => navigation.push('CreateARoom')}
                     >
                         <Text className='text-xl font-nunitoBold text-center text-gray-700 px-10 py-1'>
-                            Ask a question
+                            Create an Room
                         </Text>
                     </TouchableOpacity>
                 </View>

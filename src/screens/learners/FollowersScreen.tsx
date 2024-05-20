@@ -14,7 +14,7 @@ const FollowersScreen = ({ route, navigation }: FollowersScreenProps & { route: 
     return (
         <SafeAreaView className='flex flex-1 space-y-3'>
             <View className='w-full h-[10%] bg-white flex items-center px-4 flex-row flex-start space-x-4'>
-                <TouchableOpacity>
+                <TouchableOpacity onPress={() => navigation.pop()}>
                     <FontAwesomeIcon icon={faXmark} size={25} color='#374151'/>
                 </TouchableOpacity>
                 <Text className='text-xl font-nunitoBold text-gray-700'>vpu2.3</Text>

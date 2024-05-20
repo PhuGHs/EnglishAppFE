@@ -27,6 +27,7 @@ export type RootStackParamList = {
     FollowersScreen: { userId: number, type: 'followers' | 'following', username: string };
     NotificationScreen: undefined;
     DiscussionDetails: { discussionId: number };
+    EditProfile: undefined;
 };
 
 export type WelcomeScreenProps = NativeStackScreenProps<RootStackParamList, 'Welcome'>;
@@ -54,6 +55,7 @@ export type ReviewLearnerScreenProps = NativeStackScreenProps<RootStackParamList
 export type NotificationScreenProps = NativeStackScreenProps<RootStackParamList, 'NotificationScreen'>;
 export type FollowersScreenProps = NativeStackScreenProps<RootStackParamList, 'FollowersScreen'>;
 export type DiscussionDetailsScreenProps = NativeStackScreenProps<RootStackParamList, 'DiscussionDetails'>;
+export type EditProfileScreenProps = NativeStackScreenProps<RootStackParamList, 'EditProfile'>;
 
 export type BottomTabParamList = {
     Home: undefined;

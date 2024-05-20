@@ -5,6 +5,7 @@ import { UserApi } from '@root/api/user.api';
 import { useToast } from '@root/context/toast-context';
 import { UserContext } from '@root/context/user-context';
 import { TInterest2, TUserProfile } from '@type/T-type';
+import { TabsScreenProps } from '@type/index';
 import React, { useContext, useEffect, useState } from 'react';
 import { View, Text, TouchableOpacity, Image, StyleSheet, ActivityIndicator } from 'react-native';
 import { ChatBubbleLeftEllipsisIcon, StarIcon } from 'react-native-heroicons/solid';
@@ -18,38 +19,37 @@ function mapToChips(interests: TInterest2[]): ChipProps[] {
     }));
 }
 
-const ProfileScreen = () => {
+const ProfileScreen = ({ navigation }: TabsScreenProps) => {
     const { user } = useContext(UserContext);
     const { user_id } = user.user;
     const { showToast } = useToast();
 
-    const [hasFetched, setFetched] = useState<boolean>(false);
-    const [info, setInfo] = useState<TUserProfile | null>(null);
+    const [hasFetched, setFetched] = useState<boolean>();
+    const [info, setInfo] = useState<TUserProfile>();
 
     useEffect(() => {
+        setFetched(false);
         const fetchProfile = async () => {
-            try {
-                const { status, message, data } = await UserApi.getUserProfile(user_id);
-                if (status === 'SUCCESS') {
-                    setInfo(data as TUserProfile);
-                } else {
-                    showToast({ type: 'danger', description: message, timeout: 2000 });
-                }
-            } catch (error) {
-                showToast({ type: 'danger', description: 'failed to fetch the profile data', timeout: 2000 });
-            } finally {
-                setFetched(true);
-            }
+            const { status, data, message } = await UserApi.getUserProfile(user_id);
+            setInfo(data as TUserProfile);
         };
-
         fetchProfile();
-    }, [user_id, showToast]);
+        setFetched(true);
+    }, []);
+    
 
     return (
         <>
+            {!hasFetched && (
+                <View style={styles.overlay}>
+                    <ActivityIndicator size='large' color='#0000ff' />
+                </View>
+            )}
             <SafeAreaView className='flex flex-1 bg-sky-400'>
                 <View className='h-[15%] w-full flex flex-row justify-end p-4'>
-                    <TouchableOpacity>
+                    <TouchableOpacity
+                        onPress={() => navigation.push('EditProfile')}
+                    >
                         <FontAwesomeIcon icon={faEdit} size={30} color='white' />
                     </TouchableOpacity>
                 </View>
@@ -60,7 +60,7 @@ const ProfileScreen = () => {
                     >
                         <TouchableOpacity className='flex'>
                             <Image
-                                source={info.profile_picture ? {uri: info.profile_picture} : require('@asset/images/avatar.jpg')}
+                                source={info ? {uri: info.profile_picture} : require('@asset/images/avatar.jpg')}
                                 style={{
                                     resizeMode: 'cover',
                                     width: 140,
@@ -70,16 +70,15 @@ const ProfileScreen = () => {
                             />
                         </TouchableOpacity>
                     </View>
-                    {info ? (
-                        <View className='pt-[80px] flex flex-col justify-center w-full'>
+                    <View className='pt-[80px] flex flex-col justify-center w-full'>
                             <Text className='text-slate-800 font-nunitoBold text-2xl text-center'>
-                                {info.full_name}
+                                {info ? info.full_name : 'name'}
                             </Text>
                             <Text className='text-center text-slate-500 font-nunitoMedium text-base'>
-                                @{info.user_id}
+                                @{info ? info.user_id : '11111111'}
                             </Text>
                             <Text className='text-center my-2 font-nunitoBold text-xl text-sky-600'>
-                                {info.english_level_name}
+                                {info ? info.english_level_name : 'Intermediate'}
                             </Text>
                             <View className='flex flex-row mt-6 items-center justify-center'>
                                 <TouchableOpacity className='p-3 bg-slate-200 rounded-full flex items-center justify-center'>
@@ -95,23 +94,29 @@ const ProfileScreen = () => {
                                 </TouchableOpacity>
                             </View>
                             <View className='flex flex-row my-6 space-x-4 items-center justify-around'>
-                                <TouchableOpacity className='flex flex-col justify-between items-center'>
-                                    <Text className='text-sky-600 font-nunitoXBold text-base'>{info.following_count}</Text>
+                                <TouchableOpacity className='flex flex-col justify-between items-center'
+                                    onPress={() => navigation.push('FollowersScreen')}
+                                >
+                                    <Text className='text-sky-600 font-nunitoXBold text-base'>{info ? info.following_count : 0}</Text>
                                     <Text className='text-sky-600 font-nunitoRegular text-base'>
                                         Following
                                     </Text>
                                 </TouchableOpacity>
-                                <TouchableOpacity className='flex flex-col justify-between items-center'>
+                                <TouchableOpacity className='flex flex-col justify-between items-center'
+                                    onPress={() => navigation.push('LearnerComment')}
+                                >
                                     <View className='flex flex-row items-center justify-center space-x-2'>
-                                        <Text className='text-sky-600 font-nunitoXBold text-base'>{info.reviews_count}</Text>
+                                        <Text className='text-sky-600 font-nunitoXBold text-base'>{info ? info.reviews_count : 0}</Text>
                                         <FontAwesomeIcon icon={faStar} size={30} color='#facc15' />
                                     </View>
                                     <Text className='text-sky-600 font-nunitoRegular text-base'>
                                         Reviews
                                     </Text>
                                 </TouchableOpacity>
-                                <TouchableOpacity className='flex flex-col justify-between items-center'>
-                                    <Text className='text-sky-600 font-nunitoXBold text-base'>{info.followers_count}</Text>
+                                <TouchableOpacity className='flex flex-col justify-between items-center'
+                                    onPress={() => navigation.push('FollowersScreen')}
+                                >
+                                    <Text className='text-sky-600 font-nunitoXBold text-base'>{info ? info.followers_count : 0}</Text>
                                     <Text className='text-sky-600 font-nunitoRegular text-base'>
                                         Followers
                                     </Text>
@@ -128,19 +133,11 @@ const ProfileScreen = () => {
                                 <Text className='text-slate-800 font-nunitoBold text-xl my-2'>
                                     My interests
                                 </Text>
-                                <Chips chips={mapToChips(info.interests)} handleChipPress={() => {}} searchOptions={false}/>
+                                <Chips chips={mapToChips(info ? info.interests: [])} handleChipPress={() => {}} searchOptions={false}/>
                             </View>
                         </View>
-                    ) : (
-                        <ActivityIndicator size='large' color='#0000ff' />
-                    )}
                 </View>
             </SafeAreaView>
-            {!hasFetched && (
-                <View style={styles.overlay}>
-                    <ActivityIndicator size='large' color='#0000ff' />
-                </View>
-            )}
         </>
     );
 };

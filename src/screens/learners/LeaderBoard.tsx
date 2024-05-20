@@ -11,13 +11,14 @@ import { LeaderBoardScreenProps } from '@type/index';
 const LeaderBoard = ({ navigation }: LeaderBoardScreenProps) => {
     return (
         <SafeAreaView className='flex flex-1 bg-[#00224D]'>
-            <View className='flex flex-row my-4 px-3'>
+            <View className='flex flex-row my-4 px-3 justify-between'>
                 <TouchableOpacity onPress={() => navigation.pop()}>
                     <FontAwesomeIcon icon={faAngleLeft} size={25} color='white' />
                 </TouchableOpacity>
-                <Text className='text-center w-full -left-[25px] font-nunitoMedium text-white text-2xl'>
+                <Text className='font-nunitoMedium text-white text-2xl'>
                     Leaderboard
                 </Text>
+                <View className='w-[4%]'></View>
             </View>
             <LeaderboardTabs handlePress={() => {}} />
             <ScrollView>

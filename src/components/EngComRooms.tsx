@@ -73,6 +73,7 @@ const EngComRooms = ({ horizontal, navigation }: IEngComRoomsProps) => {
             horizontal={horizontal}
             contentContainerStyle={{
                 display: 'flex',
+                marginHorizontal: 4,
                 flexDirection: horizontal ? 'row' : 'column',
                 alignItems: horizontal ? 'center' : 'flex-start',
             }}

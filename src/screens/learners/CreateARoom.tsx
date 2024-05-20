@@ -99,17 +99,17 @@ const CreateARoom = () => {
                             <ClockIcon size={25} color='#374151' />
                         </TouchableOpacity>
                     </View>
+                    <View className='flex items-center justify-center my-4'>
+                        <TouchableOpacity
+                            className='py-2 bg-yellow-400 rounded-xl'
+                            style={{ elevation: 6, shadowColor: '#0f172a' }}
+                        >
+                            <Text className='text-xl font-nunitoBold text-center text-gray-700 px-8 py-2'>
+                                Create a room
+                            </Text>
+                        </TouchableOpacity>
+                    </View>
                 </ScrollView>
-            </View>
-            <View className='absolute bottom-8 left-0 right-0 flex items-center justify-center'>
-                <TouchableOpacity
-                    className='py-2 bg-yellow-400 rounded-xl'
-                    style={{ elevation: 6, shadowColor: '#0f172a' }}
-                >
-                    <Text className='text-xl font-nunitoBold text-center text-gray-700 px-8 py-2'>
-                        Create a room
-                    </Text>
-                </TouchableOpacity>
             </View>
         </SafeAreaView>
     );

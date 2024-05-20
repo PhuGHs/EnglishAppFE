@@ -26,13 +26,14 @@ import ReviewLearner from '@screen/learners/ReviewLearner';
 import FollowersScreen from '@screen/learners/FollowersScreen';
 import NotificationScreen from '@screen/learners/NotificationScreen';
 import DiscussionDetails from '@screen/learners/DiscussionDetails';
+import EditProfile from '@screen/learners/EditProfile';
 
 const Stack = createNativeStackNavigator<RootStackParamList>();
 
 const Navigator = () => {
     return (
         <NavigationContainer>
-            <Stack.Navigator initialRouteName='DiscussionDetails' screenOptions={{ headerShown: false }}>
+            <Stack.Navigator initialRouteName='Welcome' screenOptions={{ headerShown: false }}>
               <Stack.Screen name='Welcome' component={Welcome}/>
               <Stack.Screen name='SignIn' component={SignIn}/>
               <Stack.Screen name='SignUp' component={SignUp}/>
@@ -56,6 +57,7 @@ const Navigator = () => {
               <Stack.Screen name='FollowersScreen' component={FollowersScreen}/>
               <Stack.Screen name='NotificationScreen' component={NotificationScreen}/>
               <Stack.Screen name='DiscussionDetails' component={DiscussionDetails}/>
+              <Stack.Screen name='EditProfile' component={EditProfile}/>
               <Stack.Screen name='Tabs' component={Tabs} />
             </Stack.Navigator>
           </NavigationContainer>
