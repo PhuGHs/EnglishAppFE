@@ -1,5 +1,5 @@
 import VocabSection from '@component/VocabSection';
-import { faBook, faClone } from '@fortawesome/free-solid-svg-icons';
+import { faBook, faClone, faFont } from '@fortawesome/free-solid-svg-icons';
 import { TabsScreenProps } from '@type/index';
 import React from 'react';
 import { Text, View } from 'react-native';
@@ -9,13 +9,16 @@ const Skills = ({ navigation }: TabsScreenProps) => {
     const handlePress = () => {
         navigation.navigate('ShortStories');
     };
-    const handlePress1 = () => {
+    const handleNavigateToTopicScreen = () => {
         navigation.navigate('TopicScreen');
+    };
+    const handleNavigateToTestScreen = () => {
+        navigation.navigate('EnglishLevelScreen');
     };
     return (
         <SafeAreaView className='flex flex-1 px-4 bg-slate-100'>
             <Text className='text-sky-600 w-full text-center font-nunitoBold text-2xl my-4'>
-                Vocabularies
+                Learning materials
             </Text>
             <View className='flex flex-col'>
                 <VocabSection
@@ -27,8 +30,14 @@ const Skills = ({ navigation }: TabsScreenProps) => {
                 <VocabSection
                     header='TOPICS'
                     icon={faClone}
-                    press={handlePress1}
+                    press={handleNavigateToTopicScreen}
                     subtitle='Explore new knowledge, accumulation'
+                />
+                <VocabSection
+                    header='ENGLISH TESTS'
+                    icon={faFont}
+                    press={handleNavigateToTestScreen}
+                    subtitle='Take tests to surpass upcoming english levels'
                 />
             </View>
         </SafeAreaView>

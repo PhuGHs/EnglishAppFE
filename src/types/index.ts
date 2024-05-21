@@ -28,6 +28,7 @@ export type RootStackParamList = {
     NotificationScreen: undefined;
     DiscussionDetails: { discussionId: number };
     EditProfile: undefined;
+    EnglishLevelScreen: undefined;
 };
 
 export type WelcomeScreenProps = NativeStackScreenProps<RootStackParamList, 'Welcome'>;
@@ -56,6 +57,7 @@ export type NotificationScreenProps = NativeStackScreenProps<RootStackParamList,
 export type FollowersScreenProps = NativeStackScreenProps<RootStackParamList, 'FollowersScreen'>;
 export type DiscussionDetailsScreenProps = NativeStackScreenProps<RootStackParamList, 'DiscussionDetails'>;
 export type EditProfileScreenProps = NativeStackScreenProps<RootStackParamList, 'EditProfile'>;
+export type EnglishLevelScreenProps = NativeStackScreenProps<RootStackParamList, 'EnglishLevelScreen'>;
 
 export type BottomTabParamList = {
     Home: undefined;
