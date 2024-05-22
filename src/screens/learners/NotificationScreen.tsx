@@ -36,6 +36,7 @@ const NotificationScreen = ({ navigation }: NotificationScreenProps) => {
                     <View className='flex flex-row justify-between items-center'>
                         <TouchableOpacity
                             className='bg-yellow-400 p-2 rounded-tl-xl rounded-br-xl w-[40px] h-[40px] flex items-center justify-center'
+                            onPress={() => navigation.pop()}
                         >
                             <FontAwesomeIcon icon={faArrowLeft} color='#374151' size={25} />
                         </TouchableOpacity>

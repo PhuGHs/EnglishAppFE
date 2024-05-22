@@ -54,7 +54,7 @@ const HomeScreen = ({ navigation }: TabsScreenProps) => {
                         </View>
                     </View>
                 </View>
-                <BellBadge numberOfNotifications={2} />
+                <BellBadge numberOfNotifications={2} press={() => navigation.push('NotificationScreen')}/>
             </View>
             <ScrollView className='space-y-6'>
                 <View className='flex flex-row justify-between items-center'>

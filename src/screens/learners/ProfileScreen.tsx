@@ -2,6 +2,7 @@ import Chips, { ChipProps } from '@component/Chips';
 import { faEdit, faLongArrowLeft, faStar } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-native-fontawesome';
 import { UserApi } from '@root/api/user.api';
+import { useAuth } from '@root/context/auth-context';
 import { useToast } from '@root/context/toast-context';
 import { UserContext } from '@root/context/user-context';
 import { removeData, storeData } from '@root/utils/asyncStorage';
@@ -24,13 +25,13 @@ const ProfileScreen = ({ navigation }: TabsScreenProps) => {
     const { user } = useContext(UserContext);
     const { user_id } = user.user;
     const { showToast } = useToast();
+    const { signOut } = useAuth();
 
     const [hasFetched, setFetched] = useState<boolean>();
     const [info, setInfo] = useState<TUserProfile>();
 
     const handleLogout = async () => {
-        await storeData({ item: 'token', value: null});
-        await removeData({ item: 'user', value: null});
+        signOut();
     };
 
     useEffect(() => {

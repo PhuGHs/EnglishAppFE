@@ -4,12 +4,13 @@ import { BellIcon } from 'react-native-heroicons/solid';
 
 interface IBellBadgeProps {
     numberOfNotifications: number;
+    press: () => void;
 }
 
-const BellBadge = ({ numberOfNotifications }: IBellBadgeProps) => {
+const BellBadge = ({ numberOfNotifications, press }: IBellBadgeProps) => {
     return (
         <View className='flex flex-row justify-center items-center bg-gray-300 rounded-full'>
-            <TouchableOpacity>
+            <TouchableOpacity onPress={press}>
                 <View className='p-2'>
                     <BellIcon color='black' size={30} />
                 </View>

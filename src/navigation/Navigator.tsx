@@ -42,10 +42,11 @@ const Stack = createNativeStackNavigator<RootStackParamList>();
 
 const Navigator = () => {
   const { token } = useAuth();
+  const { user } = useContext(UserContext);
     return (
         <NavigationContainer>
             <Stack.Navigator screenOptions={{ headerShown: false }}>
-              {token === null ?
+              {token === null || !user.is_active ?
                 <>
                   <Stack.Screen name='Welcome' component={Welcome}/>
                   <Stack.Screen name='SignIn' component={SignIn}/>

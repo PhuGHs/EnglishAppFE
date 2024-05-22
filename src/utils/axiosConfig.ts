@@ -46,10 +46,10 @@ class Http {
                     if (url === URL_LOGIN) {
                         const { data } = response.data;
                         const { accessToken, account } = data;
-                        storeData({ value: account, item: 'user' });
-                        storeData({ value: accessToken, item: 'token' });
                         this.accessToken = 'Bearer ' + accessToken;
                         this.instance.defaults.headers.common['Authorization'] = this.accessToken;
+                        storeData({ value: account, item: 'user' });
+                        storeData({ value: this.accessToken, item: 'token' });
                     }
                     return response;
                 },

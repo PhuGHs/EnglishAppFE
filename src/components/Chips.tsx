@@ -21,7 +21,11 @@ export interface ChipProps {
 
 const Chip = ({ id, isSelected, radio, square, chipName, searchOptions, handleChipPress }: ChipProps) => {
     const handlePress = () => {
-        if (!isSelected && radio) {
+        if (radio) {
+            if (!isSelected) {
+                handleChipPress(id);
+            }
+        } else {
             handleChipPress(id);
         }
     };

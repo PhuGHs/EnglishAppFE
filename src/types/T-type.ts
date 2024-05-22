@@ -55,15 +55,6 @@ export type TEngComRooms = {
     ScheduledTo?: Date;
 };
 
-export type TMessage = {
-    conversationId: number;
-    id: number;
-    sender: TUserNecessary;
-    receiver: TUserNecessary
-    message: string;
-    createdAt: string;
-};
-
 export type TEnglishLevel = {
     levelId: number;
     levelName: string;
@@ -194,4 +185,31 @@ export type TReview = {
     star: number,
     comment: string,
     createdAt: string
+}
+
+export type TPostMessage = {
+    message_room_id: number,
+    sender_id: number,
+    receiver_id: number,
+    message: string,
+    is_read: boolean,
+    image: string
+}
+
+export type TMessage = {
+    message_id: number,
+    message_room_id: number,
+    sender: TUserNecessary,
+    receiver: TUserNecessary,
+    message: string,
+    is_read: boolean,
+    createdAt: string,
+    image: string
+}
+
+export type MessageRoomDto = {
+    message_room_id: number,
+    room_name: string,
+    last_message: TMessage,
+    user: TUserNecessary
 }
