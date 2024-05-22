@@ -16,7 +16,7 @@ export type RootStackParamList = {
     EngComRooms: undefined;
     CreateARoom: undefined;
     RoomDetails: undefined;
-    TopicScreen: undefined;
+    TopicScreen: { levelId: number };
     TopicDetails: undefined;
     ShortStories: undefined;
     StoryDetails: undefined;
@@ -29,6 +29,12 @@ export type RootStackParamList = {
     DiscussionDetails: { discussionId: number };
     EditProfile: undefined;
     EnglishLevelScreen: undefined;
+    EnglishTestListScreen: { levelId: number };
+    ReportScreen: undefined;
+    ReportDetails: { reportId: number };
+    EditShortStory: { shortStoryId?: number };
+    EditTopic: { levelId: number, topicId?: number };
+    LevelOptions: { levelId: number };
 };
 
 export type WelcomeScreenProps = NativeStackScreenProps<RootStackParamList, 'Welcome'>;
@@ -58,6 +64,12 @@ export type FollowersScreenProps = NativeStackScreenProps<RootStackParamList, 'F
 export type DiscussionDetailsScreenProps = NativeStackScreenProps<RootStackParamList, 'DiscussionDetails'>;
 export type EditProfileScreenProps = NativeStackScreenProps<RootStackParamList, 'EditProfile'>;
 export type EnglishLevelScreenProps = NativeStackScreenProps<RootStackParamList, 'EnglishLevelScreen'>;
+export type EnglishTestListScreenProps = NativeStackScreenProps<RootStackParamList, 'EnglishTestListScreen'>;
+export type ReportScreenProps = NativeStackScreenProps<RootStackParamList, 'ReportScreen'>;
+export type ReportDetailsScreenProps = NativeStackScreenProps<RootStackParamList, 'ReportDetails'>;
+export type EditShortStoryScreenProps = NativeStackScreenProps<RootStackParamList, 'EditShortStory'>;
+export type EditTopicScreenProps = NativeStackScreenProps<RootStackParamList, 'EditTopic'>;
+export type LevelOptionsScreenProps = NativeStackScreenProps<RootStackParamList, 'LevelOptions'>;
 
 export type BottomTabParamList = {
     Home: undefined;
@@ -65,6 +77,7 @@ export type BottomTabParamList = {
     Learners: undefined;
     Skills: undefined;
     Profile: undefined;
+    Report: undefined;
 };
 
 export type LearnersTopTabParamList = {

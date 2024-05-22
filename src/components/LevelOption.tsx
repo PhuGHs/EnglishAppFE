@@ -5,25 +5,21 @@ import { LinearGradient } from 'expo-linear-gradient';
 
 // Define a mapping from level ID to image imports
 const imageMap = {
-  1: require('@asset/images/A1.jpg'),
-  2: require('@asset/images/A2.jpg'),
-  3: require('@asset/images/B1.jpg'),
-  4: require('@asset/images/B2.jpg'),
-  5: require('@asset/images/C1.jpg'),
-  6: require('@asset/images/C2.jpg'),
+  'Topic': require('@asset/images/topic.jpg'),
+  'Test': require('@asset/images/test.jpg'),
 };
 
-export interface IEnglishLevel {
-    level: TEnglishLevel;
+export interface ILevelOption {
+    name: string;
     onPress: () => void
 }
 
-const EnglishLevel = ({ level, onPress }: IEnglishLevel) => {
-  const [imageName, setImageName] = useState(imageMap[level.levelId]);
+const LevelOption = ({ name, onPress }: ILevelOption) => {
+  const [imageName, setImageName] = useState(imageMap[name]);
 
   useEffect(() => {
-    setImageName(imageMap[level.levelId]);
-  }, [level.levelId]);
+    setImageName(imageMap[name]);
+  }, [name]);
 
   return (
     <TouchableOpacity style={styles.container} onPress={onPress}>
@@ -36,7 +32,7 @@ const EnglishLevel = ({ level, onPress }: IEnglishLevel) => {
           colors={['transparent', 'rgba(0, 0, 0, 0.5)', 'rgba(0, 0, 0, 0.7)']}
           style={styles.gradient}
         />
-        <Text className='absolute bottom-0 p-4 text-white font-nunitoXBold text-xl w-full'>{level.levelName}</Text>
+        <Text className='absolute bottom-0 p-4 text-white font-nunitoXBold text-xl w-full'>{name}</Text>
       </ImageBackground>
     </TouchableOpacity>
   );
@@ -62,4 +58,4 @@ const styles = StyleSheet.create({
   },
 });
 
-export default EnglishLevel;
+export default LevelOption;

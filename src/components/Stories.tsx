@@ -10,11 +10,13 @@ interface IStory {
     title: string;
     horizontal?: boolean;
     press?: () => void;
+    longpress?: () => void;
 }
 
 interface IStories {
     horizontal: boolean;
     press: () => void;
+    longpress: () => void;
 }
 
 const sample: IStory[] = [
@@ -50,11 +52,12 @@ const sample: IStory[] = [
     },
 ];
 
-const Story = ({ image, like, title, horizontal, press }: IStory) => {
+const Story = ({ image, like, title, horizontal, press, longpress }: IStory) => {
     return (
         <TouchableOpacity
             className={`flex flex-col w-[48%] space-y-2 mt-4 ${horizontal && 'mr-3'}`}
             onPress={press}
+            onLongPress={longpress}
         >
             <View className='w-full rounded-xl h-[250px] bg-zinc-300'>
                 <View className='absolute top-2 right-2 bg-gray-400 flex flex-row items-center justify-center space-x-2 p-2 rounded-full'>
@@ -67,7 +70,7 @@ const Story = ({ image, like, title, horizontal, press }: IStory) => {
     );
 };
 
-const Stories = ({ horizontal, press }: IStories) => {
+const Stories = ({ horizontal, press, longpress }: IStories) => {
     if (horizontal) {
         return (
             <FlatList
@@ -84,7 +87,7 @@ const Stories = ({ horizontal, press }: IStories) => {
         <FlatList
             data={sample}
             numColumns={2}
-            renderItem={({ item }) => <Story like={item.like} title={item.title} press={press} />}
+            renderItem={({ item }) => <Story longpress={longpress} like={item.like} title={item.title} press={press} />}
             keyExtractor={(item) => `id-${item.id}`}
             columnWrapperStyle={{ justifyContent: 'space-between' }}
         />

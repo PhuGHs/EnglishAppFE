@@ -8,6 +8,7 @@ import Navigator from '@navigation/Navigator';
 import { UserProvider } from '@root/context/user-context';
 import { ToastProvider } from '@root/context/toast-context';
 import { GestureHandlerRootView } from 'react-native-gesture-handler';
+import { AuthProvider } from '@root/context/auth-context';
 
 if (__DEV__) {
   require('./ReactotronConfig');
@@ -36,9 +37,11 @@ export default function App() {
             <StatusBar style="auto" />
             <SafeAreaProvider>
               <ToastProvider>
-                <UserProvider>
-                  <Navigator />
-                </UserProvider>
+                <AuthProvider>
+                  <UserProvider>
+                    <Navigator />
+                  </UserProvider>
+                </AuthProvider>
               </ToastProvider>
             </SafeAreaProvider>
           </View>

@@ -2,6 +2,7 @@ import { faAngleLeft } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-native-fontawesome';
 import { useInput } from '@hook/useInput';
 import { AuthApi } from '@root/api/auth.api';
+import { useAuth } from '@root/context/auth-context';
 import { useToast } from '@root/context/toast-context';
 import { UserContext } from '@root/context/user-context';
 import { SignInScreenProps } from '@root/types';
@@ -16,6 +17,7 @@ import { SafeAreaView } from 'react-native-safe-area-context';
 const SignIn = ({ navigation }: SignInScreenProps) => {
     const { showToast } = useToast();
     const { setUser } = useContext(UserContext);
+    const { signIn } = useAuth();
     const [hasExecuted, setExecuted] = useState<boolean>(true);
     const {
         value: emailValue,
@@ -60,6 +62,7 @@ const SignIn = ({ navigation }: SignInScreenProps) => {
                 setPasswordValue('');
                 setExecuted(true);
                 setUser(account);
+                signIn(accessToken);
                 if (account.is_active) {
                     navigation.push('Tabs');
                 } else {

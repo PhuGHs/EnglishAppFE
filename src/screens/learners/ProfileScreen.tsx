@@ -1,14 +1,15 @@
 import Chips, { ChipProps } from '@component/Chips';
-import { faEdit, faStar } from '@fortawesome/free-solid-svg-icons';
+import { faEdit, faLongArrowLeft, faStar } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-native-fontawesome';
 import { UserApi } from '@root/api/user.api';
 import { useToast } from '@root/context/toast-context';
 import { UserContext } from '@root/context/user-context';
+import { removeData, storeData } from '@root/utils/asyncStorage';
 import { TInterest2, TUserProfile } from '@type/T-type';
 import { TabsScreenProps } from '@type/index';
 import React, { useContext, useEffect, useState } from 'react';
 import { View, Text, TouchableOpacity, Image, StyleSheet, ActivityIndicator } from 'react-native';
-import { ChatBubbleLeftEllipsisIcon, StarIcon } from 'react-native-heroicons/solid';
+import { ArrowLeftStartOnRectangleIcon, ChatBubbleLeftEllipsisIcon, StarIcon } from 'react-native-heroicons/solid';
 import { SafeAreaView } from 'react-native-safe-area-context';
 
 function mapToChips(interests: TInterest2[]): ChipProps[] {
@@ -26,6 +27,11 @@ const ProfileScreen = ({ navigation }: TabsScreenProps) => {
 
     const [hasFetched, setFetched] = useState<boolean>();
     const [info, setInfo] = useState<TUserProfile>();
+
+    const handleLogout = async () => {
+        await storeData({ item: 'token', value: null});
+        await removeData({ item: 'user', value: null});
+    };
 
     useEffect(() => {
         setFetched(false);
@@ -47,6 +53,11 @@ const ProfileScreen = ({ navigation }: TabsScreenProps) => {
             )}
             <SafeAreaView className='flex flex-1 bg-sky-400'>
                 <View className='h-[15%] w-full flex flex-row justify-end p-4'>
+                    <TouchableOpacity
+                        onPress={handleLogout}
+                    >
+                        <ArrowLeftStartOnRectangleIcon size={30} color='white' />
+                    </TouchableOpacity>
                     <TouchableOpacity
                         onPress={() => navigation.push('EditProfile')}
                     >

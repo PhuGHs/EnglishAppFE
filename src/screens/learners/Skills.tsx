@@ -1,13 +1,15 @@
 import VocabSection from '@component/VocabSection';
 import { faBook, faClone, faFont } from '@fortawesome/free-solid-svg-icons';
+import { UserContext } from '@root/context/user-context';
 import { TabsScreenProps } from '@type/index';
-import React from 'react';
+import React, { useContext } from 'react';
 import { Text, View } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
 
 const Skills = ({ navigation }: TabsScreenProps) => {
+    const { user } = useContext(UserContext);
     const handlePress = () => {
-        navigation.navigate('ShortStories');
+        navigation.navigate('EnglishLevelScreen');
     };
     const handleNavigateToTopicScreen = () => {
         navigation.navigate('TopicScreen');
@@ -26,12 +28,6 @@ const Skills = ({ navigation }: TabsScreenProps) => {
                     icon={faBook}
                     press={handlePress}
                     subtitle='Improve your vocabulary'
-                />
-                <VocabSection
-                    header='TOPICS'
-                    icon={faClone}
-                    press={handleNavigateToTopicScreen}
-                    subtitle='Explore new knowledge, accumulation'
                 />
                 <VocabSection
                     header='ENGLISH TESTS'

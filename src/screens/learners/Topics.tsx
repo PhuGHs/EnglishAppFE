@@ -1,25 +1,27 @@
 import VocabSection from '@component/VocabSection';
 import { faArrowLeft } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-native-fontawesome';
-import { TopicDetailsScreenProps, TopicScreenProps } from '@type/index';
+import { RouteProp } from '@react-navigation/native';
+import { RootStackParamList, TopicDetailsScreenProps, TopicScreenProps } from '@type/index';
 import React from 'react';
 import { ScrollView, Text, TouchableOpacity, View } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
 
-const Topics = ({ navigation }: TopicScreenProps) => {
+const Topics = ({ route, navigation }: TopicScreenProps & { route: RouteProp<RootStackParamList, 'TopicScreen'> }) => {
     return (
         <SafeAreaView className='flex flex-1 mx-2'>
             <View className='mt-4'>
-                <View className='flex flex-row mb-5 items-center'>
+                <View className='flex flex-row mb-5 items-center justify-between'>
                     <TouchableOpacity
                         className='bg-yellow-400 p-2 rounded-tl-xl rounded-br-xl w-[40px]'
                         onPress={() => navigation.pop()}
                     >
                         <FontAwesomeIcon icon={faArrowLeft} color='#374151' size={25} />
                     </TouchableOpacity>
-                    <Text className='text-center w-full -left-[40px] text-sky-600 text-[22px] font-nunitoSemi'>
+                    <Text className='text-sky-600 text-[22px] font-nunitoSemi'>
                         TOPICS
                     </Text>
+                    <View className='w-[10%]'></View>
                 </View>
                 <ScrollView horizontal={false}>
                     <VocabSection
