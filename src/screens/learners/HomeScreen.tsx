@@ -10,6 +10,7 @@ import { TabsScreenProps } from '@type/index';
 import { UserContext } from '@root/context/user-context';
 import { useToast } from '@root/context/toast-context';
 import { MissionApi } from '@root/api/mission.api';
+import { DiscussionApi } from '@root/api/discussion.api';
 
 const HomeScreen = ({ navigation }: TabsScreenProps) => {
     const { user } = useContext(UserContext);
@@ -29,6 +30,8 @@ const HomeScreen = ({ navigation }: TabsScreenProps) => {
             if (status == 'FAIL') {
                 return;
             }
+            const discussions = await DiscussionApi.getTop5();
+            console.log(discussions);
             setPercentage(data as number);
         };
         fetchPercentage();

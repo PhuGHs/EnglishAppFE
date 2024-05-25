@@ -203,7 +203,7 @@ export type TMessage = {
     receiver: TUserNecessary,
     message: string,
     is_read: boolean,
-    createdAt: string,
+    created_at: string,
     image: string
 }
 
@@ -212,4 +212,11 @@ export type MessageRoomDto = {
     room_name: string,
     last_message: TMessage,
     user: TUserNecessary
+}
+
+export type TConversationTransfer = {
+    roomId: number,
+    full_name: string,
+    receiver_id: number;
+    profile_picture: string,
 }

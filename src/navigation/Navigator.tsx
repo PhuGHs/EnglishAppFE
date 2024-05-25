@@ -37,6 +37,7 @@ import LevelOptionScreen from '@screen/learners/LevelOptions';
 import { UserContext } from '@root/context/user-context';
 import { getData } from '@root/utils/asyncStorage';
 import { useAuth } from '@root/context/auth-context';
+import SearchScreen from '@screen/learners/SearchScreen';
 
 const Stack = createNativeStackNavigator<RootStackParamList>();
 
@@ -83,6 +84,7 @@ const Navigator = () => {
                   <Stack.Screen name='EditShortStory' component={EditShortStory}/>
                   <Stack.Screen name='EditTopic' component={EditTopic}/>
                   <Stack.Screen name='LevelOptions' component={LevelOptionScreen}/>
+                  <Stack.Screen name='SearchScreen' component={SearchScreen}/>
                 </>
               }
             </Stack.Navigator>

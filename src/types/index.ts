@@ -1,4 +1,5 @@
 import { NativeStackScreenProps } from '@react-navigation/native-stack';
+import { TConversationTransfer } from './T-type';
 
 export type RootStackParamList = {
     Welcome: undefined;
@@ -12,7 +13,7 @@ export type RootStackParamList = {
     LearnersTab: undefined;
     EngComAskScreen: undefined;
     AskAQuestion: undefined;
-    DetailChat: { roomId: number };
+    DetailChat: { conversation: TConversationTransfer };
     EngComRooms: undefined;
     CreateARoom: undefined;
     RoomDetails: undefined;
@@ -35,6 +36,7 @@ export type RootStackParamList = {
     EditShortStory: { shortStoryId?: number };
     EditTopic: { levelId: number, topicId?: number };
     LevelOptions: { levelId: number };
+    SearchScreen: undefined;
 };
 
 export type WelcomeScreenProps = NativeStackScreenProps<RootStackParamList, 'Welcome'>;
@@ -70,6 +72,7 @@ export type ReportDetailsScreenProps = NativeStackScreenProps<RootStackParamList
 export type EditShortStoryScreenProps = NativeStackScreenProps<RootStackParamList, 'EditShortStory'>;
 export type EditTopicScreenProps = NativeStackScreenProps<RootStackParamList, 'EditTopic'>;
 export type LevelOptionsScreenProps = NativeStackScreenProps<RootStackParamList, 'LevelOptions'>;
+export type SearchScreenScreenProps = NativeStackScreenProps<RootStackParamList, 'SearchScreen'>;
 
 export type BottomTabParamList = {
     Home: undefined;
@@ -83,112 +86,4 @@ export type BottomTabParamList = {
 export type LearnersTopTabParamList = {
     Level: undefined;
     Recommendations: undefined;
-};
-
-export type TLevel = {
-    levelId: number;
-    levelName: string;
-    description: string;
-};
-
-export type TUser = {
-    userId: number;
-    level: TLevel;
-    fullName: string;
-    gender: string;
-    quote: string;
-    profilePicture: string;
-    followingCount: string;
-    followersCount: string;
-    createdAt: string;
-    updatedAt: string;
-};
-
-export type TUser1 = {
-    id: number;
-    fullName: string;
-    avatar: string;
-};
-
-export type TParticipant = {
-    participantId: string;
-    user: TUser;
-};
-
-export type TConversation = {
-    id: number;
-    roomName: string;
-    lastMessage: TMessage;
-    lastSentUser: TUserNecessary;
-};
-
-export type TTopic = {
-    topicId: number;
-    level: TLevel;
-    header: string;
-    content: string;
-};
-
-export type TEngComRooms = {
-    roomId: number;
-    topic: TTopic;
-    owner: TParticipant;
-    maxParticipants?: number;
-    roomName?: string;
-    createdAt: Date;
-    ScheduledTo?: Date;
-};
-
-export type TMessage = {
-    conversationId: number;
-    id: number;
-    sender: TUserNecessary;
-    receiver: TUserNecessary
-    message: string;
-    createdAt: string;
-};
-
-export type TEnglishLevel = {
-    levelId: number;
-    levelName: string;
-    description: string;
-};
-
-export type TEnglishTopic = {
-    topicId: number;
-    header: string;
-    content: string;
-    englishLevelId: number;
-};
-
-export type TUserNecessary = {
-    userId: number;
-    fullName: string;
-    profilePicture: string;
-    englishLevel: TEnglishLevel;
-};
-
-export type TEngcomAsk = {
-    id: number;
-    user: TUserNecessary;
-    title: string;
-    topic: TEnglishTopic;
-    numberOfAnswers: number;
-    createdAt: string;
-    updatedAt: string;
-};
-
-export type TMission = {
-    mission_id: number;
-    mission_name: string;
-    points_awarded: number;
-    max_completion_count: number;
-};
-
-export type TUserMission = {
-    user_mission_id: number;
-    user_id: number;
-    mission: TMission;
-    is_completed: boolean;
-    completion_count: number;
 };
