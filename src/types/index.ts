@@ -25,7 +25,7 @@ export type RootStackParamList = {
     MissionScreen: undefined;
     LearnerComment: { userId: number };
     ReviewLearner: { userId: number };
-    FollowersScreen: { userId: number, type: 'followers' | 'following', username: string };
+    FollowersScreen: { userId: number; type: 'followers' | 'following'; username: string };
     NotificationScreen: undefined;
     DiscussionDetails: { discussionId: number };
     EditProfile: undefined;
@@ -34,9 +34,10 @@ export type RootStackParamList = {
     ReportScreen: undefined;
     ReportDetails: { reportId: number };
     EditShortStory: { shortStoryId?: number };
-    EditTopic: { levelId: number, topicId?: number };
+    EditTopic: { levelId: number; topicId?: number };
     LevelOptions: { levelId: number };
     SearchScreen: undefined;
+    UserProfileScreen: { userId: number };
 };
 
 export type WelcomeScreenProps = NativeStackScreenProps<RootStackParamList, 'Welcome'>;
@@ -59,20 +60,42 @@ export type ShortStoriesScreenProps = NativeStackScreenProps<RootStackParamList,
 export type StoryDetailsScreenProps = NativeStackScreenProps<RootStackParamList, 'StoryDetails'>;
 export type LeaderBoardScreenProps = NativeStackScreenProps<RootStackParamList, 'LeaderBoard'>;
 export type MissionScreenProps = NativeStackScreenProps<RootStackParamList, 'MissionScreen'>;
-export type LearnerCommentScreenProps = NativeStackScreenProps<RootStackParamList, 'LearnerComment'>;
+export type LearnerCommentScreenProps = NativeStackScreenProps<
+    RootStackParamList,
+    'LearnerComment'
+>;
 export type ReviewLearnerScreenProps = NativeStackScreenProps<RootStackParamList, 'ReviewLearner'>;
-export type NotificationScreenProps = NativeStackScreenProps<RootStackParamList, 'NotificationScreen'>;
+export type NotificationScreenProps = NativeStackScreenProps<
+    RootStackParamList,
+    'NotificationScreen'
+>;
 export type FollowersScreenProps = NativeStackScreenProps<RootStackParamList, 'FollowersScreen'>;
-export type DiscussionDetailsScreenProps = NativeStackScreenProps<RootStackParamList, 'DiscussionDetails'>;
+export type DiscussionDetailsScreenProps = NativeStackScreenProps<
+    RootStackParamList,
+    'DiscussionDetails'
+>;
 export type EditProfileScreenProps = NativeStackScreenProps<RootStackParamList, 'EditProfile'>;
-export type EnglishLevelScreenProps = NativeStackScreenProps<RootStackParamList, 'EnglishLevelScreen'>;
-export type EnglishTestListScreenProps = NativeStackScreenProps<RootStackParamList, 'EnglishTestListScreen'>;
+export type EnglishLevelScreenProps = NativeStackScreenProps<
+    RootStackParamList,
+    'EnglishLevelScreen'
+>;
+export type EnglishTestListScreenProps = NativeStackScreenProps<
+    RootStackParamList,
+    'EnglishTestListScreen'
+>;
 export type ReportScreenProps = NativeStackScreenProps<RootStackParamList, 'ReportScreen'>;
 export type ReportDetailsScreenProps = NativeStackScreenProps<RootStackParamList, 'ReportDetails'>;
-export type EditShortStoryScreenProps = NativeStackScreenProps<RootStackParamList, 'EditShortStory'>;
+export type EditShortStoryScreenProps = NativeStackScreenProps<
+    RootStackParamList,
+    'EditShortStory'
+>;
 export type EditTopicScreenProps = NativeStackScreenProps<RootStackParamList, 'EditTopic'>;
 export type LevelOptionsScreenProps = NativeStackScreenProps<RootStackParamList, 'LevelOptions'>;
 export type SearchScreenScreenProps = NativeStackScreenProps<RootStackParamList, 'SearchScreen'>;
+export type UserProfileScreenProps = NativeStackScreenProps<
+    RootStackParamList,
+    'UserProfileScreen'
+>;
 
 export type BottomTabParamList = {
     Home: undefined;

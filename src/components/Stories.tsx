@@ -87,7 +87,9 @@ const Stories = ({ horizontal, press, longpress }: IStories) => {
         <FlatList
             data={sample}
             numColumns={2}
-            renderItem={({ item }) => <Story longpress={longpress} like={item.like} title={item.title} press={press} />}
+            renderItem={({ item }) => (
+                <Story longpress={longpress} like={item.like} title={item.title} press={press} />
+            )}
             keyExtractor={(item) => `id-${item.id}`}
             columnWrapperStyle={{ justifyContent: 'space-between' }}
         />

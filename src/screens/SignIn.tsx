@@ -10,9 +10,16 @@ import { storeData } from '@root/utils/asyncStorage';
 import { Helper } from '@root/utils/helper';
 import { AuthResponse } from '@type/T-type';
 import React, { useContext, useEffect, useRef, useState } from 'react';
-import { Text, Image, TextInput, TouchableOpacity, View, StyleSheet, ActivityIndicator } from 'react-native';
+import {
+    Text,
+    Image,
+    TextInput,
+    TouchableOpacity,
+    View,
+    StyleSheet,
+    ActivityIndicator,
+} from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
-
 
 const SignIn = ({ navigation }: SignInScreenProps) => {
     const { showToast } = useToast();
@@ -24,16 +31,16 @@ const SignIn = ({ navigation }: SignInScreenProps) => {
         handleInputChange: handleEmailChange,
         handleInputBlur: handleEmailBlur,
         setEnteredValue: setEmailValue,
-        hasError: emailHasError
-    } = useInput({defaultValue: '', validationFn: Helper.validateEmail});
+        hasError: emailHasError,
+    } = useInput({ defaultValue: '', validationFn: Helper.validateEmail });
 
     const {
         value: passwordValue,
         handleInputBlur: handlePasswordBlur,
         handleInputChange: handlePasswordChange,
         setEnteredValue: setPasswordValue,
-        hasError: passwordHasError
-    } = useInput({defaultValue: '', validationFn: Helper.validatePassword});
+        hasError: passwordHasError,
+    } = useInput({ defaultValue: '', validationFn: Helper.validatePassword });
 
     const emailRef = useRef(null);
 
@@ -47,7 +54,11 @@ const SignIn = ({ navigation }: SignInScreenProps) => {
             return;
         }
         if (passwordHasError) {
-            showToast({ type: 'danger', description: 'Password must have more than 6 digits', timeout: 2000 });
+            showToast({
+                type: 'danger',
+                description: 'Password must have more than 6 digits',
+                timeout: 2000,
+            });
             return;
         }
 
@@ -75,7 +86,11 @@ const SignIn = ({ navigation }: SignInScreenProps) => {
             }
         } catch (error) {
             setExecuted(true);
-            showToast({ type: 'danger', description: 'No account found with the username and password provided!', timeout: 3000 });
+            showToast({
+                type: 'danger',
+                description: 'No account found with the username and password provided!',
+                timeout: 3000,
+            });
         }
     };
 
@@ -142,7 +157,7 @@ const SignIn = ({ navigation }: SignInScreenProps) => {
                 </View>
                 <View className='flex flex-row justify-center'>
                     <Text className='text-gray-700 text-base'>Do not have an account? </Text>
-                    <TouchableOpacity onPress={() => navigation.navigate('SignUp')} >
+                    <TouchableOpacity onPress={() => navigation.navigate('SignUp')}>
                         <Text className='text-yellow-400 font-nunitoBold text-base'>
                             Register one
                         </Text>
@@ -167,8 +182,8 @@ const styles = StyleSheet.create({
         bottom: 0,
         justifyContent: 'center',
         alignItems: 'center',
-        backgroundColor: 'rgba(0, 0, 0, 0.5)'
-    }
+        backgroundColor: 'rgba(0, 0, 0, 0.5)',
+    },
 });
 
 export default SignIn;

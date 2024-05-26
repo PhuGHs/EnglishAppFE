@@ -5,7 +5,6 @@ import { ToastConfigs } from '@root/context/toast-context';
 import { StyleSheet } from 'react-native';
 
 const ToastMessage = forwardRef(({ type, description, timeout = 3000 }: ToastConfigs, ref) => {
-
     const [isVisible, setIsVisible] = useState<boolean>(false);
 
     const TOAST_TYPE = {
@@ -20,7 +19,7 @@ const ToastMessage = forwardRef(({ type, description, timeout = 3000 }: ToastCon
         },
         warning: {
             backgroundColor: '#f39c12',
-        }
+        },
     };
 
     const showToast = () => {
@@ -32,22 +31,27 @@ const ToastMessage = forwardRef(({ type, description, timeout = 3000 }: ToastCon
     };
 
     useImperativeHandle(ref, () => ({
-        show: showToast
+        show: showToast,
     }));
 
-    const validType = Object.keys(TOAST_TYPE).includes(type)? type : 'info';
+    const validType = Object.keys(TOAST_TYPE).includes(type) ? type : 'info';
     const backgroundColor = TOAST_TYPE[validType].backgroundColor;
 
     return (
         <>
-            {isVisible && <Animated.View style={[styles.toastContainer, { backgroundColor }]}
-                entering={FadeInUp.delay(200)}
-                exiting={FadeOutUp}
-            >
-                <View style={styles.messageContainer}>
-                    <Text className='text-base text-white font-nunitoMedium'>{description}</Text>
-                </View>
-            </Animated.View >}
+            {isVisible && (
+                <Animated.View
+                    style={[styles.toastContainer, { backgroundColor }]}
+                    entering={FadeInUp.delay(200)}
+                    exiting={FadeOutUp}
+                >
+                    <View style={styles.messageContainer}>
+                        <Text className='text-base text-white font-nunitoMedium'>
+                            {description}
+                        </Text>
+                    </View>
+                </Animated.View>
+            )}
         </>
     );
 });
@@ -80,7 +84,7 @@ const styles = StyleSheet.create({
         flex: 1,
         flexDirection: 'row',
         alignItems: 'center',
-    }
+    },
 });
 
 export default ToastMessage;

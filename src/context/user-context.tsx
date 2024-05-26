@@ -3,8 +3,8 @@ import { TAccount } from '@type/T-type';
 import { createContext, useEffect, useState } from 'react';
 
 export type UserContextType = {
-    user?: TAccount,
-    setUser?: (user: TAccount) => void
+    user?: TAccount;
+    setUser?: (user: TAccount) => void;
 };
 
 export const UserContext = createContext<UserContextType>({});
@@ -18,7 +18,7 @@ export const UserProvider = ({ children }) => {
 
     useEffect(() => {
         const fetchData = async () => {
-            const data = await getData({item: 'user'});
+            const data = await getData({ item: 'user' });
             if (data != null) {
                 setUser(JSON.parse(data));
             }
@@ -27,5 +27,9 @@ export const UserProvider = ({ children }) => {
         fetchData();
     }, []);
 
-    return <UserContext.Provider value={{user: user, setUser: handleSetUser}}>{children}</UserContext.Provider>;
+    return (
+        <UserContext.Provider value={{ user: user, setUser: handleSetUser }}>
+            {children}
+        </UserContext.Provider>
+    );
 };

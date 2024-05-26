@@ -37,4 +37,16 @@ export class ChatApi {
             console.log(error);
         }
     }
+
+    static async checkIfExist(senderId: number, receiverId: number): Promise<ApiResponse> {
+        try {
+            const response = await http.post('/chat/check-if-exist', {
+                sender_id: senderId,
+                receiver_id: receiverId,
+            });
+            return response.data;
+        } catch (error) {
+            console.log(error);
+        }
+    }
 }

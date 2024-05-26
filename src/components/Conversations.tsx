@@ -5,13 +5,13 @@ import React, { useContext } from 'react';
 import { View, Image, Text, TouchableOpacity, FlatList } from 'react-native';
 
 export interface IConversations {
-    data: MessageRoomDto[],
-    navigation
+    data: MessageRoomDto[];
+    navigation;
 }
 
 interface IConversation {
-    item: MessageRoomDto,
-    navigation
+    item: MessageRoomDto;
+    navigation;
 }
 
 function getReceiver(user_id: number, conversation: MessageRoomDto): TUserNecessary {
@@ -20,9 +20,9 @@ function getReceiver(user_id: number, conversation: MessageRoomDto): TUserNecess
         return conversation.last_message.sender;
     }
     return conversation.last_message.receiver;
-};
+}
 
-const Conversation = ({item, navigation}: IConversation) => {
+const Conversation = ({ item, navigation }: IConversation) => {
     const { user } = useContext(UserContext);
     const { user_id } = user.user;
     const { profile_picture, full_name, user_id: receiver_id } = getReceiver(user_id, item);
@@ -34,12 +34,12 @@ const Conversation = ({item, navigation}: IConversation) => {
         receiver_id: receiver_id,
         profile_picture: profile_picture,
     };
-    
+
     return (
         <TouchableOpacity
             className='flex flex-row justify-start items-center mb-4 bg-white p-2 rounded-2xl'
             style={{ elevation: 10, shadowColor: '#7dd3fc' }}
-            onPress={() => navigation.push('DetailChat', { conversation: conversation } )}
+            onPress={() => navigation.push('DetailChat', { conversation: conversation })}
         >
             <Image
                 source={item ? { uri: profile_picture } : require('@asset/images/avatar.jpg')}
@@ -49,13 +49,18 @@ const Conversation = ({item, navigation}: IConversation) => {
                 <Text className='text-gray-700 font-nunitoBold text-xl'>{full_name}</Text>
                 <View className='flex flex-row justify-between items-start'>
                     <View className='max-w-[70%]'>
-                        <Text className='w-fit text-gray-500 text-base font-nunitoSemi' numberOfLines={1}>
+                        <Text
+                            className='w-fit text-gray-500 text-base font-nunitoSemi'
+                            numberOfLines={1}
+                        >
                             {user_id !== last_sent_user_id ? message : 'You: ' + message}
                         </Text>
                     </View>
                     <View className=''>
                         <Text className='w-fit text-gray-500 text-base font-nunitoSemi'>
-                            <Text className='text-gray-400 text-base font-nunitoSemi'>{Helper.calculateTimeAgo(created_at)}</Text>
+                            <Text className='text-gray-400 text-base font-nunitoSemi'>
+                                {Helper.calculateTimeAgo(created_at)}
+                            </Text>
                         </Text>
                     </View>
                 </View>
@@ -64,8 +69,7 @@ const Conversation = ({item, navigation}: IConversation) => {
     );
 };
 
-
-const Conversations = ({ data, navigation}: IConversations) => {
+const Conversations = ({ data, navigation }: IConversations) => {
     if (data.length === 0) return;
     return (
         <FlatList

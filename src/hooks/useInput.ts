@@ -31,5 +31,7 @@ export function useInput({ defaultValue, validationFn }: UseInputProps) {
         setEnteredValue,
         setValue: setEnteredValue,
         hasError: !valueIsValid,
+        didEdit: didEdit,
+        setDidEdit: setDidEdit,
     };
 }

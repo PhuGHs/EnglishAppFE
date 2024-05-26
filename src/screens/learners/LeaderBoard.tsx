@@ -15,9 +15,7 @@ const LeaderBoard = ({ navigation }: LeaderBoardScreenProps) => {
                 <TouchableOpacity onPress={() => navigation.pop()}>
                     <FontAwesomeIcon icon={faAngleLeft} size={25} color='white' />
                 </TouchableOpacity>
-                <Text className='font-nunitoMedium text-white text-2xl'>
-                    Leaderboard
-                </Text>
+                <Text className='font-nunitoMedium text-white text-2xl'>Leaderboard</Text>
                 <View className='w-[4%]'></View>
             </View>
             <LeaderboardTabs handlePress={() => {}} />

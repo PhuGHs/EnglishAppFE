@@ -5,16 +5,20 @@ import { UserApi } from '@root/api/user.api';
 import { useAuth } from '@root/context/auth-context';
 import { useToast } from '@root/context/toast-context';
 import { UserContext } from '@root/context/user-context';
-import { TInterest2, TUserProfile } from '@type/T-type';
-import { TabsScreenProps } from '@type/index';
+import { MessageRoomDto, TConversationTransfer, TInterest2, TUserProfile } from '@type/T-type';
+import { RootStackParamList, TabsScreenProps, UserProfileScreenProps } from '@type/index';
 import React, { useContext, useEffect, useState } from 'react';
 import { View, Text, TouchableOpacity, Image, StyleSheet, ActivityIndicator } from 'react-native';
 import {
     ArrowLeftStartOnRectangleIcon,
     ChatBubbleLeftEllipsisIcon,
+    FlagIcon,
 } from 'react-native-heroicons/solid';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import ImageView from 'react-native-image-viewing';
+import { RouteProp } from '@react-navigation/native';
+import { ChatApi } from '@root/api/chat.api';
+import { FollowerApi } from '@root/api/follower.api';
 
 const sample_image_link =
     'https://2.img-dpreview.com/files/p/E~C1000x0S4000x4000T1200x1200~articles/3925134721/0266554465.jpeg';
@@ -27,23 +31,60 @@ function mapToChips(interests: TInterest2[]): ChipProps[] {
     }));
 }
 
-const ProfileScreen = ({ navigation }: TabsScreenProps) => {
+const UserProfileScreen = ({
+    route,
+    navigation,
+}: UserProfileScreenProps & { route: RouteProp<RootStackParamList, 'UserProfileScreen'> }) => {
     const { user } = useContext(UserContext);
     const { user_id } = user.user;
+    const { userId: receiver_id } = route.params;
     const { showToast } = useToast();
     const { signOut } = useAuth();
 
     const [hasFetched, setFetched] = useState<boolean>(false);
     const [info, setInfo] = useState<TUserProfile>();
     const [visible, setVisible] = useState<boolean>(false);
+    const [loaded, setLoaded] = useState<boolean>(false);
+    const [followed, setFollowed] = useState<boolean>(false);
 
-    const handleLogout = async () => {
-        signOut();
+    const handleCreateRoom = async () => {
+        const data: TConversationTransfer = {
+            roomId: 3,
+            full_name: info.full_name,
+            profile_picture: info.profile_picture,
+            receiver_id: receiver_id,
+        };
+        try {
+            const {
+                data: conversation,
+                status,
+                message,
+            } = await ChatApi.checkIfExist(user_id, receiver_id);
+            setLoaded(true);
+            if (loaded) {
+                data.roomId = (conversation as MessageRoomDto).message_room_id;
+                navigation.push('DetailChat', { conversation: data });
+            }
+        } catch (error) {
+            console.log(error);
+        }
+    };
+
+    const follow = async () => {
+        try {
+            const { data, status, message } = await FollowerApi.follow(user_id, receiver_id);
+            if (status === 'SUCCESS') {
+                showToast({ type: 'success', description: 'Followed!', timeout: 3000 });
+            }
+            setFollowed(true);
+        } catch (error) {
+            console.error(error);
+        }
     };
 
     useEffect(() => {
         const fetchProfile = async () => {
-            const { status, data, message } = await UserApi.getUserProfile(user_id);
+            const { status, data, message } = await UserApi.getUserProfile(receiver_id);
             setInfo(data as TUserProfile);
         };
         fetchProfile();
@@ -52,12 +93,9 @@ const ProfileScreen = ({ navigation }: TabsScreenProps) => {
 
     return (
         <SafeAreaView className='flex flex-1 bg-sky-400'>
-            <View className='h-[15%] w-full flex flex-row justify-between p-4'>
-                <TouchableOpacity onPress={handleLogout}>
-                    <ArrowLeftStartOnRectangleIcon size={30} color='white' />
-                </TouchableOpacity>
-                <TouchableOpacity onPress={() => navigation.push('EditProfile')}>
-                    <FontAwesomeIcon icon={faEdit} size={30} color='white' />
+            <View className='h-[15%] w-full flex flex-row justify-end p-4'>
+                <TouchableOpacity>
+                    <FlagIcon size={25} color='#f97316' />
                 </TouchableOpacity>
             </View>
             <View className='h-[85%] bg-slate-100 rounded-t-[40px] flex items-center'>
@@ -99,10 +137,38 @@ const ProfileScreen = ({ navigation }: TabsScreenProps) => {
                     <Text className='text-center my-2 font-nunitoBold text-xl text-sky-600'>
                         {info ? info.english_level_name : 'Intermediate'}
                     </Text>
-                    <View className='flex flex-row my-3 space-x-4 items-center justify-around'>
+                    <View className='flex flex-row mt-6 items-center justify-center'>
+                        <TouchableOpacity
+                            className='p-3 bg-slate-200 rounded-full flex items-center justify-center'
+                            onPress={handleCreateRoom}
+                        >
+                            <ChatBubbleLeftEllipsisIcon size={30} color='#0284c7' />
+                        </TouchableOpacity>
+                        <TouchableOpacity
+                            className='py-3 px-10 bg-yellow-400 rounded-full mx-10'
+                            onPress={follow}
+                        >
+                            <Text className='text-gray-700 font-nunitoBold text-lg text-center'>
+                                {followed ? 'Unfollow' : 'follow'}
+                            </Text>
+                        </TouchableOpacity>
+                        <TouchableOpacity
+                            className='p-3 bg-slate-200 rounded-full flex items-center justify-center'
+                            onPress={() => navigation.push('ReviewLearner')}
+                        >
+                            <FontAwesomeIcon icon={faStar} color='#0284c7' size={30} />
+                        </TouchableOpacity>
+                    </View>
+                    <View className='flex flex-row my-6 space-x-4 items-center justify-around'>
                         <TouchableOpacity
                             className='flex flex-col justify-between items-center'
-                            onPress={() => navigation.push('FollowersScreen')}
+                            onPress={() =>
+                                navigation.push('FollowersScreen', {
+                                    userId: receiver_id,
+                                    type: 'following',
+                                    username: info ? info.full_name : 'vpu2.3',
+                                })
+                            }
                         >
                             <Text className='text-sky-600 font-nunitoXBold text-base'>
                                 {info ? info.following_count : 0}
@@ -127,7 +193,13 @@ const ProfileScreen = ({ navigation }: TabsScreenProps) => {
                         </TouchableOpacity>
                         <TouchableOpacity
                             className='flex flex-col justify-between items-center'
-                            onPress={() => navigation.push('FollowersScreen')}
+                            onPress={() =>
+                                navigation.push('FollowersScreen', {
+                                    userId: receiver_id,
+                                    type: 'followers',
+                                    username: info ? info.full_name : 'vpu2.3',
+                                })
+                            }
                         >
                             <Text className='text-sky-600 font-nunitoXBold text-base'>
                                 {info ? info.followers_count : 0}
@@ -141,23 +213,10 @@ const ProfileScreen = ({ navigation }: TabsScreenProps) => {
                         style={{
                             borderBottomColor: '#d1d5db',
                             borderBottomWidth: 10,
-                            marginTop: 10,
+                            marginTop: 20,
                         }}
                     />
-                    <View className='my-2 px-4 flex flex-col'>
-                        <Text className='text-slate-800 font-nunitoBold text-xl my-2'>Quote</Text>
-                        <Text className='font-nunitoMedium text-lg text-gray-700'>
-                            Tomorrow would be a good day
-                        </Text>
-                    </View>
-                    <View
-                        style={{
-                            borderBottomColor: '#d1d5db',
-                            borderBottomWidth: 10,
-                            marginTop: 10,
-                        }}
-                    />
-                    <View className='my-2 px-4 flex flex-col'>
+                    <View className='my-4 px-4 flex flex-col'>
                         <Text className='text-slate-800 font-nunitoBold text-xl my-2'>
                             My interests
                         </Text>
@@ -191,4 +250,4 @@ const styles = StyleSheet.create({
     },
 });
 
-export default ProfileScreen;
+export default UserProfileScreen;

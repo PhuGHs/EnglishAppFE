@@ -7,12 +7,14 @@ interface IReportItem {
 
 const ReportItem = ({ press }: IReportItem) => {
     return (
-        <TouchableOpacity 
+        <TouchableOpacity
             className='w-full flex flex-row space-y-2 items-center bg-white rounded-xl p-4 my-4'
-            onPress={press}    
+            onPress={press}
         >
             <View className='w-[70%]'>
-                <Text className='text-lg text-gray-700 font-nunitoBold text-sky-400'>REPORT #1</Text>
+                <Text className='text-lg text-gray-700 font-nunitoBold text-sky-400'>
+                    REPORT #1
+                </Text>
                 <Text className='text-lg text-gray-700 font-nunitoSemi'>Reporter: Le Van Phu</Text>
                 <Text className='text-lg text-red-400'>Not yet</Text>
             </View>

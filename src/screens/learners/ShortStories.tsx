@@ -29,7 +29,11 @@ const ShortStories = ({ navigation }: ShortStoriesScreenProps) => {
                     <FolderPlusIcon size={30} color='#38bdf8' />
                 </TouchableOpacity>
             </View>
-            <Stories horizontal={false} longpress={() => setVisible(true)} press={() => navigation.push('StoryDetails')} />
+            <Stories
+                horizontal={false}
+                longpress={() => setVisible(true)}
+                press={() => navigation.push('StoryDetails')}
+            />
             <Modal
                 isVisible={visible}
                 onBackButtonPress={() => setVisible(!visible)}
@@ -37,7 +41,10 @@ const ShortStories = ({ navigation }: ShortStoriesScreenProps) => {
                 style={{ display: 'flex', alignItems: 'center', justifyContent: 'center' }}
             >
                 <View className='flex flex-col space-y-2 bg-white w-[50%] p-4 rounded-2xl'>
-                    <TouchableOpacity className='py-4' onPress={() => navigation.push('EditShortStory')}>
+                    <TouchableOpacity
+                        className='py-4'
+                        onPress={() => navigation.push('EditShortStory')}
+                    >
                         <Text className='text-gray-700 text-lg font-nunitoSemi'>Edit</Text>
                     </TouchableOpacity>
                     <TouchableOpacity className='py-4'>

@@ -8,7 +8,10 @@ import { TextInput } from 'react-native-gesture-handler';
 import { PhotoIcon } from 'react-native-heroicons/solid';
 import { SafeAreaView } from 'react-native-safe-area-context';
 
-const EditShortStory = ({ route, navigation }: EditShortStoryScreenProps & { route: RouteProp<RootStackParamList, 'EditShortStory'> }) => {
+const EditShortStory = ({
+    route,
+    navigation,
+}: EditShortStoryScreenProps & { route: RouteProp<RootStackParamList, 'EditShortStory'> }) => {
     return (
         <SafeAreaView className='flex flex-1 mx-4 space-y-8 h-full'>
             <View className='flex flex-row justify-between items-start mt-3 h-[5%]'>
@@ -24,18 +27,21 @@ const EditShortStory = ({ route, navigation }: EditShortStoryScreenProps & { rou
                 </TouchableOpacity>
             </View>
             <View className='flex flex-col justify-between h-[95%]'>
-                <View className='flex flex-col space-y-4 h-[80%]'> 
+                <View className='flex flex-col space-y-4 h-[80%]'>
                     <TouchableOpacity className='w-full'>
-                        <View className='w-full bg-white rounded-xl px-4 py-8 flex items-center justify-center'
+                        <View
+                            className='w-full bg-white rounded-xl px-4 py-8 flex items-center justify-center'
                             style={{
                                 borderWidth: 2,
                                 borderRadius: 5,
                                 borderStyle: 'dashed',
-                                borderColor: 'grey'
+                                borderColor: 'grey',
                             }}
                         >
                             <FontAwesomeIcon icon={faCloudUpload} size={50} color='#7F7F81' />
-                            <Text className='text-lg font-nunitoSemi text-[#7F7F81]'>Touch here to upload photo!</Text>
+                            <Text className='text-lg font-nunitoSemi text-[#7F7F81]'>
+                                Touch here to upload photo!
+                            </Text>
                         </View>
                     </TouchableOpacity>
                     <View className='flex flex-col space-y-2'>
@@ -56,7 +62,9 @@ const EditShortStory = ({ route, navigation }: EditShortStoryScreenProps & { rou
                 </View>
                 <View className='h-[20%] flex items-center justify-start'>
                     <TouchableOpacity className='bg-yellow-400 rounded-xl'>
-                        <Text className='text-gray-700 font-nunitoXBold text-lg px-8 py-4 rounded-xl'>Add / Save</Text>
+                        <Text className='text-gray-700 font-nunitoXBold text-lg px-8 py-4 rounded-xl'>
+                            Add / Save
+                        </Text>
                     </TouchableOpacity>
                 </View>
             </View>

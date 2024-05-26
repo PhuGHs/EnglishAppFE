@@ -24,31 +24,35 @@ const Message = ({ message }: IMessage) => {
             className={`flex ${isSender ? 'items-end' : 'items-start'}`}
             onPress={handlePress}
         >
-            {message.message !== 'Sent an image' &&
+            {message.message !== 'Sent an image' && (
                 <View
-                className={`mt-4 p-2 rounded-[15px] max-w-[80%] ${isSender ? 'bg-[#1D84C6]' : 'bg-neutral-300'}`}
-            >
-                <Text className={`text-lg ${isSender ? 'text-white' : 'text-gray-700'}`}>
-                    {message.message}
-                </Text>
-            </View>
-            }
-            {message.image !== null &&
+                    className={`mt-4 p-2 rounded-[15px] max-w-[80%] ${isSender ? 'bg-[#1D84C6]' : 'bg-neutral-300'}`}
+                >
+                    <Text className={`text-lg ${isSender ? 'text-white' : 'text-gray-700'}`}>
+                        {message.message}
+                    </Text>
+                </View>
+            )}
+            {message.image !== null && (
                 <>
                     <TouchableOpacity
                         onPress={() => setVisible(true)}
                         className={'mt-4 p-2 rounded-[15px] max-w-[80%] border-2 border-gray-200'}
                     >
-                        <Image source={{ uri: message.image }} resizeMode='cover' className='w-[200px] h-[300px]'/>
+                        <Image
+                            source={{ uri: message.image }}
+                            resizeMode='cover'
+                            className='w-[200px] h-[300px]'
+                        />
                     </TouchableOpacity>
                     <ImageView
-                        images={[{ uri: message.image}]}
+                        images={[{ uri: message.image }]}
                         imageIndex={0}
                         visible={visible}
                         onRequestClose={() => setVisible(false)}
                     />
                 </>
-            }
+            )}
             {isShown && <Text>{Helper.formatDate(message.created_at)}</Text>}
         </TouchableOpacity>
     );
@@ -56,7 +60,7 @@ const Message = ({ message }: IMessage) => {
 
 export interface IMessages {
     messages: TMessage[];
-    flatListRef
+    flatListRef;
 }
 
 const Messages = ({ flatListRef, messages }: IMessages) => {

@@ -11,16 +11,11 @@ import { Client, Stomp } from '@stomp/stompjs';
 import SockJS from 'sockjs-client';
 import SearchBar from '@component/SearchBar';
 
-const ChatScreen = ({navigation}: TabsScreenProps) => {
+const ChatScreen = ({ navigation }: TabsScreenProps) => {
     const [conversations, setConversations] = useState<MessageRoomDto[]>([]);
     const { user } = useContext(UserContext);
     const { showToast } = useToast();
     const { user_id } = user.user;
-
-    const handlePress = () => {
-        navigation.push('SearchScreen');
-    };
-
 
     const [hasExecuted, setExecuted] = useState<boolean>(false);
     const [stompClient, setStompClient] = useState<Client>(null);
@@ -33,23 +28,23 @@ const ChatScreen = ({navigation}: TabsScreenProps) => {
             console.error('Failed to parse incoming message:', error);
             return;
         }
-    
-        if (!conversation ||!conversation.message_room_id) {
+
+        if (!conversation || !conversation.message_room_id) {
             console.warn('Received invalid message:', newConversation.body);
             return;
         }
-        setConversations(prevConversations => {
-            const index = prevConversations.findIndex(conv => conv.message_room_id === conversation.message_room_id);
+        setConversations((prevConversations) => {
+            const index = prevConversations.findIndex(
+                (conv) => conv.message_room_id === conversation.message_room_id
+            );
             const updatedConversations = [...prevConversations];
-            if (index!== -1) {
+            if (index !== -1) {
                 updatedConversations.splice(index, 1);
             }
             updatedConversations.unshift(conversation);
             return updatedConversations;
         });
     };
-    
-    
 
     useEffect(() => {
         const fetchChat = async () => {
@@ -66,8 +61,8 @@ const ChatScreen = ({navigation}: TabsScreenProps) => {
             }
         };
         fetchChat();
-    
-        const client = Stomp.over(function(){
+
+        const client = Stomp.over(function () {
             return new SockJS('http://10.0.2.2:8080/ws');
         });
         client.reconnectDelay = 5000;
@@ -75,16 +70,15 @@ const ChatScreen = ({navigation}: TabsScreenProps) => {
         client.heartbeatIncoming = 4000;
         client.heartbeatOutgoing = 4000;
         client.debug = (msg) => console.log('STOMP: ', msg);
-    
+
         client.connect({}, () => {
             client.subscribe(`/topic/chatroom-out/${user_id}`, (message) => {
                 handleMessage(message);
             });
         });
-    
+
         setStompClient(client);
     }, []);
-    
 
     return (
         <SafeAreaView className='flex px-4 bg-slate-100'>
@@ -94,7 +88,7 @@ const ChatScreen = ({navigation}: TabsScreenProps) => {
                 </Text>
                 <SearchBar handleNavigation={() => navigation.push('SearchScreen')} />
             </View>
-            <Conversations data={conversations} navigation={navigation}/>
+            <Conversations data={conversations} navigation={navigation} />
             {!hasExecuted && (
                 <View style={styles.overlay}>
                     <ActivityIndicator size='large' color='#0000ff' />
@@ -113,8 +107,8 @@ const styles = StyleSheet.create({
         bottom: 0,
         justifyContent: 'center',
         alignItems: 'center',
-        backgroundColor: 'rgba(0, 0, 0, 0.5)'
-    }
+        backgroundColor: 'rgba(0, 0, 0, 0.5)',
+    },
 });
 
 export default ChatScreen;

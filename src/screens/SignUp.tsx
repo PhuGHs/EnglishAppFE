@@ -5,7 +5,15 @@ import { AuthApi } from '@root/api/auth.api';
 import { SignUpScreenProps } from '@root/types';
 import { RegisterDto } from '@type/T-type';
 import React, { useState } from 'react';
-import { Text, Image, TextInput, TouchableOpacity, View, ActivityIndicator, StyleSheet } from 'react-native';
+import {
+    Text,
+    Image,
+    TextInput,
+    TouchableOpacity,
+    View,
+    ActivityIndicator,
+    StyleSheet,
+} from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
 
 const SignUp = ({ navigation }: SignUpScreenProps) => {
@@ -15,40 +23,40 @@ const SignUp = ({ navigation }: SignUpScreenProps) => {
         handleInputChange: handleFirstNameChange,
         handleInputBlur: handleFirstNameBlur,
         setEnteredValue: setFirstNameValue,
-        hasError: firstNameHasError
-    } = useInput({defaultValue: '', validationFn: () => true});
+        hasError: firstNameHasError,
+    } = useInput({ defaultValue: '', validationFn: () => true });
 
     const {
         value: lastNameValue,
         handleInputBlur: handleLastNameBlur,
         handleInputChange: handleLastNameChange,
         setEnteredValue: setLastNameValue,
-        hasError: lastNameHasError
-    } = useInput({defaultValue: '', validationFn: () => true});
+        hasError: lastNameHasError,
+    } = useInput({ defaultValue: '', validationFn: () => true });
 
     const {
         value: emailValue,
         handleInputBlur: handleEmailBlur,
         handleInputChange: handleEmailChange,
         setEnteredValue: setEmailValue,
-        hasError: emailHasError
-    } = useInput({defaultValue: '', validationFn: () => true});
+        hasError: emailHasError,
+    } = useInput({ defaultValue: '', validationFn: () => true });
 
     const {
         value: passwordValue,
         handleInputBlur: handlePasswordBlur,
         handleInputChange: handlePasswordChange,
         setEnteredValue: setPasswordValue,
-        hasError: passwordHasError
-    } = useInput({defaultValue: '', validationFn: () => true});
+        hasError: passwordHasError,
+    } = useInput({ defaultValue: '', validationFn: () => true });
 
     const {
         value: confirmedPasswordValue,
         handleInputBlur: handleConfirmedPasswordBlur,
         handleInputChange: handleConfirmedPasswordChange,
         setEnteredValue: setConfirmedPasswordValue,
-        hasError: confirmedPasswordHasError
-    } = useInput({defaultValue: '', validationFn: () => true});
+        hasError: confirmedPasswordHasError,
+    } = useInput({ defaultValue: '', validationFn: () => true });
 
     const handleRegister = async () => {
         if (passwordValue !== confirmedPasswordValue) {
@@ -60,7 +68,7 @@ const SignUp = ({ navigation }: SignUpScreenProps) => {
             email: emailValue,
             password: passwordValue,
             confirmedPassword: confirmedPasswordValue,
-            isMale: true
+            isMale: true,
         };
         setExecuted(false);
         const data = await AuthApi.register(registerDto);
@@ -74,7 +82,7 @@ const SignUp = ({ navigation }: SignUpScreenProps) => {
             setLastNameValue('');
             setPasswordValue('');
             setConfirmedPasswordValue('');
-            navigation.push('Interest', {userId});
+            navigation.push('Interest', { userId });
         }
     };
 
@@ -172,7 +180,10 @@ const SignUp = ({ navigation }: SignUpScreenProps) => {
                     />
                 </View>
                 <View>
-                    <TouchableOpacity className='mt-3 py-3 bg-yellow-400 rounded-xl' onPress={handleRegister}>
+                    <TouchableOpacity
+                        className='mt-3 py-3 bg-yellow-400 rounded-xl'
+                        onPress={handleRegister}
+                    >
                         <Text className='text-xl font-nunitoBold text-center text-gray-700'>
                             Sign Up
                         </Text>
@@ -192,8 +203,8 @@ const styles = StyleSheet.create({
         bottom: 0,
         justifyContent: 'center',
         alignItems: 'center',
-        backgroundColor: 'rgba(0, 0, 0, 0.5)'
-    }
+        backgroundColor: 'rgba(0, 0, 0, 0.5)',
+    },
 });
 
 export default SignUp;

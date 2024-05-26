@@ -33,8 +33,7 @@ const Tabs = () => {
                 tabBarStyle: { paddingBottom: insets.bottom, ...styles.tabBar },
             }}
         >
-            {user.role.roleName === 'LEARNER'
-                &&
+            {user.role.roleName === 'LEARNER' && (
                 <>
                     <Tab.Screen
                         name='Home'
@@ -65,9 +64,8 @@ const Tabs = () => {
                         options={{ tabBarIcon: UserCircleIcon, tabBarActiveTintColor: '#0284c7' }}
                     />
                 </>
-            }
-            {user.role.roleName === 'ADMIN'
-                &&
+            )}
+            {user.role.roleName === 'ADMIN' && (
                 <>
                     <Tab.Screen
                         name='Report'
@@ -85,7 +83,7 @@ const Tabs = () => {
                         options={{ tabBarIcon: UsersIcon, tabBarActiveTintColor: '#0284c7' }}
                     />
                 </>
-            }
+            )}
         </Tab.Navigator>
     );
 };

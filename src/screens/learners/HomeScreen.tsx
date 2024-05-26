@@ -42,7 +42,12 @@ const HomeScreen = ({ navigation }: TabsScreenProps) => {
         <SafeAreaView className='flex px-4 bg-slate-100 space-y-3' style={{ marginBottom: 70 }}>
             <View className='flex flex-row justify-between mt-4 items-center'>
                 <View className='flex flex-row space-x-2 items-center'>
-                    <EngComUser withName={false} isCreator={false} noUser={false} avatar={user.user.profile_picture}/>
+                    <EngComUser
+                        withName={false}
+                        isCreator={false}
+                        noUser={false}
+                        avatar={user.user.profile_picture}
+                    />
                     <View className='flex flex-col space-y-2'>
                         <Text className='font-nunitoSemi text-slate-800 text-[16px]'>
                             Hello {user.user.full_name},
@@ -57,7 +62,10 @@ const HomeScreen = ({ navigation }: TabsScreenProps) => {
                         </View>
                     </View>
                 </View>
-                <BellBadge numberOfNotifications={2} press={() => navigation.push('NotificationScreen')}/>
+                <BellBadge
+                    numberOfNotifications={2}
+                    press={() => navigation.push('NotificationScreen')}
+                />
             </View>
             <ScrollView className='space-y-6'>
                 <View className='flex flex-row justify-between items-center'>

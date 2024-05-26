@@ -13,7 +13,7 @@ const Test = () => {
                 style={{ width: 30, height: 30, borderRadius: 30 / 2 }}
                 className='bg-[#15F5BA] flex items-center justify-center w-[15%]'
             >
-                <FontAwesomeIcon icon={faCheck} size={22} color='#374151'/>
+                <FontAwesomeIcon icon={faCheck} size={22} color='#374151' />
             </View>
         </TouchableOpacity>
     );

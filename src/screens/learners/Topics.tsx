@@ -7,7 +7,10 @@ import React from 'react';
 import { ScrollView, Text, TouchableOpacity, View } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
 
-const Topics = ({ route, navigation }: TopicScreenProps & { route: RouteProp<RootStackParamList, 'TopicScreen'> }) => {
+const Topics = ({
+    route,
+    navigation,
+}: TopicScreenProps & { route: RouteProp<RootStackParamList, 'TopicScreen'> }) => {
     return (
         <SafeAreaView className='flex flex-1 mx-2'>
             <View className='mt-4'>
@@ -18,9 +21,7 @@ const Topics = ({ route, navigation }: TopicScreenProps & { route: RouteProp<Roo
                     >
                         <FontAwesomeIcon icon={faArrowLeft} color='#374151' size={25} />
                     </TouchableOpacity>
-                    <Text className='text-sky-600 text-[22px] font-nunitoSemi'>
-                        TOPICS
-                    </Text>
+                    <Text className='text-sky-600 text-[22px] font-nunitoSemi'>TOPICS</Text>
                     <View className='w-[10%]'></View>
                 </View>
                 <ScrollView horizontal={false}>

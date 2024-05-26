@@ -19,7 +19,15 @@ export interface ChipProps {
     radio?: boolean;
 }
 
-const Chip = ({ id, isSelected, radio, square, chipName, searchOptions, handleChipPress }: ChipProps) => {
+const Chip = ({
+    id,
+    isSelected,
+    radio,
+    square,
+    chipName,
+    searchOptions,
+    handleChipPress,
+}: ChipProps) => {
     const handlePress = () => {
         if (radio) {
             if (!isSelected) {

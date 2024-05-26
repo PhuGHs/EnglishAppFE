@@ -30,11 +30,14 @@ function mapToChipProps(interestDto): ChipProps {
     return {
         id: parseInt(interestDto.interest_id),
         isSelected: false,
-        chipName: interestDto.interest_name
+        chipName: interestDto.interest_name,
     };
 }
 
-const InterestScreen = ({ route, navigation }: InterestScreenProps & { route: RouteProp<RootStackParamList, 'Interest'> }) => {
+const InterestScreen = ({
+    route,
+    navigation,
+}: InterestScreenProps & { route: RouteProp<RootStackParamList, 'Interest'> }) => {
     const [interests, setInterests] = useState<ChipProps[]>([]);
     const { userId } = route.params;
     const { showToast } = useToast();
@@ -56,14 +59,20 @@ const InterestScreen = ({ route, navigation }: InterestScreenProps & { route: Ro
     };
 
     const handleSelectInterests = async () => {
-        const ids: Array<number> = interests.filter(interest => interest.isSelected).map(interest => interest.id);
+        const ids: Array<number> = interests
+            .filter((interest) => interest.isSelected)
+            .map((interest) => interest.id);
         const reqBody: TInterestPutDto = {
             user_id: userId,
             interests: ids,
         };
 
         if (ids.length < 3) {
-            showToast({ type: 'warning', description: 'Please choose at least 3 items', timeout: 3000 });
+            showToast({
+                type: 'warning',
+                description: 'Please choose at least 3 items',
+                timeout: 3000,
+            });
             return;
         }
         const data = await InterestApi.selectInterests(reqBody);

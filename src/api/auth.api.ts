@@ -19,7 +19,7 @@ export class AuthApi {
             console.log(error);
         }
     }
-    
+
     static async sendVerificationEmail(email: string) {
         try {
             const response = await http.put(`/auth/forgot-password?email=${email}`);
@@ -29,7 +29,7 @@ export class AuthApi {
         }
     }
 
-    static async verifyCode({ email, code}) {
+    static async verifyCode({ email, code }) {
         try {
             const response = await http.put('/auth/verify-code', { email, code });
             return response.data;

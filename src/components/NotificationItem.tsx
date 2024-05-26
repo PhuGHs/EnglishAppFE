@@ -12,7 +12,9 @@ const NotificationItem = () => {
                 />
             </View>
             <View className='flex flex-col justify-evenly border-b-[1px] border-gray-400 w-[80%] pb-4'>
-                <Text className='text-gray-700 font-nunitoSemi text-base'>PhuGHs has answered in your discussion recently</Text>
+                <Text className='text-gray-700 font-nunitoSemi text-base'>
+                    PhuGHs has answered in your discussion recently
+                </Text>
             </View>
         </TouchableOpacity>
     );

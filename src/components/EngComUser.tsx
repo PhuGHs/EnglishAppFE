@@ -26,7 +26,9 @@ const EngComUser = ({ isCreator, noUser, withName = true, avatar }: IEngComUser)
                     >
                         <TouchableOpacity className='w-fit h-fit flex'>
                             <Image
-                                source={avatar ? {uri: avatar} : require('@asset/images/avatar.jpg')}
+                                source={
+                                    avatar ? { uri: avatar } : require('@asset/images/avatar.jpg')
+                                }
                                 style={{
                                     resizeMode: 'cover',
                                     width: 50,

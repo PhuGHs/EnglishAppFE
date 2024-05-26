@@ -16,7 +16,9 @@ const Answer = () => {
                     <Text className='text-base font-nunitoSemi text-gray-400'>21h</Text>
                 </TouchableOpacity>
                 <View>
-                    <Text className='text-lg font-nunitoMedium text-gray-700'>Hello there, actually hes the GOAT, messi, nobody can can be compared to him</Text>
+                    <Text className='text-lg font-nunitoMedium text-gray-700'>
+                        Hello there, actually hes the GOAT, messi, nobody can can be compared to him
+                    </Text>
                 </View>
             </View>
         </View>

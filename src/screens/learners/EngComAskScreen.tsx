@@ -47,12 +47,13 @@ const EngComAskScreen = ({ navigation }: EngComAskScreenProps) => {
             <View className='flex flex-1 bg-white'>
                 <View className='px-3'>
                     <View className='flex flex-row mb-5 items-center justify-between'>
-                        <TouchableOpacity className='bg-yellow-400 p-2 rounded-tl-xl rounded-br-xl w-[40px]' onPress={() => navigation.pop()}>
+                        <TouchableOpacity
+                            className='bg-yellow-400 p-2 rounded-tl-xl rounded-br-xl w-[40px]'
+                            onPress={() => navigation.pop()}
+                        >
                             <FontAwesomeIcon icon={faArrowLeft} color='#374151' size={25} />
                         </TouchableOpacity>
-                        <Text className='text-sky-600 text-[22px] font-nunitoSemi'>
-                            EngCom QA
-                        </Text>
+                        <Text className='text-sky-600 text-[22px] font-nunitoSemi'>EngCom QA</Text>
                         <View className='w-[4%]'></View>
                     </View>
                 </View>

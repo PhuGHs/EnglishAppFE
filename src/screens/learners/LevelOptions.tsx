@@ -6,20 +6,28 @@ import { FontAwesomeIcon } from '@fortawesome/react-native-fontawesome';
 import { RouteProp } from '@react-navigation/native';
 import { UserContext } from '@root/context/user-context';
 import { TEnglishLevel } from '@type/T-type';
-import { EnglishLevelScreenProps, LevelOptionsScreenProps, RootStackParamList, StoryDetailsScreenProps } from '@type/index';
+import {
+    EnglishLevelScreenProps,
+    LevelOptionsScreenProps,
+    RootStackParamList,
+    StoryDetailsScreenProps,
+} from '@type/index';
 import React, { useContext } from 'react';
 import { TouchableOpacity, View, Text, ScrollView, FlatList } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
 
 const options: string[] = ['Topic', 'Test'];
 
-const LevelOptionScreen = ({ route, navigation }: LevelOptionsScreenProps & { route: RouteProp<RootStackParamList, 'LevelOptions'> }) => {
+const LevelOptionScreen = ({
+    route,
+    navigation,
+}: LevelOptionsScreenProps & { route: RouteProp<RootStackParamList, 'LevelOptions'> }) => {
     const { levelId } = route.params;
     const handlePress = (item: string) => {
         if (item === 'Topic') {
-            navigation.push('TopicScreen', { levelId: levelId});
+            navigation.push('TopicScreen', { levelId: levelId });
         } else {
-            navigation.push('EnglishTestListScreen', { levelId: levelId});
+            navigation.push('EnglishTestListScreen', { levelId: levelId });
         }
     };
     const renderItem = ({ item }: { item: string }) => (
@@ -44,7 +52,7 @@ const LevelOptionScreen = ({ route, navigation }: LevelOptionsScreenProps & { ro
                 keyExtractor={(item, index) => index.toString()}
                 renderItem={renderItem}
                 numColumns={2}
-                columnWrapperStyle={{ justifyContent: 'space-between'}}
+                columnWrapperStyle={{ justifyContent: 'space-between' }}
             />
         </SafeAreaView>
     );

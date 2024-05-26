@@ -7,15 +7,22 @@ import { useToast } from '@root/context/toast-context';
 import { UserContext } from '@root/context/user-context';
 import { MissionScreenProps, TUserMission } from '@type/index';
 import React, { useContext, useEffect, useState } from 'react';
-import { SafeAreaView, TouchableOpacity, View, Text, StyleSheet, ActivityIndicator } from 'react-native';
+import {
+    SafeAreaView,
+    TouchableOpacity,
+    View,
+    Text,
+    StyleSheet,
+    ActivityIndicator,
+} from 'react-native';
 
-function getPercentage(missions: TUserMission[]): {percentage: number, completedTasks: number} {
-    if (missions.length == 0) return {percentage: 0, completedTasks: 0};
+function getPercentage(missions: TUserMission[]): { percentage: number; completedTasks: number } {
+    if (missions.length == 0) return { percentage: 0, completedTasks: 0 };
     let count = 0;
-    missions.forEach(element => {
+    missions.forEach((element) => {
         if (element.is_completed) count++;
     });
-    return { completedTasks: count, percentage: count * 100 /missions.length };
+    return { completedTasks: count, percentage: (count * 100) / missions.length };
 }
 
 const MissionScreen = ({ navigation }: MissionScreenProps) => {
@@ -26,7 +33,7 @@ const MissionScreen = ({ navigation }: MissionScreenProps) => {
     const { user } = useContext(UserContext);
     const { showToast } = useToast();
     const { user_id } = user.user;
-    
+
     useEffect(() => {
         const fetchMissions = async () => {
             setFetched(false);
@@ -36,7 +43,7 @@ const MissionScreen = ({ navigation }: MissionScreenProps) => {
                 return;
             }
             setMissions(data as TUserMission[]);
-            const {completedTasks, percentage } = getPercentage(data as TUserMission[]);
+            const { completedTasks, percentage } = getPercentage(data as TUserMission[]);
             setNumberOfTasksCompleted(completedTasks);
             setPercentage(percentage);
             setFetched(true);
@@ -77,10 +84,14 @@ const MissionScreen = ({ navigation }: MissionScreenProps) => {
                             <Text className='text-2xl font-nunitoXBold text-white'>
                                 You've done all the tasks
                             </Text>
-                            <Text className='text-white'>{numberOfTasksCompleted} out of {missions.length} tasks completed</Text>
+                            <Text className='text-white'>
+                                {numberOfTasksCompleted} out of {missions.length} tasks completed
+                            </Text>
                         </View>
                     </View>
-                    <Text className='text-2xl font-nunitoBold text-[#1679AB] mb-4'>Today Tasks</Text>
+                    <Text className='text-2xl font-nunitoBold text-[#1679AB] mb-4'>
+                        Today Tasks
+                    </Text>
                     <Missions missions={missions} />
                 </View>
             </SafeAreaView>
@@ -102,8 +113,8 @@ const styles = StyleSheet.create({
         bottom: 0,
         justifyContent: 'center',
         alignItems: 'center',
-        backgroundColor: 'rgba(0, 0, 0, 0.5)'
-    }
+        backgroundColor: 'rgba(0, 0, 0, 0.5)',
+    },
 });
 
 export default MissionScreen;

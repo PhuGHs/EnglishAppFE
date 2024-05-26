@@ -11,14 +11,19 @@ export class DiscussionApi {
         }
     }
 
-    static async getUserDiscussions(userId: number, pageNumber: number, pageSize: number, sortBy: 'id' | 'createdDate'): Promise<ApiResponse> {
+    static async getUserDiscussions(
+        userId: number,
+        pageNumber: number,
+        pageSize: number,
+        sortBy: 'id' | 'createdDate'
+    ): Promise<ApiResponse> {
         try {
             const response = await http.get(`/discussions/user/${userId}`, {
                 params: {
                     pageNumber: pageNumber,
                     pageSize: pageSize,
-                    sortBy: sortBy
-                }
+                    sortBy: sortBy,
+                },
             });
             return response.data;
         } catch (error) {

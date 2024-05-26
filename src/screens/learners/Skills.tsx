@@ -9,7 +9,7 @@ import { SafeAreaView } from 'react-native-safe-area-context';
 const Skills = ({ navigation }: TabsScreenProps) => {
     const { user } = useContext(UserContext);
     const handlePress = () => {
-        navigation.navigate('EnglishLevelScreen');
+        navigation.navigate('ShortStories');
     };
     const handleNavigateToTopicScreen = () => {
         navigation.navigate('TopicScreen');
