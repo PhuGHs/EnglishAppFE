@@ -1,8 +1,8 @@
 import http from '@root/utils/axiosConfig';
-import { ApiResponse, TPostMessage, TReviewPostDto } from '@type/T-type';
+import { ApiResponse, TPostMessage, TReview, TReviewPostDto } from '@type/T-type';
 
 export class FollowerApi {
-    static async follow(currentUserId: number, userIdToFollow: number): Promise<ApiResponse> {
+    static async follow(currentUserId: number, userIdToFollow: number): Promise<ApiResponse<unknown>> {
         try {
             const response = await http.post(
                 `/followers/${currentUserId}/follow/${userIdToFollow}`
@@ -13,7 +13,7 @@ export class FollowerApi {
         }
     }
 
-    static async unfollow(currentUserId: number, userIdToUnFollow: number): Promise<ApiResponse> {
+    static async unfollow(currentUserId: number, userIdToUnFollow: number): Promise<ApiResponse<unknown>> {
         try {
             const response = await http.delete(
                 `/followers/${currentUserId}/unfollow/${userIdToUnFollow}`
@@ -64,7 +64,7 @@ export class FollowerApi {
         }
     }
 
-    static async getReviews(userId: number): Promise<ApiResponse> {
+    static async getReviews(userId: number): Promise<ApiResponse<TReview[]>> {
         try {
             const response = await http.get(`/reviews/${userId}/get`);
             return response.data;
@@ -73,9 +73,18 @@ export class FollowerApi {
         }
     }
 
-    static async addReview(data: TReviewPostDto) {
+    static async addReview(data: TReviewPostDto): Promise<ApiResponse<TReview>> {
         try {
             const response = await http.post('/reviews/add-review', data);
+            return response.data;
+        } catch (error) {
+            console.log(error);
+        }
+    }
+
+    static async checkIfExist(currentUserId: number, followedId: number): Promise<ApiResponse<unknown>> {
+        try {
+            const response = await http.get(`/followers/${currentUserId}/${followedId}/check-if-exist`);
             return response.data;
         } catch (error) {
             console.log(error);

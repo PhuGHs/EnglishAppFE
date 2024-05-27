@@ -1,8 +1,8 @@
 import http from '@root/utils/axiosConfig';
-import { ApiResponse } from '@type/T-type';
+import { ApiResponse, TUserMission } from '@type/T-type';
 
 export class MissionApi {
-    static async getUserMissions(userId: number): Promise<ApiResponse> {
+    static async getUserMissions(userId: number): Promise<ApiResponse<TUserMission[]>> {
         try {
             const response = await http.get(`/missions/${userId}`);
             return response.data;
@@ -11,7 +11,7 @@ export class MissionApi {
         }
     }
 
-    static async getPercentage(userId: number): Promise<ApiResponse> {
+    static async getPercentage(userId: number): Promise<ApiResponse<number>> {
         try {
             const response = await http.get(`/missions/${userId}/get-percentage`);
             return response.data;
@@ -20,7 +20,7 @@ export class MissionApi {
         }
     }
 
-    static async doMission(mission_id: number, user_id: number): Promise<ApiResponse> {
+    static async doMission(mission_id: number, user_id: number): Promise<ApiResponse<unknown>> {
         try {
             const response = await http.put('/missions/do-missions', { mission_id, user_id });
             return response.data;

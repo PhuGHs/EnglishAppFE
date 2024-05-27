@@ -139,15 +139,15 @@ export type LoginDto = {
     password: string;
 };
 
-export type ApiResponse = {
+export type ApiResponse<T> = {
     status: 'FAIL' | 'SUCCESS';
     message: string;
-    data: unknown;
+    data: T;
 };
 
 export type AuthResponse = {
     accessToken: string;
-    account: ApiResponse;
+    account: ApiResponse<TAccount>;
 };
 
 export type TInterestPutDto = {
@@ -238,4 +238,15 @@ export type TReviewPostDto = {
     user_who_reviewed_id: number;
     star: number;
     comment: string;
+};
+
+export type TNotification = {
+    notification_id: number,
+    sender: TUserNecessary,
+    receiver: TUserNecessary,
+    message: string,
+    is_read: boolean,
+    created_at: string,
+    created_item_id: number,
+    entity_item_id: number
 };

@@ -1,8 +1,8 @@
 import http from '@root/utils/axiosConfig';
-import { ApiResponse, TSearch } from '@type/T-type';
+import { ApiResponse, TSearch, TUserNecessary, TUserProfile } from '@type/T-type';
 
 export class UserApi {
-    static async getUserProfile(userId: number): Promise<ApiResponse> {
+    static async getUserProfile(userId: number): Promise<ApiResponse<TUserProfile>> {
         try {
             const response = await http.get(`/users/${userId}/get-user-profile`);
             return response.data;
@@ -26,7 +26,7 @@ export class UserApi {
         userId: number,
         profile_picture: string,
         full_name: string
-    ): Promise<ApiResponse> {
+    ): Promise<ApiResponse<TUserNecessary>> {
         try {
             const response = await http.put(`/users/${userId}/change-info`, {
                 profile_picture: profile_picture,

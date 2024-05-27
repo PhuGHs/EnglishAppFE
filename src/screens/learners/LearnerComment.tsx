@@ -11,13 +11,14 @@ const LearnerComment = ({
     route,
     navigation,
 }: LearnerCommentScreenProps & { route: RouteProp<RootStackParamList, 'LearnerComment'> }) => {
+    const { userId, username } = route.params;
     return (
         <SafeAreaView className='flex flex-1 space-y-3'>
             <View className='w-full h-[10%] bg-white flex items-center px-4 flex-row flex-start space-x-4'>
                 <TouchableOpacity onPress={() => navigation.pop()}>
                     <FontAwesomeIcon icon={faXmark} size={25} color='#374151' />
                 </TouchableOpacity>
-                <Text className='text-xl font-nunitoBold text-gray-700'>vpu2.3</Text>
+                <Text className='text-xl font-nunitoBold text-gray-700'>{username}</Text>
             </View>
             <View className='space-y-3 bg-white p-4 rounded-xl w-full h-full'>
                 <Text className='font-nunitoBold text-2xl text-gray-700'>Reviews (4)</Text>

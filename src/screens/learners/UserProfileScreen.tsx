@@ -1,5 +1,5 @@
 import Chips, { ChipProps } from '@component/Chips';
-import { faEdit, faStar } from '@fortawesome/free-solid-svg-icons';
+import { faStar } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-native-fontawesome';
 import { UserApi } from '@root/api/user.api';
 import { useAuth } from '@root/context/auth-context';
@@ -10,7 +10,6 @@ import { RootStackParamList, TabsScreenProps, UserProfileScreenProps } from '@ty
 import React, { useContext, useEffect, useState } from 'react';
 import { View, Text, TouchableOpacity, Image, StyleSheet, ActivityIndicator } from 'react-native';
 import {
-    ArrowLeftStartOnRectangleIcon,
     ChatBubbleLeftEllipsisIcon,
     FlagIcon,
 } from 'react-native-heroicons/solid';
@@ -19,9 +18,6 @@ import ImageView from 'react-native-image-viewing';
 import { RouteProp } from '@react-navigation/native';
 import { ChatApi } from '@root/api/chat.api';
 import { FollowerApi } from '@root/api/follower.api';
-
-const sample_image_link =
-    'https://2.img-dpreview.com/files/p/E~C1000x0S4000x4000T1200x1200~articles/3925134721/0266554465.jpeg';
 
 function mapToChips(interests: TInterest2[]): ChipProps[] {
     return interests.map((item) => ({
@@ -36,10 +32,9 @@ const UserProfileScreen = ({
     navigation,
 }: UserProfileScreenProps & { route: RouteProp<RootStackParamList, 'UserProfileScreen'> }) => {
     const { user } = useContext(UserContext);
-    const { user_id } = user.user;
+    const { user_id, full_name } = user.user;
     const { userId: receiver_id } = route.params;
     const { showToast } = useToast();
-    const { signOut } = useAuth();
 
     const [hasFetched, setFetched] = useState<boolean>(false);
     const [info, setInfo] = useState<TUserProfile>();
@@ -72,11 +67,11 @@ const UserProfileScreen = ({
 
     const follow = async () => {
         try {
+            setFollowed(true);
             const { data, status, message } = await FollowerApi.follow(user_id, receiver_id);
             if (status === 'SUCCESS') {
                 showToast({ type: 'success', description: 'Followed!', timeout: 3000 });
             }
-            setFollowed(true);
         } catch (error) {
             console.error(error);
         }
@@ -85,7 +80,9 @@ const UserProfileScreen = ({
     useEffect(() => {
         const fetchProfile = async () => {
             const { status, data, message } = await UserApi.getUserProfile(receiver_id);
+            const { data: isFollowed } = await FollowerApi.checkIfExist(user_id, receiver_id);
             setInfo(data as TUserProfile);
+            setFollowed(isFollowed as boolean);
         };
         fetchProfile();
         setFetched(true);
@@ -149,12 +146,12 @@ const UserProfileScreen = ({
                             onPress={follow}
                         >
                             <Text className='text-gray-700 font-nunitoBold text-lg text-center'>
-                                {followed ? 'Unfollow' : 'follow'}
+                                {followed ? 'Unfollow' : 'Follow'}
                             </Text>
                         </TouchableOpacity>
                         <TouchableOpacity
                             className='p-3 bg-slate-200 rounded-full flex items-center justify-center'
-                            onPress={() => navigation.push('ReviewLearner')}
+                            onPress={() => navigation.push('ReviewLearner', { userId: receiver_id })}
                         >
                             <FontAwesomeIcon icon={faStar} color='#0284c7' size={30} />
                         </TouchableOpacity>
@@ -179,7 +176,7 @@ const UserProfileScreen = ({
                         </TouchableOpacity>
                         <TouchableOpacity
                             className='flex flex-col justify-between items-center'
-                            onPress={() => navigation.push('LearnerComment')}
+                            onPress={() => navigation.push('LearnerComment', { userId: user_id, username: full_name })}
                         >
                             <View className='flex flex-row items-center justify-center space-x-2'>
                                 <Text className='text-sky-600 font-nunitoXBold text-base'>

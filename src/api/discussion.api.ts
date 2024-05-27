@@ -16,7 +16,7 @@ export class DiscussionApi {
         pageNumber: number,
         pageSize: number,
         sortBy: 'id' | 'createdDate'
-    ): Promise<ApiResponse> {
+    ): Promise<ApiResponse<unknown>> {
         try {
             const response = await http.get(`/discussions/user/${userId}`, {
                 params: {

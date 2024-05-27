@@ -20,7 +20,7 @@ export class InterestApi {
         }
     }
 
-    static async selectInterests(interestPutDto: TInterestPutDto): Promise<ApiResponse> {
+    static async selectInterests(interestPutDto: TInterestPutDto): Promise<ApiResponse<unknown>> {
         try {
             const response = await http.post('interests/select-interests', interestPutDto);
             return response.data;

@@ -102,7 +102,11 @@ const ProfileScreen = ({ navigation }: TabsScreenProps) => {
                     <View className='flex flex-row my-3 space-x-4 items-center justify-around'>
                         <TouchableOpacity
                             className='flex flex-col justify-between items-center'
-                            onPress={() => navigation.push('FollowersScreen')}
+                            onPress={() => navigation.push('FollowersScreen', {
+                                userId: user_id,
+                                type: 'following',
+                                username: info? info.full_name : 'vpu2.3'
+                            })}
                         >
                             <Text className='text-sky-600 font-nunitoXBold text-base'>
                                 {info ? info.following_count : 0}
@@ -127,7 +131,11 @@ const ProfileScreen = ({ navigation }: TabsScreenProps) => {
                         </TouchableOpacity>
                         <TouchableOpacity
                             className='flex flex-col justify-between items-center'
-                            onPress={() => navigation.push('FollowersScreen')}
+                            onPress={() => navigation.push('FollowersScreen', {
+                                userId: user_id,
+                                type: 'followers',
+                                username: info ? info.full_name : 'vpu2.3'
+                            })}
                         >
                             <Text className='text-sky-600 font-nunitoXBold text-base'>
                                 {info ? info.followers_count : 0}

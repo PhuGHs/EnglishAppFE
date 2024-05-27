@@ -11,6 +11,8 @@ import { UserContext } from '@root/context/user-context';
 import { useToast } from '@root/context/toast-context';
 import { MissionApi } from '@root/api/mission.api';
 import { DiscussionApi } from '@root/api/discussion.api';
+import { NotificationApi } from '@root/api/notification.api';
+import { TNotification } from '@type/T-type';
 
 const HomeScreen = ({ navigation }: TabsScreenProps) => {
     const { user } = useContext(UserContext);
@@ -18,6 +20,7 @@ const HomeScreen = ({ navigation }: TabsScreenProps) => {
     const { user_id } = user.user;
     const { showToast } = useToast();
     const [percentage, setPercentage] = useState<number>(0);
+    const [numberOfNotifications, setNumberOfNotifications] = useState<number>(0);
 
     if (!user) {
         showToast({ type: 'danger', description: 'There is something wrong', timeout: 2000 });
@@ -31,6 +34,8 @@ const HomeScreen = ({ navigation }: TabsScreenProps) => {
                 return;
             }
             const discussions = await DiscussionApi.getTop5();
+            const { data: notifications } = await NotificationApi.getUnread(user_id);
+            setNumberOfNotifications(notifications.length);
             console.log(discussions);
             setPercentage(data as number);
         };
@@ -63,7 +68,7 @@ const HomeScreen = ({ navigation }: TabsScreenProps) => {
                     </View>
                 </View>
                 <BellBadge
-                    numberOfNotifications={2}
+                    numberOfNotifications={numberOfNotifications}
                     press={() => navigation.push('NotificationScreen')}
                 />
             </View>

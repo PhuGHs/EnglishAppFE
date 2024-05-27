@@ -1,8 +1,8 @@
 import http from '@root/utils/axiosConfig';
-import { ApiResponse, TPostMessage } from '@type/T-type';
+import { ApiResponse, MessageRoomDto, TMessage, TPostMessage } from '@type/T-type';
 
 export class ChatApi {
-    static async getConversations(userId: number): Promise<ApiResponse> {
+    static async getConversations(userId: number): Promise<ApiResponse<MessageRoomDto[]>> {
         try {
             const response = await http.get(`/chat/${userId}/rooms`);
             return response.data;
@@ -11,7 +11,7 @@ export class ChatApi {
         }
     }
 
-    static async getMessages(roomId: number): Promise<ApiResponse> {
+    static async getMessages(roomId: number): Promise<ApiResponse<TMessage[]>> {
         try {
             const response = await http.get(`/chat/rooms/${roomId}/messages`);
             return response.data;
@@ -20,7 +20,7 @@ export class ChatApi {
         }
     }
 
-    static async sendMessage(body: TPostMessage): Promise<ApiResponse> {
+    static async sendMessage(body: TPostMessage): Promise<ApiResponse<TMessage>> {
         try {
             const response = await http.post('/chat/send-message', body);
             return response.data;
@@ -29,16 +29,16 @@ export class ChatApi {
         }
     }
 
-    static async markAsRead(messageId: number): Promise<ApiResponse> {
-        try {
-            const response = await http.put(`/chat/rooms/messages/${messageId}/mark-as-read`);
-            return response.data;
-        } catch (error) {
-            console.log(error);
-        }
-    }
+    // static async markAsRead(messageId: number): Promise<ApiResponse> {
+    //     try {
+    //         const response = await http.put(`/chat/rooms/messages/${messageId}/mark-as-read`);
+    //         return response.data;
+    //     } catch (error) {
+    //         console.log(error);
+    //     }
+    // }
 
-    static async checkIfExist(senderId: number, receiverId: number): Promise<ApiResponse> {
+    static async checkIfExist(senderId: number, receiverId: number): Promise<ApiResponse<MessageRoomDto>> {
         try {
             const response = await http.post('/chat/check-if-exist', {
                 sender_id: senderId,

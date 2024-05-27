@@ -23,7 +23,7 @@ export type RootStackParamList = {
     StoryDetails: undefined;
     LeaderBoard: undefined;
     MissionScreen: undefined;
-    LearnerComment: { userId: number };
+    LearnerComment: { userId: number, username: string };
     ReviewLearner: { userId: number };
     FollowersScreen: { userId: number; type: 'followers' | 'following'; username: string };
     NotificationScreen: undefined;

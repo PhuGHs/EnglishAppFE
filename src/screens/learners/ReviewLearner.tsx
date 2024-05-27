@@ -8,16 +8,25 @@ import {
     ReviewLearnerScreenProps,
     RootStackParamList,
 } from '@type/index';
-import React, { useState } from 'react';
+import React, { useContext, useState } from 'react';
 import { TouchableOpacity, View, Text, TextInput } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import StarRating from 'react-native-star-rating-widget';
 import Modal from 'react-native-modal/dist/modal';
+import { FollowerApi } from '@root/api/follower.api';
+import { TReviewPostDto } from '@type/T-type';
+import { UserContext } from '@root/context/user-context';
+import { useToast } from '@root/context/toast-context';
 
 const ReviewLearner = ({
     route,
     navigation,
 }: ReviewLearnerScreenProps & { route: RouteProp<RootStackParamList, 'ReviewLearner'> }) => {
+    const { userId: receiverId } = route.params;
+    const { user } = useContext(UserContext);
+    const { user_id: senderId } = user.user;
+    const { showToast } = useToast();
+
     const [starCount, setStarCount] = useState<number>(0);
     const [confirmedModalVisible, setConfirmedModalVisible] = useState<boolean>(false);
 
@@ -33,16 +42,32 @@ const ReviewLearner = ({
         hasError: thoughtsHasError,
         didEdit,
         setDidEdit,
-    } = useInput({ defaultValue: '', validationFn: (value) => value.length > 10 });
+    } = useInput({ defaultValue: '', validationFn: (value) => value.trim().split(/\s+/).length > 6 });
 
     const wordCount = thoughts.trim().split(/\s+/).length;
-    const remainingWords = 100 - wordCount;
+    const remainingWords = 50 - wordCount;
 
     const handleGoOut = () => {
         if (didEdit) {
             setConfirmedModalVisible(true);
         } else {
             navigation.pop();
+        }
+    };
+
+    const handleReview = async () => {
+        const postReview: TReviewPostDto = {
+            user_who_reviewed_id: senderId,
+            user_who_was_reviewed_id: receiverId,
+            star: starCount,
+            comment: thoughts
+        };
+        const { data, message, status } = await FollowerApi.addReview(postReview);
+        if (status == 'SUCCESS') {
+            showToast({ type: 'success', description: 'Reviewed!', timeout: 3000 });
+            navigation.pop();
+        } else if (status == 'FAIL') {
+            showToast({ type: 'danger', description: message, timeout: 5000 });
         }
     };
 
@@ -80,16 +105,18 @@ const ReviewLearner = ({
                     </View>
                     {didEdit && thoughtsHasError && (
                         <Text className='text-red-400 text-base font-nunitoMedium'>
-                            Your thoughts should be more lengthy
+                            Your thoughts should be more lengthy, minimum of 6 words
                         </Text>
                     )}
                 </View>
                 <View className='items-center'>
                     <TouchableOpacity
-                        className='bg-yellow-400 px-4 py-3 rounded-xl'
+                        className={`${thoughtsHasError || starCount == 0 ? 'bg-yellow-300' : 'bg-yellow-400'} px-4 py-3 rounded-xl`}
                         style={{ elevation: 5 }}
+                        disabled={thoughtsHasError}
+                        onPress={handleReview}
                     >
-                        <Text className='font-nunitoXBold text-gray-700 text-lg'>Comment</Text>
+                        <Text className={`${thoughtsHasError || starCount == 0 ? 'text-gray-500' : 'text-gray-700'} font-nunitoXBold text-lg`}>Comment</Text>
                     </TouchableOpacity>
                 </View>
             </View>
