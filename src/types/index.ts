@@ -20,10 +20,10 @@ export type RootStackParamList = {
     TopicScreen: { levelId: number };
     TopicDetails: undefined;
     ShortStories: undefined;
-    StoryDetails: undefined;
+    StoryDetails: { shortStoryId: number };
     LeaderBoard: undefined;
     MissionScreen: undefined;
-    LearnerComment: { userId: number, username: string };
+    LearnerComment: { userId: number; username: string };
     ReviewLearner: { userId: number };
     FollowersScreen: { userId: number; type: 'followers' | 'following'; username: string };
     NotificationScreen: undefined;
@@ -33,7 +33,7 @@ export type RootStackParamList = {
     EnglishTestListScreen: { levelId: number };
     ReportScreen: undefined;
     ReportDetails: { reportId: number };
-    EditShortStory: { shortStoryId?: number };
+    EditShortStory: { shortStoryId?: number; type: 'edit' | 'insert' };
     EditTopic: { levelId: number; topicId?: number };
     LevelOptions: { levelId: number };
     SearchScreen: undefined;

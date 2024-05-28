@@ -241,12 +241,27 @@ export type TReviewPostDto = {
 };
 
 export type TNotification = {
-    notification_id: number,
-    sender: TUserNecessary,
-    receiver: TUserNecessary,
-    message: string,
-    is_read: boolean,
-    created_at: string,
-    created_item_id: number,
-    entity_item_id: number
+    notification_id: number;
+    sender: TUserNecessary;
+    receiver: TUserNecessary;
+    message: string;
+    is_read: boolean;
+    created_at: string;
+    created_item_id: number;
+    entity_item_id: number;
+};
+
+export type TShortStoryPost = {
+    title: string;
+    paragraph: string;
+    image: string;
+};
+
+export type ShortStoryDto = {
+    short_story_id: number;
+    title: string;
+    paragraph: string;
+    number_of_likes: number;
+    image: string;
+    created_date: string;
 };

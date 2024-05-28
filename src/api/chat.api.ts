@@ -38,7 +38,10 @@ export class ChatApi {
     //     }
     // }
 
-    static async checkIfExist(senderId: number, receiverId: number): Promise<ApiResponse<MessageRoomDto>> {
+    static async checkIfExist(
+        senderId: number,
+        receiverId: number
+    ): Promise<ApiResponse<MessageRoomDto>> {
         try {
             const response = await http.post('/chat/check-if-exist', {
                 sender_id: senderId,

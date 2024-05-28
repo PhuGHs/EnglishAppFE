@@ -1,7 +1,4 @@
-import {
-    faArrowLeft,
-    faCheckDouble,
-} from '@fortawesome/free-solid-svg-icons';
+import { faArrowLeft, faCheckDouble } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-native-fontawesome';
 import { NotificationScreenProps } from '@type/index';
 import React, { useContext, useEffect, useState } from 'react';
@@ -51,7 +48,7 @@ const NotificationScreen = ({ navigation }: NotificationScreenProps) => {
 
     const handleSetMessage = (message) => {
         const notification: TNotification = message.body as TNotification;
-        setNotifications(old => [notification, ...old]);
+        setNotifications((old) => [notification, ...old]);
     };
 
     const handleMarkAllAsRead = async () => {
@@ -88,9 +85,8 @@ const NotificationScreen = ({ navigation }: NotificationScreenProps) => {
     useEffect(() => {
         const fetch = async () => {
             try {
-                const { status, message, data } = 
-                    types[0].isSelected 
-                    ?  await NotificationApi.getAll(user_id)
+                const { status, message, data } = types[0].isSelected
+                    ? await NotificationApi.getAll(user_id)
                     : await NotificationApi.getUnread(user_id);
                 if (status === 'SUCCESS') {
                     setNotifications(data as TNotification[]);
@@ -113,12 +109,8 @@ const NotificationScreen = ({ navigation }: NotificationScreenProps) => {
                     >
                         <FontAwesomeIcon icon={faArrowLeft} color='#374151' size={25} />
                     </TouchableOpacity>
-                    <Text className='text-[22px] text-sky-600 font-nunitoBold'>
-                        Notifications
-                    </Text>
-                    <TouchableOpacity
-                        onPress={handleMarkAllAsRead}
-                    >
+                    <Text className='text-[22px] text-sky-600 font-nunitoBold'>Notifications</Text>
+                    <TouchableOpacity onPress={handleMarkAllAsRead}>
                         <FontAwesomeIcon icon={faCheckDouble} size={25} color='#0284c7' />
                     </TouchableOpacity>
                 </View>
@@ -131,15 +123,19 @@ const NotificationScreen = ({ navigation }: NotificationScreenProps) => {
                         radio={true}
                     />
                 </View>
-                {notifications.length > 0
-                    ? <FlatList
+                {notifications.length > 0 ? (
+                    <FlatList
                         data={notifications}
                         keyExtractor={(item, index) => item.notification_id.toString()}
-                        renderItem={({item, index}) => <NotificationItem notification={item} key={index} />}
+                        renderItem={({ item, index }) => (
+                            <NotificationItem notification={item} key={index} />
+                        )}
                     />
-                    :
-                    <Text className='text-xl font-nunitoMedium text-gray-700'>There is no notification</Text>
-                }
+                ) : (
+                    <Text className='text-xl font-nunitoMedium text-gray-700'>
+                        There is no notification
+                    </Text>
+                )}
             </SafeAreaView>
             {!hasFetched && (
                 <View style={styles.overlay}>

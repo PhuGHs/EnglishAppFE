@@ -42,7 +42,10 @@ const ReviewLearner = ({
         hasError: thoughtsHasError,
         didEdit,
         setDidEdit,
-    } = useInput({ defaultValue: '', validationFn: (value) => value.trim().split(/\s+/).length > 6 });
+    } = useInput({
+        defaultValue: '',
+        validationFn: (value) => value.trim().split(/\s+/).length > 6,
+    });
 
     const wordCount = thoughts.trim().split(/\s+/).length;
     const remainingWords = 50 - wordCount;
@@ -60,7 +63,7 @@ const ReviewLearner = ({
             user_who_reviewed_id: senderId,
             user_who_was_reviewed_id: receiverId,
             star: starCount,
-            comment: thoughts
+            comment: thoughts,
         };
         const { data, message, status } = await FollowerApi.addReview(postReview);
         if (status == 'SUCCESS') {
@@ -116,7 +119,11 @@ const ReviewLearner = ({
                         disabled={thoughtsHasError}
                         onPress={handleReview}
                     >
-                        <Text className={`${thoughtsHasError || starCount == 0 ? 'text-gray-500' : 'text-gray-700'} font-nunitoXBold text-lg`}>Comment</Text>
+                        <Text
+                            className={`${thoughtsHasError || starCount == 0 ? 'text-gray-500' : 'text-gray-700'} font-nunitoXBold text-lg`}
+                        >
+                            Comment
+                        </Text>
                     </TouchableOpacity>
                 </View>
             </View>

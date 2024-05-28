@@ -73,7 +73,7 @@ const SignIn = ({ navigation }: SignInScreenProps) => {
                 setPasswordValue('');
                 setExecuted(true);
                 setUser(account);
-                signIn(accessToken);
+                signIn('Bearer ' + accessToken);
                 if (account.is_active) {
                     navigation.push('Tabs');
                 } else {

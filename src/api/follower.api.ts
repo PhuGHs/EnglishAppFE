@@ -2,7 +2,10 @@ import http from '@root/utils/axiosConfig';
 import { ApiResponse, TPostMessage, TReview, TReviewPostDto } from '@type/T-type';
 
 export class FollowerApi {
-    static async follow(currentUserId: number, userIdToFollow: number): Promise<ApiResponse<unknown>> {
+    static async follow(
+        currentUserId: number,
+        userIdToFollow: number
+    ): Promise<ApiResponse<unknown>> {
         try {
             const response = await http.post(
                 `/followers/${currentUserId}/follow/${userIdToFollow}`
@@ -13,7 +16,10 @@ export class FollowerApi {
         }
     }
 
-    static async unfollow(currentUserId: number, userIdToUnFollow: number): Promise<ApiResponse<unknown>> {
+    static async unfollow(
+        currentUserId: number,
+        userIdToUnFollow: number
+    ): Promise<ApiResponse<unknown>> {
         try {
             const response = await http.delete(
                 `/followers/${currentUserId}/unfollow/${userIdToUnFollow}`
@@ -82,9 +88,14 @@ export class FollowerApi {
         }
     }
 
-    static async checkIfExist(currentUserId: number, followedId: number): Promise<ApiResponse<unknown>> {
+    static async checkIfExist(
+        currentUserId: number,
+        followedId: number
+    ): Promise<ApiResponse<unknown>> {
         try {
-            const response = await http.get(`/followers/${currentUserId}/${followedId}/check-if-exist`);
+            const response = await http.get(
+                `/followers/${currentUserId}/${followedId}/check-if-exist`
+            );
             return response.data;
         } catch (error) {
             console.log(error);

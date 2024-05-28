@@ -1,14 +1,74 @@
-import Stories from '@component/Stories';
+import Story from '@component/Story';
 import { faArrowLeft, faHeart, faLanguage } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-native-fontawesome';
-import { StoryDetailsScreenProps } from '@type/index';
-import React from 'react';
-import { TouchableOpacity, View, Text, ScrollView } from 'react-native';
+import { RouteProp } from '@react-navigation/native';
+import { ShortStoryApi } from '@root/api/shortstory.api';
+import { useToast } from '@root/context/toast-context';
+import { ShortStoryDto } from '@type/T-type';
+import { RootStackParamList, StoryDetailsScreenProps } from '@type/index';
+import React, { useEffect, useState } from 'react';
+import {
+    TouchableOpacity,
+    View,
+    Text,
+    Image,
+    StyleSheet,
+    ActivityIndicator,
+    FlatList,
+} from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
 
-const StoryDetails = ({ navigation }: StoryDetailsScreenProps) => {
-    return (
-        <SafeAreaView className='flex flex-1 mx-4'>
+const getParagraph = (paragraph: string): string[] => {
+    const arr: string[] = paragraph.split(' // ');
+    return arr;
+};
+
+const StoryDetails = ({
+    route,
+    navigation,
+}: StoryDetailsScreenProps & { route: RouteProp<RootStackParamList, 'StoryDetails'> }) => {
+    const { shortStoryId } = route.params;
+    const { showToast } = useToast();
+
+    const [story, setStory] = useState<ShortStoryDto>(null);
+    const [randomStories, setRandomStories] = useState<ShortStoryDto[]>(null);
+    const [hasExecuted, setExecuted] = useState<boolean>(false);
+    const [paragraph, setParagraph] = useState<string[]>([]);
+
+    useEffect(() => {
+        const fetch = async () => {
+            setExecuted(false);
+            const { data, message, status } = await ShortStoryApi.getOne(shortStoryId);
+            const { data: random, status: randomStatus } = await ShortStoryApi.getRandom5(shortStoryId);
+            if (status === 'SUCCESS') {
+                setStory(data);
+                setParagraph(getParagraph(data.paragraph));
+            } else {
+                showToast({ type: 'danger', description: message, timeout: 3000 });
+                setExecuted(true);
+            }
+            if (randomStatus === 'SUCCESS') {
+                setExecuted(true);
+                setRandomStories(random);
+            }
+        };
+        fetch();
+    }, []);
+
+    const renderParagraphItem = ({ item }) => (
+        <Text className='text-gray-700 text-base font-nunitoMedium py-2'>{item}</Text>
+    );
+
+    const renderRandomStoryItem = ({ item }) => (
+        <Story
+            horizontal={true}
+            story={item}
+            press={() => navigation.push('StoryDetails', { shortStoryId: item.short_story_id })}
+        />
+    );
+
+    const ListHeaderComponent = () => (
+        <>
             <View className='flex flex-row justify-between items-center mt-3'>
                 <TouchableOpacity
                     className='bg-yellow-400 p-2 rounded-tl-xl rounded-br-xl w-[40px] h-[40px] flex items-center justify-center'
@@ -16,33 +76,76 @@ const StoryDetails = ({ navigation }: StoryDetailsScreenProps) => {
                 >
                     <FontAwesomeIcon icon={faArrowLeft} color='#374151' size={25} />
                 </TouchableOpacity>
-                <Text className='text-[22px] text-sky-600 font-nunitoSemi'>Là ai</Text>
+                <Text className='text-[22px] text-sky-600 font-nunitoSemi'>
+                    {hasExecuted && story.title}
+                </Text>
                 <TouchableOpacity>
                     <FontAwesomeIcon icon={faLanguage} color='#0ea5e9' size={40} />
                 </TouchableOpacity>
             </View>
-            <ScrollView className='mt-8 space-y-4'>
-                <View className='w-full h-[200px] bg-zinc-300 rounded-xl'></View>
-                <TouchableOpacity className='flex flex-row rounded-full items-center justify-center mt-4 space-x-2 border border-zinc-500 p-2'>
-                    <Text className='font-nunitoSemi text-gray-700'>7572</Text>
-                    <FontAwesomeIcon icon={faHeart} color='#F06D6D' size={20} />
-                </TouchableOpacity>
-                <Text className='text-gray-700 text-base'>
-                    The guard sees Juan climbing on the apple tree. He said: You over there! Come
-                    down immediately or else I’ll call your dad. Oh please! - Juan laughs - My dad
-                    is on the other tree right there The guard sees Juan climbing on the apple tree.
-                    He said: You over there! Come down immediately or else I’ll call your dad. Oh
-                    please! - Juan laughs - My dad is on the other tree right there The guard sees
-                    Juan climbing on the apple tree. He said: You over there! Come down immediately
-                    or else I’ll call your dad. Oh please! - Juan laughs - My dad is on the other
-                    tree right there
+            <View className='mt-8'>
+                {hasExecuted && (
+                    <Image
+                        className='w-full h-[250px] rounded-xl'
+                        resizeMode='cover'
+                        source={{ uri: story.image }}
+                    />
+                )}
+            </View>
+            <TouchableOpacity className='flex flex-row rounded-full items-center justify-center mt-4 space-x-2 border border-zinc-500 p-2'>
+                <Text className='font-nunitoSemi text-gray-700'>
+                    {hasExecuted && story.number_of_likes}
                 </Text>
-                <View className='border border-gray-300' />
-                <Text className='text-xl text-gray-700 font-nunitoSemi'>You might like</Text>
-                <Stories horizontal={true} press={() => {}} />
-            </ScrollView>
-        </SafeAreaView>
+                <FontAwesomeIcon icon={faHeart} color='#F06D6D' size={20} />
+            </TouchableOpacity>
+        </>
+    );
+
+    const ListFooterComponent = () => (
+        <>
+            <View className='border border-gray-300 my-4' />
+            <Text className='text-xl text-gray-700 font-nunitoSemi mb-4'>You might like</Text>
+            <FlatList
+                horizontal
+                data={randomStories}
+                keyExtractor={(item, index) => index.toString()}
+                renderItem={renderRandomStoryItem}
+            />
+        </>
+    );
+
+    return (
+        <>
+            <SafeAreaView className='flex flex-1 mx-4'>
+                <FlatList
+                    data={paragraph}
+                    keyExtractor={(item, index) => index.toString()}
+                    renderItem={renderParagraphItem}
+                    ListHeaderComponent={ListHeaderComponent}
+                    ListFooterComponent={ListFooterComponent}
+                    showsVerticalScrollIndicator={false}
+                />
+            </SafeAreaView>
+            {!hasExecuted && (
+                <View style={styles.overlay}>
+                    <ActivityIndicator size='large' color='#0000ff' />
+                </View>
+            )}
+        </>
     );
 };
+
+const styles = StyleSheet.create({
+    overlay: {
+        position: 'absolute',
+        top: 0,
+        left: 0,
+        right: 0,
+        bottom: 0,
+        justifyContent: 'center',
+        alignItems: 'center',
+        backgroundColor: 'rgba(0, 0, 0, 0.5)',
+    },
+});
 
 export default StoryDetails;

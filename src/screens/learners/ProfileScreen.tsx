@@ -29,7 +29,8 @@ function mapToChips(interests: TInterest2[]): ChipProps[] {
 
 const ProfileScreen = ({ navigation }: TabsScreenProps) => {
     const { user } = useContext(UserContext);
-    const { user_id } = user.user;
+    const { user_id, full_name } = user.user;
+    const { roleName } = user.role;
     const { showToast } = useToast();
     const { signOut } = useAuth();
 
@@ -99,52 +100,63 @@ const ProfileScreen = ({ navigation }: TabsScreenProps) => {
                     <Text className='text-center my-2 font-nunitoBold text-xl text-sky-600'>
                         {info ? info.english_level_name : 'Intermediate'}
                     </Text>
-                    <View className='flex flex-row my-3 space-x-4 items-center justify-around'>
-                        <TouchableOpacity
-                            className='flex flex-col justify-between items-center'
-                            onPress={() => navigation.push('FollowersScreen', {
-                                userId: user_id,
-                                type: 'following',
-                                username: info? info.full_name : 'vpu2.3'
-                            })}
-                        >
-                            <Text className='text-sky-600 font-nunitoXBold text-base'>
-                                {info ? info.following_count : 0}
-                            </Text>
-                            <Text className='text-sky-600 font-nunitoRegular text-base'>
-                                Following
-                            </Text>
-                        </TouchableOpacity>
-                        <TouchableOpacity
-                            className='flex flex-col justify-between items-center'
-                            onPress={() => navigation.push('LearnerComment')}
-                        >
-                            <View className='flex flex-row items-center justify-center space-x-2'>
+                    {roleName === 'LEARNER' && (
+                        <View className='flex flex-row my-3 space-x-4 items-center justify-around'>
+                            <TouchableOpacity
+                                className='flex flex-col justify-between items-center'
+                                onPress={() =>
+                                    navigation.push('FollowersScreen', {
+                                        userId: user_id,
+                                        type: 'following',
+                                        username: info ? info.full_name : 'vpu2.3',
+                                    })
+                                }
+                            >
                                 <Text className='text-sky-600 font-nunitoXBold text-base'>
-                                    {info ? info.reviews_count : 0}
+                                    {info ? info.following_count : 0}
                                 </Text>
-                                <FontAwesomeIcon icon={faStar} size={30} color='#facc15' />
-                            </View>
-                            <Text className='text-sky-600 font-nunitoRegular text-base'>
-                                Reviews
-                            </Text>
-                        </TouchableOpacity>
-                        <TouchableOpacity
-                            className='flex flex-col justify-between items-center'
-                            onPress={() => navigation.push('FollowersScreen', {
-                                userId: user_id,
-                                type: 'followers',
-                                username: info ? info.full_name : 'vpu2.3'
-                            })}
-                        >
-                            <Text className='text-sky-600 font-nunitoXBold text-base'>
-                                {info ? info.followers_count : 0}
-                            </Text>
-                            <Text className='text-sky-600 font-nunitoRegular text-base'>
-                                Followers
-                            </Text>
-                        </TouchableOpacity>
-                    </View>
+                                <Text className='text-sky-600 font-nunitoRegular text-base'>
+                                    Following
+                                </Text>
+                            </TouchableOpacity>
+                            <TouchableOpacity
+                                className='flex flex-col justify-between items-center'
+                                onPress={() =>
+                                    navigation.push('LearnerComment', {
+                                        userId: user_id,
+                                        username: full_name,
+                                    })
+                                }
+                            >
+                                <View className='flex flex-row items-center justify-center space-x-2'>
+                                    <Text className='text-sky-600 font-nunitoXBold text-base'>
+                                        {info ? info.star : 0}
+                                    </Text>
+                                    <FontAwesomeIcon icon={faStar} size={30} color='#facc15' />
+                                </View>
+                                <Text className='text-sky-600 font-nunitoRegular text-base'>
+                                    Reviews
+                                </Text>
+                            </TouchableOpacity>
+                            <TouchableOpacity
+                                className='flex flex-col justify-between items-center'
+                                onPress={() =>
+                                    navigation.push('FollowersScreen', {
+                                        userId: user_id,
+                                        type: 'followers',
+                                        username: info ? info.full_name : 'vpu2.3',
+                                    })
+                                }
+                            >
+                                <Text className='text-sky-600 font-nunitoXBold text-base'>
+                                    {info ? info.followers_count : 0}
+                                </Text>
+                                <Text className='text-sky-600 font-nunitoRegular text-base'>
+                                    Followers
+                                </Text>
+                            </TouchableOpacity>
+                        </View>
+                    )}
                     <View
                         style={{
                             borderBottomColor: '#d1d5db',

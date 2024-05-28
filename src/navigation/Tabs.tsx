@@ -78,9 +78,9 @@ const Tabs = () => {
                         options={{ tabBarIcon: AcademicCapIcon, tabBarActiveTintColor: '#0284c7' }}
                     />
                     <Tab.Screen
-                        name='Learners'
-                        component={DoubleTab}
-                        options={{ tabBarIcon: UsersIcon, tabBarActiveTintColor: '#0284c7' }}
+                        name='Profile'
+                        component={ProfileScreen}
+                        options={{ tabBarIcon: UserCircleIcon, tabBarActiveTintColor: '#0284c7' }}
                     />
                 </>
             )}

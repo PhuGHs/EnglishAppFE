@@ -9,10 +9,7 @@ import { MessageRoomDto, TConversationTransfer, TInterest2, TUserProfile } from 
 import { RootStackParamList, TabsScreenProps, UserProfileScreenProps } from '@type/index';
 import React, { useContext, useEffect, useState } from 'react';
 import { View, Text, TouchableOpacity, Image, StyleSheet, ActivityIndicator } from 'react-native';
-import {
-    ChatBubbleLeftEllipsisIcon,
-    FlagIcon,
-} from 'react-native-heroicons/solid';
+import { ChatBubbleLeftEllipsisIcon, FlagIcon } from 'react-native-heroicons/solid';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import ImageView from 'react-native-image-viewing';
 import { RouteProp } from '@react-navigation/native';
@@ -151,7 +148,9 @@ const UserProfileScreen = ({
                         </TouchableOpacity>
                         <TouchableOpacity
                             className='p-3 bg-slate-200 rounded-full flex items-center justify-center'
-                            onPress={() => navigation.push('ReviewLearner', { userId: receiver_id })}
+                            onPress={() =>
+                                navigation.push('ReviewLearner', { userId: receiver_id })
+                            }
                         >
                             <FontAwesomeIcon icon={faStar} color='#0284c7' size={30} />
                         </TouchableOpacity>
@@ -176,11 +175,16 @@ const UserProfileScreen = ({
                         </TouchableOpacity>
                         <TouchableOpacity
                             className='flex flex-col justify-between items-center'
-                            onPress={() => navigation.push('LearnerComment', { userId: user_id, username: full_name })}
+                            onPress={() =>
+                                navigation.push('LearnerComment', {
+                                    userId: receiver_id,
+                                    username: info.full_name,
+                                })
+                            }
                         >
                             <View className='flex flex-row items-center justify-center space-x-2'>
                                 <Text className='text-sky-600 font-nunitoXBold text-base'>
-                                    {info ? info.reviews_count : 0}
+                                    {info ? info.star : 0}
                                 </Text>
                                 <FontAwesomeIcon icon={faStar} size={30} color='#facc15' />
                             </View>
