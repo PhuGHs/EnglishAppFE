@@ -28,7 +28,7 @@ const LearnerComment = ({
         fetch();
     }, [userId]);
     return (
-        <SafeAreaView className='flex flex-1 space-y-3'>
+        <SafeAreaView className='flex bg-slate-100 flex-1 space-y-3'>
             <View className='w-full h-[10%] bg-white flex items-center px-4 flex-row flex-start space-x-4'>
                 <TouchableOpacity onPress={() => navigation.pop()}>
                     <FontAwesomeIcon icon={faXmark} size={25} color='#374151' />

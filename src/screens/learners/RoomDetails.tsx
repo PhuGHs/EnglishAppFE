@@ -17,7 +17,7 @@ const RoomDetails = () => {
     const [isVisible, setIsVisible] = useState(false);
     const [sessionId, setSessionId] = useState(false);
     return (
-        <SafeAreaView className='flex flex-1 bg-[#F0EEEC] px-3'>
+        <SafeAreaView className='flex flex-1 bg-slate-100 px-3'>
             <View className='mt-4'>
                 <View className='flex flex-row mb-5 items-center'>
                     <TouchableOpacity className='bg-yellow-400 p-2 rounded-tl-xl rounded-br-xl w-[40px]'>

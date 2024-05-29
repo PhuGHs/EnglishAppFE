@@ -52,7 +52,7 @@ const ProfileScreen = ({ navigation }: TabsScreenProps) => {
     }, []);
 
     return (
-        <SafeAreaView className='flex flex-1 bg-sky-400'>
+        <SafeAreaView className='flex bg-slate-100 flex-1 bg-sky-400'>
             <View className='h-[15%] w-full flex flex-row justify-between p-4'>
                 <TouchableOpacity onPress={handleLogout}>
                     <ArrowLeftStartOnRectangleIcon size={30} color='white' />

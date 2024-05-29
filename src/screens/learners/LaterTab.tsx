@@ -19,7 +19,7 @@ const LaterTab = ({ navigation }) => {
 
     const renderFontAwesomeIcon = (icon) => <FontAwesomeIcon icon={icon} size={20} color='white' />;
     return (
-        <View className='flex flex-col justify-center'>
+        <View className='flex bg-slate-100 flex-col justify-center'>
             <CalendarStrip
                 calendarAnimation={{ type: 'sequence', duration: 30 }}
                 daySelectionAnimation={{

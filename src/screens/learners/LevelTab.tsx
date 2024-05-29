@@ -5,7 +5,7 @@ import UserProfileSearch from '@component/UserProfileSearch';
 
 const LevelTab = () => {
     return (
-        <View className='flex px-3'>
+        <View className='flex bg-slate-100 px-3'>
             <View className='my-4'>
                 <SearchBar />
             </View>

@@ -265,3 +265,53 @@ export type ShortStoryDto = {
     image: string;
     created_date: string;
 };
+
+export type TEnglishTopicPostDto = {
+    header: string;
+    content: string;
+    english_level_id: number;
+};
+
+export type TEnglishTopicDto = {
+    topic_id: number;
+    header: string;
+    content: string;
+    english_level_id: number;
+};
+
+export type TEnglishTopicQuestionPostDto = {
+    topic_id: number;
+    question: string;
+    sample_answer: string;
+};
+
+export type TEnglishTopicQuestionDto = {
+    id: number;
+    question: string;
+    sample_answer: string;
+};
+
+export type TPagination<T> = {
+    content: T;
+};
+
+export type TDiscussionPost = {
+    title: string;
+    user_id: number;
+    discussion_topic_id: number;
+};
+
+export type TDiscussionTopicDto = {
+    id: number;
+    name: string;
+};
+
+export type TDiscussionDto = {
+    id: number;
+    title: string;
+    user: TUserNecessary;
+    topic: TDiscussionTopicDto;
+    number_of_answers: number;
+    created_date: string;
+    updated_date: string;
+};

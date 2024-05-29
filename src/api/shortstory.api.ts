@@ -2,6 +2,7 @@ import http from '@root/utils/axiosConfig';
 import {
     ApiResponse,
     ShortStoryDto,
+    TPagination,
     TSearch,
     TShortStoryPost,
     TUserNecessary,
@@ -40,7 +41,7 @@ export class ShortStoryApi {
         pageNumber: number,
         pageSize: number,
         sortBy = 'id' || 'createdDate'
-    ): Promise<ApiResponse<ShortStoryDto[]>> {
+    ): Promise<ApiResponse<TPagination<ShortStoryDto[]>>> {
         try {
             const response = await http.get('/short-stories', {
                 params: {

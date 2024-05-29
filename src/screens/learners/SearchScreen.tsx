@@ -54,7 +54,7 @@ const SearchScreen = ({
                     onChangeText={handleTextChange}
                 />
             </View>
-            <View className='bg-gray-100 h-[88%] p-4'>
+            <View className='bg-slate-100 h-[88%] p-4'>
                 {users.length > 0 ? (
                     <FlatList
                         data={users}

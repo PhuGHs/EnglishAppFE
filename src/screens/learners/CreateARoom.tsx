@@ -51,7 +51,7 @@ const CreateARoom = () => {
                         </Text>
                     </View>
                 </View>
-                <ScrollView horizontal={false} className='flex flex-1 space-y-4 bg-[#F0EEEC]'>
+                <ScrollView horizontal={false} className='flex flex-1 space-y-4 bg-slate-100'>
                     <View className='px-3 flex flex-1 space-y-4'>
                         <Text className='text-xl font-nunitoSemi text-gray-700 mt-4'>
                             Select your language level for this room

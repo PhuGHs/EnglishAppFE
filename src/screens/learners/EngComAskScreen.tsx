@@ -7,12 +7,7 @@ import { SceneMap, TabBar, TabView } from 'react-native-tab-view';
 import { Text } from 'react-native';
 import { FontAwesomeIcon } from '@fortawesome/react-native-fontawesome';
 import { faArrowLeft } from '@fortawesome/free-solid-svg-icons';
-import { EngComAskScreenProps } from '@type/index';
-
-const renderScene = SceneMap({
-    first: QuestionsTab,
-    second: MyQuestionsTab,
-});
+import { EngComAskScreenProps, TabsScreenProps } from '@type/index';
 
 const renderTabBar = (props) => (
     <TabBar
@@ -62,7 +57,10 @@ const EngComAskScreen = ({ navigation }: EngComAskScreenProps) => {
                     navigationState={{ index, routes }}
                     onIndexChange={setIndex}
                     initialLayout={{ width: layout.width }}
-                    renderScene={renderScene}
+                    renderScene={SceneMap({
+                        first: () => <QuestionsTab navigation={navigation} />,
+                        second: () => <MyQuestionsTab navigation={navigation} />,
+                    })}
                 />
                 <View className='absolute bottom-10 flex items-center justify-center w-full'>
                     <TouchableOpacity

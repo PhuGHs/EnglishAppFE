@@ -53,7 +53,7 @@ const MissionScreen = ({ navigation }: MissionScreenProps) => {
 
     return (
         <>
-            <SafeAreaView className='flex flex-1 p-4 bg-[#F0EEEC] h-full w-full'>
+            <SafeAreaView className='flex flex-1 p-4 bg-slate-100 h-full w-full'>
                 <View className='flex flex-row justify-between items-center mt-3'>
                     <TouchableOpacity
                         className='bg-yellow-400 p-2 rounded-tl-xl rounded-br-xl w-[40px] h-[40px] flex items-center justify-center'

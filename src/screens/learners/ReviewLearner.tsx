@@ -75,7 +75,7 @@ const ReviewLearner = ({
     };
 
     return (
-        <SafeAreaView className='flex flex-1 space-y-3'>
+        <SafeAreaView className='flex bg-slate-100 flex-1 space-y-3'>
             <View className='w-full h-[10%] bg-white flex justify-center px-4'>
                 <TouchableOpacity onPress={handleGoOut}>
                     <FontAwesomeIcon icon={faXmark} size={25} color='#7F7F81' />

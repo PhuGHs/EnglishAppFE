@@ -101,7 +101,7 @@ const NotificationScreen = ({ navigation }: NotificationScreenProps) => {
     }, [types]);
     return (
         <>
-            <SafeAreaView className='flex flex-1 p-4 bg-gray-100 h-full w-full space-y-4'>
+            <SafeAreaView className='flex flex-1 p-4 bg-slate-100 h-full w-full space-y-4'>
                 <View className='flex flex-row justify-between items-center'>
                     <TouchableOpacity
                         className='bg-yellow-400 p-2 rounded-tl-xl rounded-br-xl w-[40px] h-[40px] flex items-center justify-center'

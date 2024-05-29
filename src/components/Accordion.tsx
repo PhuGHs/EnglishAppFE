@@ -23,6 +23,7 @@ const Accordion = ({ header, content }: IAccordion) => {
             {isExpanded && (
                 <Text className='text-base text-gray-700 mt-2 font-nunitoRegular'>{content}</Text>
             )}
+            <View className='w-full border-b-[1px] border-gray-300 mt-4' />
         </TouchableOpacity>
     );
 };

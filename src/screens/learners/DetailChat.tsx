@@ -166,7 +166,7 @@ const DetailChat = ({
         };
     }, [roomId]);
     return (
-        <SafeAreaView className='flex flex-1 bg-[#F0EEEC]'>
+        <SafeAreaView className='flex flex-1 bg-slate-100'>
             <View className='px-3 h-[10%]'>
                 <View className='flex flex-row justify-between items-center'>
                     <TouchableOpacity

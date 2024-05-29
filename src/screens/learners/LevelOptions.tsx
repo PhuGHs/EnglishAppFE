@@ -34,7 +34,7 @@ const LevelOptionScreen = ({
         <LevelOption name={item} onPress={() => handlePress(item)} />
     );
     return (
-        <SafeAreaView className='flex flex-1 mx-4 space-y-8'>
+        <SafeAreaView className='flex bg-slate-100 flex-1 mx-4 space-y-8'>
             <View className='flex flex-row justify-between items-center mt-3'>
                 <TouchableOpacity
                     className='bg-yellow-400 p-2 rounded-tl-xl rounded-br-xl w-[40px] h-[40px] flex items-center justify-center'

@@ -39,7 +39,8 @@ const StoryDetails = ({
         const fetch = async () => {
             setExecuted(false);
             const { data, message, status } = await ShortStoryApi.getOne(shortStoryId);
-            const { data: random, status: randomStatus } = await ShortStoryApi.getRandom5(shortStoryId);
+            const { data: random, status: randomStatus } =
+                await ShortStoryApi.getRandom5(shortStoryId);
             if (status === 'SUCCESS') {
                 setStory(data);
                 setParagraph(getParagraph(data.paragraph));

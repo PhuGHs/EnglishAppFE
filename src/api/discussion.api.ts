@@ -1,5 +1,12 @@
 import http from '@root/utils/axiosConfig';
-import { ApiResponse, TPostMessage } from '@type/T-type';
+import {
+    ApiResponse,
+    TDiscussionDto,
+    TDiscussionPost,
+    TDiscussionTopicDto,
+    TPagination,
+    TPostMessage,
+} from '@type/T-type';
 
 export class DiscussionApi {
     static async getTop5() {
@@ -16,7 +23,7 @@ export class DiscussionApi {
         pageNumber: number,
         pageSize: number,
         sortBy: 'id' | 'createdDate'
-    ): Promise<ApiResponse<unknown>> {
+    ): Promise<TPagination<TDiscussionDto[]>> {
         try {
             const response = await http.get(`/discussions/user/${userId}`, {
                 params: {
@@ -25,6 +32,51 @@ export class DiscussionApi {
                     sortBy: sortBy,
                 },
             });
+            return response.data;
+        } catch (error) {
+            console.log(error);
+        }
+    }
+
+    static async create(data: TDiscussionPost): Promise<ApiResponse<TDiscussionDto>> {
+        try {
+            const response = await http.post('/discussions/create-new-discussion', data);
+            return response.data;
+        } catch (error) {
+            console.log(error);
+        }
+    }
+
+    static async update(id: number, data: TDiscussionPost): Promise<ApiResponse<TDiscussionDto>> {
+        try {
+            const response = await http.put(`/discussions/${id}/edit-discussion`, data);
+            return response.data;
+        } catch (error) {
+            console.log(error);
+        }
+    }
+
+    static async deleteDiscussion(discussionId: number): Promise<ApiResponse<string>> {
+        try {
+            const response = await http.delete(`/discussions/${discussionId}/delete`);
+            return response.data;
+        } catch (error) {
+            console.log(error);
+        }
+    }
+
+    static async getAllTopics(): Promise<ApiResponse<TDiscussionTopicDto[]>> {
+        try {
+            const response = await http.get('/discussion-topics');
+            return response.data;
+        } catch (error) {
+            console.log(error);
+        }
+    }
+
+    static async getOne(discussionId: number): Promise<ApiResponse<TDiscussionDto>> {
+        try {
+            const response = await http.get(`/discussions/${discussionId}/get`);
             return response.data;
         } catch (error) {
             console.log(error);

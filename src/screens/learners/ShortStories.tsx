@@ -17,6 +17,9 @@ const ShortStories = ({ navigation }: ShortStoriesScreenProps) => {
     const { role } = user;
     const [visible, setVisible] = useState<boolean>(false);
     const [stories, setStories] = useState<ShortStoryDto[]>([]);
+    const [curPage, setCurPage] = useState<number>(0);
+    const [pageSize, setPageSize] = useState<number>(10);
+    const [loading, setLoading] = useState<boolean>(false);
 
     const handleBackButton = () => {
         navigation.pop();
@@ -24,14 +27,21 @@ const ShortStories = ({ navigation }: ShortStoriesScreenProps) => {
 
     useEffect(() => {
         const fetch = async () => {
-            const data = await ShortStoryApi.get(0, 10, 'createdDate');
-            setStories(data.data.content);
+            setLoading(true);
+            try {
+                const { data } = await ShortStoryApi.get(curPage, pageSize, 'createdDate');
+                setStories(data.content);
+            } catch (error) {
+                console.log(error);
+            } finally {
+                setLoading(false);
+            }
         };
         fetch();
     }, []);
 
     return (
-        <SafeAreaView className='flex flex-1 mx-4'>
+        <SafeAreaView className='flex bg-slate-100 flex-1 mx-4'>
             <View className='flex flex-row mb-5 items-center mt-4 justify-between'>
                 <TouchableOpacity
                     className='bg-yellow-400 p-2 rounded-tl-xl rounded-br-xl w-[40px] h-[40px]'
@@ -60,6 +70,9 @@ const ShortStories = ({ navigation }: ShortStoriesScreenProps) => {
             <FlatList
                 data={stories}
                 keyExtractor={(item, index) => item.short_story_id.toString()}
+                onEndReached={() => setCurPage((prev) => prev + 1)}
+                onEndReachedThreshold={0.5}
+                ListFooterComponent={() => <Text>{loading ? 'Loading' : null}</Text>}
                 renderItem={({ item, index }) => (
                     <Story
                         story={item}
@@ -76,7 +89,7 @@ const ShortStories = ({ navigation }: ShortStoriesScreenProps) => {
                     />
                 )}
                 numColumns={2}
-                columnWrapperStyle={{justifyContent: 'space-between'}}
+                columnWrapperStyle={{ justifyContent: 'space-between' }}
             />
             <Modal
                 isVisible={visible}

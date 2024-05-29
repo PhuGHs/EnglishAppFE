@@ -126,99 +126,87 @@ const EditShortStory = ({
     return (
         <>
             <SafeAreaView className='flex flex-1 mx-4 space-y-8 h-full'>
-            <View className='flex flex-row justify-between items-start mt-3 h-[5%]'>
-                <TouchableOpacity
-                    className='bg-yellow-400 p-2 rounded-tl-xl rounded-br-xl w-[40px] h-[40px] flex items-center justify-center'
-                    onPress={() => navigation.pop()}
-                >
-                    <FontAwesomeIcon icon={faArrowLeft} color='#374151' size={25} />
-                </TouchableOpacity>
-                <Text className='text-[22px] text-sky-600 font-nunitoSemi'>Details</Text>
-                <TouchableOpacity>
-                    <FontAwesomeIcon icon={faCircleInfo} color='#0ea5e9' size={30} />
-                </TouchableOpacity>
-            </View>
-            <ScrollView className='flex flex-col h-[95%]'>
-                <View className='flex flex-col space-y-4 h-[100%]'>
-                    {!isKeyboardVisible && (
-                        <View>
-                            {type === 'insert' && !image ? (
-                                <TouchableOpacity className='w-full' onPress={pickImage}>
-                                    <View
-                                        className='w-full bg-white rounded-xl px-4 py-8 flex items-center justify-center'
-                                        style={{
-                                            borderWidth: 2,
-                                            borderRadius: 5,
-                                            borderStyle: 'dashed',
-                                            borderColor: 'grey',
-                                        }}
-                                    >
-                                        <FontAwesomeIcon
-                                            icon={faCloudUpload}
-                                            size={50}
-                                            color='#7F7F81'
-                                        />
-                                        <Text className='text-lg font-nunitoSemi text-[#7F7F81]'>
-                                            Touch here to upload photo!
-                                        </Text>
-                                    </View>
-                                </TouchableOpacity>
-                            ) : (
-                                <Image
-                                    className='w-full h-[200px] rounded-xl'
-                                    source={{ uri: type === 'edit' ? story.image : image }}
-                                />
-                            )}
-                        </View>
-                    )}
-                    <View className='flex flex-col space-y-2'>
-                        <Text className='text-gray-700 font-nunitoBold text-xl'>Header</Text>
-                        <TextInput
-                            className='w-full bg-white rounded-xl px-2 py-3 border-[1px] border-gray-400 text-gray-700 text-lg font-nunitoMedium'
-                            placeholder='Enter the header'
-                            value={headerValue}
-                            onChange={handleHeaderChange}
-                            onBlur={handleHeaderBlur}
-                        />
-                    </View>
-                    <View className='flex flex-col space-y-2'>
-                        <Text className='text-gray-700 font-nunitoBold text-xl'>Content</Text>
-                        <TextInput
-                            className='w-full min-h-[100px] bg-white rounded-xl px-2 py-3 border-[1px] border-gray-400 text-gray-700 text-lg font-nunitoMedium'
-                            multiline={true}
-                            value={content}
-                            onChange={handleContentChange}
-                            onBlur={handleContentBlur}
-                        />
-                    </View>
-                    {!isKeyboardVisible &&
-                        <View className='flex items-center justify-center'>
-                        <TouchableOpacity
-                            className='bg-yellow-400 rounded-xl'
-                            onPress={handleEditOrSave}
-                        >
-                            <Text className='text-gray-700 font-nunitoXBold text-lg px-8 py-4 rounded-xl'>
-                                Add / Save
-                            </Text>
-                        </TouchableOpacity>
-                        </View>
-                    }
+                <View className='flex flex-row justify-between items-start mt-3 h-[5%]'>
+                    <TouchableOpacity
+                        className='bg-yellow-400 p-2 rounded-tl-xl rounded-br-xl w-[40px] h-[40px] flex items-center justify-center'
+                        onPress={() => navigation.pop()}
+                    >
+                        <FontAwesomeIcon icon={faArrowLeft} color='#374151' size={25} />
+                    </TouchableOpacity>
+                    <Text className='text-[22px] text-sky-600 font-nunitoSemi'>Details</Text>
+                    <TouchableOpacity>
+                        <FontAwesomeIcon icon={faCircleInfo} color='#0ea5e9' size={30} />
+                    </TouchableOpacity>
                 </View>
-                {/* {!isKeyboardVisible && (
-                    <View className='h-[20%] flex items-center justify-center'>
-                        <TouchableOpacity
-                            className='bg-yellow-400 rounded-xl'
-                            onPress={handleEditOrSave}
-                        >
-                            <Text className='text-gray-700 font-nunitoXBold text-lg px-8 py-4 rounded-xl'>
-                                Add / Save
-                            </Text>
-                        </TouchableOpacity>
+                <ScrollView className='flex flex-col h-[95%]'>
+                    <View className='flex flex-col space-y-4 h-[100%]'>
+                        {!isKeyboardVisible && (
+                            <View>
+                                {type === 'insert' && !image ? (
+                                    <TouchableOpacity className='w-full' onPress={pickImage}>
+                                        <View
+                                            className='w-full bg-white rounded-xl px-4 py-8 flex items-center justify-center'
+                                            style={{
+                                                borderWidth: 2,
+                                                borderRadius: 5,
+                                                borderStyle: 'dashed',
+                                                borderColor: 'grey',
+                                            }}
+                                        >
+                                            <FontAwesomeIcon
+                                                icon={faCloudUpload}
+                                                size={50}
+                                                color='#7F7F81'
+                                            />
+                                            <Text className='text-lg font-nunitoSemi text-[#7F7F81]'>
+                                                Touch here to upload photo!
+                                            </Text>
+                                        </View>
+                                    </TouchableOpacity>
+                                ) : (
+                                    <Image
+                                        className='w-full h-[200px] rounded-xl'
+                                        source={{ uri: type === 'edit' ? story.image : image }}
+                                    />
+                                )}
+                            </View>
+                        )}
+                        <View className='flex flex-col space-y-2'>
+                            <Text className='text-gray-700 font-nunitoBold text-xl'>Header</Text>
+                            <TextInput
+                                className='w-full bg-white rounded-xl px-2 py-3 border-[1px] border-gray-400 text-gray-700 text-lg font-nunitoMedium'
+                                placeholder='Enter the header'
+                                value={headerValue}
+                                onChange={handleHeaderChange}
+                                onBlur={handleHeaderBlur}
+                            />
+                        </View>
+                        <View className='flex flex-col space-y-2'>
+                            <Text className='text-gray-700 font-nunitoBold text-xl'>Content</Text>
+                            <TextInput
+                                className='w-full min-h-[100px] bg-white rounded-xl px-2 py-3 border-[1px] border-gray-400 text-gray-700 text-lg font-nunitoMedium'
+                                multiline={true}
+                                value={content}
+                                onChange={handleContentChange}
+                                onBlur={handleContentBlur}
+                            />
+                        </View>
+                        {!isKeyboardVisible && (
+                            <View className='flex items-center justify-center'>
+                                <TouchableOpacity
+                                    className='bg-yellow-400 rounded-xl'
+                                    onPress={handleEditOrSave}
+                                >
+                                    <Text className='text-gray-700 font-nunitoXBold text-lg px-8 py-4 rounded-xl'>
+                                        Add / Save
+                                    </Text>
+                                </TouchableOpacity>
+                            </View>
+                        )}
                     </View>
-                )} */}
-            </ScrollView>
-        </SafeAreaView>
-        {!hasExecuted && (
+                </ScrollView>
+            </SafeAreaView>
+            {!hasExecuted && (
                 <View style={styles.overlay}>
                     <ActivityIndicator size='large' color='#0000ff' />
                 </View>

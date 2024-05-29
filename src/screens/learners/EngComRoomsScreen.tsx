@@ -22,7 +22,7 @@ const EngComRoomsScreen = ({ navigation }: EngComRoomsScreenProps) => {
         },
     ]);
     return (
-        <SafeAreaView className='flex flex-1 bg-white'>
+        <SafeAreaView className='flex bg-slate-100 flex-1 bg-white'>
             <View className='flex flex-1 bg-white'>
                 <View className='px-3'>
                     <View className='flex flex-row mb-5 items-center'>

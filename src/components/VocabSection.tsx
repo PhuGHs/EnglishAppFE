@@ -7,11 +7,12 @@ import { Text, TouchableOpacity, View } from 'react-native';
 interface IVocabSection {
     icon?: IconDefinition;
     header: string;
-    subtitle: string;
-    press: () => void;
+    subtitle?: string;
+    topic?: boolean;
+    press?: () => void;
 }
 
-const VocabSection = ({ icon, header, subtitle, press }: IVocabSection) => {
+const VocabSection = ({ icon, topic, header, subtitle, press }: IVocabSection) => {
     return (
         <TouchableOpacity
             className='rounded-xl bg-white w-full h-fit p-4 mt-4 flex flex-row items-center justify-between'
@@ -20,9 +21,11 @@ const VocabSection = ({ icon, header, subtitle, press }: IVocabSection) => {
             {icon && <FontAwesomeIcon icon={icon} size={40} color='#0284c7' />}
             <View className='ml-4 flex flex-col justify-between items-start w-[78%]'>
                 <Text className='text-gray-700 text-xl font-nunitoBold'>{header}</Text>
-                <Text className='text-gray-500 text-base font-nunitoMedium'>{subtitle}</Text>
+                {!topic && (
+                    <Text className='text-gray-500 text-base font-nunitoMedium'>{subtitle}</Text>
+                )}
             </View>
-            <FontAwesomeIcon icon={faAngleRight} size={25} color='#374151' />
+            {!topic && <FontAwesomeIcon icon={faAngleRight} size={25} color='#374151' />}
         </TouchableOpacity>
     );
 };

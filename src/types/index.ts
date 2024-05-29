@@ -18,7 +18,7 @@ export type RootStackParamList = {
     CreateARoom: undefined;
     RoomDetails: undefined;
     TopicScreen: { levelId: number };
-    TopicDetails: undefined;
+    TopicDetails: { topicId: number; topicName: string };
     ShortStories: undefined;
     StoryDetails: { shortStoryId: number };
     LeaderBoard: undefined;
@@ -34,7 +34,12 @@ export type RootStackParamList = {
     ReportScreen: undefined;
     ReportDetails: { reportId: number };
     EditShortStory: { shortStoryId?: number; type: 'edit' | 'insert' };
-    EditTopic: { levelId: number; topicId?: number };
+    EditTopic: {
+        levelId?: number;
+        topicId?: number;
+        type?: 'edit' | 'insert';
+        screenType?: 'topic' | 'question';
+    };
     LevelOptions: { levelId: number };
     SearchScreen: undefined;
     UserProfileScreen: { userId: number };

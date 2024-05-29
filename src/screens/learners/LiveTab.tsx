@@ -5,7 +5,7 @@ import { Text, View } from 'react-native';
 
 const LiveTab = ({ navigation }) => {
     return (
-        <View className='flex flex-col mx-2'>
+        <View className='flex bg-slate-100 flex-col mx-2'>
             <EngComRooms horizontal={false} navigation={navigation} />
         </View>
     );
