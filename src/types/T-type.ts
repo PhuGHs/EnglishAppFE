@@ -315,3 +315,8 @@ export type TDiscussionDto = {
     created_date: string;
     updated_date: string;
 };
+
+export type TFilter = {
+    filterName: string;
+    isSelected: boolean;
+};

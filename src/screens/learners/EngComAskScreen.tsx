@@ -6,7 +6,7 @@ import { SafeAreaView } from 'react-native-safe-area-context';
 import { SceneMap, TabBar, TabView } from 'react-native-tab-view';
 import { Text } from 'react-native';
 import { FontAwesomeIcon } from '@fortawesome/react-native-fontawesome';
-import { faArrowLeft } from '@fortawesome/free-solid-svg-icons';
+import { faArrowLeft, faPlus } from '@fortawesome/free-solid-svg-icons';
 import { EngComAskScreenProps, TabsScreenProps } from '@type/index';
 
 const renderTabBar = (props) => (
@@ -62,17 +62,6 @@ const EngComAskScreen = ({ navigation }: EngComAskScreenProps) => {
                         second: () => <MyQuestionsTab navigation={navigation} />,
                     })}
                 />
-                <View className='absolute bottom-10 flex items-center justify-center w-full'>
-                    <TouchableOpacity
-                        className='py-3 bg-yellow-400 rounded-xl'
-                        style={{ elevation: 10, shadowColor: '#0f172a' }}
-                        onPress={() => navigation.push('AskAQuestion')}
-                    >
-                        <Text className='text-xl font-nunitoBold text-center text-gray-700 px-10 py-1'>
-                            Ask a question
-                        </Text>
-                    </TouchableOpacity>
-                </View>
             </View>
         </SafeAreaView>
     );

@@ -30,7 +30,6 @@ const MyQuestionsTab = ({ navigation }) => {
     }, []);
     return (
         <View className='flex bg-slate-100 flex-1 p-3'>
-            <SearchBar />
             <EngComQAs data={discussions} horizontal={false} navigation={navigation} />
         </View>
     );

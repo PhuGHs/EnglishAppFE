@@ -6,9 +6,7 @@ import { useAuth } from '@root/context/auth-context';
 import { useToast } from '@root/context/toast-context';
 import { UserContext } from '@root/context/user-context';
 import { SignInScreenProps } from '@root/types';
-import { storeData } from '@root/utils/asyncStorage';
 import { Helper } from '@root/utils/helper';
-import { AuthResponse } from '@type/T-type';
 import React, { useContext, useEffect, useRef, useState } from 'react';
 import {
     Text,
