@@ -82,4 +82,32 @@ export class DiscussionApi {
             console.log(error);
         }
     }
+
+    static async filterDiscussions(pageSize: number, pageNumber: number, options: string[]): Promise<ApiResponse<TDiscussionDto[]>> {
+        try {
+            const response = await http.get('/discussions/filter-discussions', {
+                params: {
+                    pageSize: pageSize,
+                    pageNumber: pageNumber,
+                    options: options
+                },
+                paramsSerializer: params => {
+                    const keys = Object.keys(params).reduce((result, key) => {
+                        if (Array.isArray(params[key])) {
+                            params[key].forEach((val: string) => {
+                                result.push(`${encodeURIComponent(key)}=${encodeURIComponent(val)}`);
+                            });
+                        } else {
+                            result.push(`${encodeURIComponent(key)}=${encodeURIComponent(params[key])}`);
+                        }
+                        return result;
+                    }, [] as string[]);
+                    return keys.join('&');
+                }
+            });
+            return response.data;
+        } catch (error) {
+            console.log(error);
+        }
+    }
 }

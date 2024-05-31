@@ -82,7 +82,7 @@ const AskAQuestion = ({
                         <FontAwesomeIcon icon={faArrowLeft} color='#374151' size={25} />
                     </TouchableOpacity>
                     <Text className='text-center w-full -left-[35px] text-sky-600 text-[22px] font-nunitoSemi'>
-                        EngCom QA
+                        Discussion
                     </Text>
                 </View>
             </View>

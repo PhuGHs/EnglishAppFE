@@ -48,7 +48,7 @@ const EngComAskScreen = ({ navigation }: EngComAskScreenProps) => {
                         >
                             <FontAwesomeIcon icon={faArrowLeft} color='#374151' size={25} />
                         </TouchableOpacity>
-                        <Text className='text-sky-600 text-[22px] font-nunitoSemi'>EngCom QA</Text>
+                        <Text className='text-sky-600 text-[22px] font-nunitoSemi'>Discussions</Text>
                         <View className='w-[4%]'></View>
                     </View>
                 </View>

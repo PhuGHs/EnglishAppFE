@@ -35,11 +35,7 @@ const filterOptions: TFilter[] = [
     {
         filterName: 'Other',
         isSelected: false,
-    },
-    {
-        filterName: 'All',
-        isSelected: true,
-    },
+    }
 ];
 
 const QuestionsTab = ({ navigation }) => {
@@ -49,6 +45,8 @@ const QuestionsTab = ({ navigation }) => {
     const [spinVisibility, setSpinVisibility] = useState<boolean>(false);
     const [buttonShow, setButtonShow] = useState<boolean>(true);
     const [options, setOptions] = useState<TFilter[]>(filterOptions);
+    const [pageSize, setPageSize] = useState<number>(10);
+    const [pageNumber, setPageNumber] = useState<number>(0);
 
     const bottomSheetModalRef = useRef<BottomSheetModal>(null);
     const snapPoints = useMemo(() => ['25%', '50%'], []);
@@ -64,20 +62,25 @@ const QuestionsTab = ({ navigation }) => {
         }
     }, []);
 
+    const handleFilter = async () => {
+        try {
+            const arr: string[] = options.filter((item) => { if (item.isSelected) return item; }).map((item) => item.filterName);
+            const { data, message, status } = await DiscussionApi.filterDiscussions(pageSize, pageNumber, arr);
+            if (status === 'SUCCESS') {
+                setDiscussions(data);
+            }
+        } catch (error) {
+            console.log(error);
+        }
+    };
+
     const handleSelectFilter = (selectedFilter: TFilter) => {
         setOptions(prevOptions => prevOptions.map(filter => filter.filterName === selectedFilter.filterName ? { ...filter, isSelected: !filter.isSelected } : filter));
     };
-
     useEffect(() => {
         const fetch = async () => {
             try {
-                const { content } = await DiscussionApi.getUserDiscussions(
-                    user_id,
-                    0,
-                    10,
-                    'createdDate'
-                );
-                setDiscussions(content);
+                handleFilter();
             } catch (error) {
                 console.log(error);
             }
@@ -134,7 +137,9 @@ const QuestionsTab = ({ navigation }) => {
                                 {options.map((item, index) => <Filter handleSelectFilter={() => handleSelectFilter(item)} key={index} filter={item}/>)}
                             </View>
                             <View className='h-[20%] flex items-center justify-center'>
-                                <TouchableOpacity className='flex h-full bg-yellow-400 px-4 py-2 rounded-lg'>
+                                <TouchableOpacity 
+                                    onPress={handleFilter}
+                                    className='flex h-full bg-yellow-400 px-4 py-2 rounded-lg'>
                                     <Text className='text-lg text-gray-700 font-nunitoBold'>Apply</Text>
                                 </TouchableOpacity>
                             </View>

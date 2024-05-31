@@ -73,6 +73,7 @@ export type TUserNecessary = {
     full_name: string;
     profile_picture: string;
     english_level: TEnglishLevel;
+    english_level_name?: string
 };
 
 export type TEngcomAsk = {
@@ -319,4 +320,19 @@ export type TDiscussionDto = {
 export type TFilter = {
     filterName: string;
     isSelected: boolean;
+};
+
+export type TAnswerPost = {
+    discussion_id: number,
+    user_id: number,
+    answer_text: string
+};
+
+export type TAnswer = {
+    answer_id: number,
+    created_date: string,
+    updated_date: string,
+    discussion_id: number,
+    user: TUserNecessary,
+    answer_text: string
 };
