@@ -12,7 +12,8 @@ import { useToast } from '@root/context/toast-context';
 import { MissionApi } from '@root/api/mission.api';
 import { DiscussionApi } from '@root/api/discussion.api';
 import { NotificationApi } from '@root/api/notification.api';
-import { TNotification } from '@type/T-type';
+import { TDiscussionDto, TLearningRoomDto, TNotification } from '@type/T-type';
+import { LearningRoomApi } from '@root/api/learningroom.api';
 
 const HomeScreen = ({ navigation }: TabsScreenProps) => {
     const { user } = useContext(UserContext);
@@ -21,6 +22,8 @@ const HomeScreen = ({ navigation }: TabsScreenProps) => {
     const { showToast } = useToast();
     const [percentage, setPercentage] = useState<number>(0);
     const [numberOfNotifications, setNumberOfNotifications] = useState<number>(0);
+    const [discussions, setDiscussions] = useState<TDiscussionDto[]>([]);
+    const [rooms, setRooms] = useState<TLearningRoomDto[]>([]);
 
     if (!user) {
         showToast({ type: 'danger', description: 'There is something wrong', timeout: 2000 });
@@ -28,18 +31,24 @@ const HomeScreen = ({ navigation }: TabsScreenProps) => {
 
     useEffect(() => {
         setLoaded(false);
-        const fetchPercentage = async () => {
-            const { data, status } = await MissionApi.getPercentage(user_id);
-            if (status == 'FAIL') {
-                return;
+        const fetch = async () => {
+            try {
+                const { data, status } = await MissionApi.getPercentage(user_id);
+                if (status == 'FAIL') {
+                    return;
+                }
+                const { data: dcs}  = await DiscussionApi.getTop5();
+                setDiscussions(dcs);
+                const { data: rooms } = await LearningRoomApi.getSuggestRooms(user_id);
+                setRooms(rooms);
+                const { data: notifications } = await NotificationApi.getUnread(user_id);
+                setNumberOfNotifications(notifications.length);
+                setPercentage(data as number);
+            } catch (error) {
+                console.log(error);
             }
-            const discussions = await DiscussionApi.getTop5();
-            const { data: notifications } = await NotificationApi.getUnread(user_id);
-            setNumberOfNotifications(notifications.length);
-            console.log(discussions);
-            setPercentage(data as number);
         };
-        fetchPercentage();
+        fetch();
         setLoaded(true);
     }, []);
 
@@ -108,7 +117,7 @@ const HomeScreen = ({ navigation }: TabsScreenProps) => {
                             <Text className='text-sky-600 text-lg font-nunitoBold'>Show all</Text>
                         </TouchableOpacity>
                     </View>
-                    <EngComRooms horizontal={true} navigation={navigation} />
+                    <EngComRooms data={rooms} horizontal={true} navigation={navigation} />
                 </View>
                 <View className='flex flex-col'>
                     <View className='flex flex-row justify-between items-center'>
@@ -120,7 +129,7 @@ const HomeScreen = ({ navigation }: TabsScreenProps) => {
                             <Text className='text-sky-600 text-lg font-nunitoBold'>Show all</Text>
                         </TouchableOpacity>
                     </View>
-                    <EngComQAs horizontal={true} />
+                    <EngComQAs navigation={navigation} data={discussions} horizontal={true} />
                 </View>
             </ScrollView>
         </SafeAreaView>

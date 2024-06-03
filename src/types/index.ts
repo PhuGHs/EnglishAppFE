@@ -1,5 +1,5 @@
 import { NativeStackScreenProps } from '@react-navigation/native-stack';
-import { TConversationTransfer } from './T-type';
+import { TConversationTransfer, TLearningRoomDto } from './T-type';
 
 export type RootStackParamList = {
     Welcome: undefined;
@@ -16,7 +16,7 @@ export type RootStackParamList = {
     DetailChat: { conversation: TConversationTransfer };
     EngComRooms: undefined;
     CreateARoom: undefined;
-    RoomDetails: undefined;
+    RoomDetails: { room: TLearningRoomDto };
     TopicScreen: { levelId: number };
     TopicDetails: { topicId: number; topicName: string };
     ShortStories: undefined;
@@ -43,6 +43,7 @@ export type RootStackParamList = {
     LevelOptions: { levelId: number };
     SearchScreen: undefined;
     UserProfileScreen: { userId: number };
+    UserRecommendation: undefined;
 };
 
 export type WelcomeScreenProps = NativeStackScreenProps<RootStackParamList, 'Welcome'>;
@@ -101,6 +102,7 @@ export type UserProfileScreenProps = NativeStackScreenProps<
     RootStackParamList,
     'UserProfileScreen'
 >;
+export type UserRecommendationScreenProps = NativeStackScreenProps<RootStackParamList, 'UserRecommendation'>;
 
 export type BottomTabParamList = {
     Home: undefined;

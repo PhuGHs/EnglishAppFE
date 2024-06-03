@@ -19,7 +19,7 @@ const Skills = ({ navigation }: TabsScreenProps) => {
     };
     return (
         <SafeAreaView className='flex flex-1 px-4 bg-slate-100'>
-            <Text className='text-sky-600 w-full text-center font-nunitoBold text-2xl my-4'>
+            <Text className='text-sky-600 w-full text-center font-nunitoSemi text-2xl my-4'>
                 Learning materials
             </Text>
             <View className='flex flex-col'>

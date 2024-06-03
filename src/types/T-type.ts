@@ -231,7 +231,7 @@ export type TSearch = {
     followingCount: number;
     followersCount: number;
     englishLevel: string;
-    interests: TInterest2;
+    interests: TInterest[];
 };
 
 export type TReviewPostDto = {
@@ -335,4 +335,64 @@ export type TAnswer = {
     discussion_id: number,
     user: TUserNecessary,
     answer_text: string
+};
+
+export type TParticipantDto = {
+    participant_id: number,
+    user: TUserNecessary,
+    join_time: string,
+    is_speaker: boolean,
+    is_owner: boolean
+};
+
+export type TLearningRoomDto = {
+    id: number,
+    room_name: string,
+    created_at: string,
+    scheduled_to: string,
+    max_participants: number,
+    duration: number,
+    is_live: boolean,
+    is_private: boolean,
+    topic: TEnglishTopicDto,
+    participants: TParticipantDto[]
+};
+
+export type TLearningRoomPostInstant = {
+    room_name: string,
+    // created_at: string,
+    max_participants: number,
+    duration: number,
+    is_private: boolean,
+    password?: string,
+    topic_id: number,
+    user_id: number
+}
+
+export type TLearningRoomPostLater = {
+    room_name: string,
+    // created_at: string,
+    scheduled_to: string,
+    max_participants: number,
+    duration: number,
+    is_private: boolean,
+    password?: string,
+    topic_id: number,
+    user_id: number
+};
+
+export type TJoinLearningRoom = {
+    user_id: number,
+    room_id: number,
+    password?: string
+}
+
+export type TPromoteToOwner = {
+    participant_id: number,
+    owner_id: number
+}
+
+export type TRadioButton = {
+    id: number,
+    label: string
 };

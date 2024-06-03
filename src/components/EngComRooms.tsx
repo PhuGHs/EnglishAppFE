@@ -9,21 +9,22 @@ import {
     faHeadphonesSimple,
     faMicrophone,
 } from '@fortawesome/free-solid-svg-icons';
+import { TLearningRoomDto } from '@type/T-type';
+import { FlatList } from 'react-native-gesture-handler';
 
 export interface IEngComRoomProps {
-    levelName?: string;
-    topicName?: string;
-    topicSection?: string;
     horizontal: boolean;
     navigation;
+    room: TLearningRoomDto;
 }
 
 export interface IEngComRoomsProps {
     horizontal: boolean;
     navigation;
+    data: TLearningRoomDto[]
 }
 
-const EngComRoom = ({ horizontal, navigation }: IEngComRoomProps) => {
+const EngComRoom = ({ horizontal, navigation, room }: IEngComRoomProps) => {
     return (
         <View
             className={`p-4 rounded-2xl bg-white border-4 border-sky-500 mt-4 ${horizontal ? 'mr-4' : 'w-full'}`}
@@ -67,22 +68,14 @@ const EngComRoom = ({ horizontal, navigation }: IEngComRoomProps) => {
     );
 };
 
-const EngComRooms = ({ horizontal, navigation }: IEngComRoomsProps) => {
+const EngComRooms = ({ horizontal, navigation, data }: IEngComRoomsProps) => {
     return (
-        <ScrollView
+        <FlatList
             horizontal={horizontal}
-            contentContainerStyle={{
-                display: 'flex',
-                marginHorizontal: 4,
-                flexDirection: horizontal ? 'row' : 'column',
-                alignItems: horizontal ? 'center' : 'flex-start',
-            }}
-        >
-            <EngComRoom horizontal={horizontal} navigation={navigation} />
-            <EngComRoom horizontal={horizontal} navigation={navigation} />
-            <EngComRoom horizontal={horizontal} navigation={navigation} />
-            <EngComRoom horizontal={horizontal} navigation={navigation} />
-        </ScrollView>
+            data={data}
+            keyExtractor={(item, index) => index.toString()}
+            renderItem={({item, index}) => <EngComRoom horizontal={horizontal} navigation={navigation} room={item} key={index}/>}
+        />
     );
 };
 

@@ -19,6 +19,7 @@ import { useSafeAreaInsets } from 'react-native-safe-area-context';
 import Skills from '@screen/learners/Skills';
 import { UserContext } from '@root/context/user-context';
 import ReportScreen from '@screen/administrators/ReportScreen';
+import UserRecommendation from '@screen/learners/UserRecommendation';
 
 const Tab = createBottomTabNavigator<BottomTabParamList>();
 
@@ -50,7 +51,7 @@ const Tabs = () => {
                     />
                     <Tab.Screen
                         name='Learners'
-                        component={DoubleTab}
+                        component={UserRecommendation}
                         options={{ tabBarIcon: UsersIcon, tabBarActiveTintColor: '#0284c7' }}
                     />
                     <Tab.Screen

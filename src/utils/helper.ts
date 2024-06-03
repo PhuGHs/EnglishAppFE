@@ -54,4 +54,16 @@ export class Helper {
 
         return inputDate.format('D MMMM YYYY [at] h:mm A');
     };
+
+    static generateRoomPassword(): string {
+        const characters = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789';
+        let password = '';
+        while (password.length < 6) {
+            const randomChar = characters.charAt(Math.floor(Math.random() * characters.length));
+            if (!password.includes(randomChar)) {
+                password += randomChar;
+            }
+        }
+        return password;
+    }
 }

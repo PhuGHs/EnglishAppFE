@@ -41,6 +41,7 @@
     "nativewind": "^2.0.11",
     "react": "18.2.0",
     "react-native": "0.73.4",
+    "react-native-agora": "^4.3.1",
     "react-native-animated-spinkit": "^1.5.2",
     "react-native-calendar-strip": "^2.2.6",
     "react-native-dynamic-search-bar": "github:WrathChaos/react-native-dynamic-search-bar#expo",
@@ -61,7 +62,8 @@
     "sockjs-client": "^1.6.1",
     "stompjs": "^2.3.3",
     "text-encoding": "^0.7.0",
-    "typescript-transform-paths": "^3.4.6"
+    "typescript-transform-paths": "^3.4.6",
+    "@react-native-community/datetimepicker": "7.7.0"
   },
   "devDependencies": {
     "@babel/core": "^7.20.0",

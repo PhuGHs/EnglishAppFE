@@ -1,26 +1,53 @@
-import EngComUser from '@component/EngComUser';
+import React, { useContext, useEffect, useState } from 'react';
+import { FlatList, Text, TouchableOpacity, View } from 'react-native';
 import { FontAwesomeIcon } from '@fortawesome/react-native-fontawesome';
-import React, { useState } from 'react';
-import { ScrollView, Text, TouchableOpacity, View } from 'react-native';
-import { faArrowLeft } from '@fortawesome/free-solid-svg-icons';
-import { faHeadphones } from '@fortawesome/free-solid-svg-icons';
+import { faArrowLeft, faHeadphones } from '@fortawesome/free-solid-svg-icons';
 import Accordion from '@component/Accordion';
 import Modal from 'react-native-modal';
 import User from '@component/User';
-
+import EngComUser from '@component/EngComUser';
 import { SafeAreaView } from 'react-native-safe-area-context';
-const RoomDetails = () => {
-    const [session, setSession] = useState(null);
-    const [publisher, setPublisher] = useState(null);
-    const [subscribers, setSubscribers] = useState([]);
-    const [isConnected, setIsConnected] = useState(false);
+import { RoomDetailsScreenProps, RootStackParamList } from '@type/index';
+import { RouteProp } from '@react-navigation/native';
+import { UserContext } from '@root/context/user-context';
+import { LearningRoomApi } from '@root/api/learningroom.api';
+import { TEnglishTopicQuestionDto } from '@type/T-type';
+import { TopicApi } from '@root/api/topic.api';
+
+const RoomDetails = ({
+    route,
+    navigation,
+}: RoomDetailsScreenProps & { route: RouteProp<RootStackParamList, 'RoomDetails'> }) => {
+    const { user } = useContext(UserContext);
+    const { user_id } = user.user;
     const [isVisible, setIsVisible] = useState(false);
-    const [sessionId, setSessionId] = useState(false);
-    return (
-        <SafeAreaView className='flex flex-1 bg-slate-100 px-3'>
+    const { room } = route.params;
+    const [questions, setQuestions] = useState<TEnglishTopicQuestionDto[]>([]);
+
+    const handleQuit = async () => {
+        const { status } = await LearningRoomApi.endRoom(room.id, true);
+        if (status === 'SUCCESS') {
+            navigation.navigate('Tabs');
+        }
+    };
+
+    useEffect(() => {
+        const fetch = async () => {
+            const { data, message, status } = await TopicApi.getAllQuestions(room.topic.topic_id);
+            if (status === 'SUCCESS') {
+                setQuestions(data);
+            }
+        };
+        fetch();
+    }, []);
+
+    const renderContent = () => (
+        <View className='flex flex-1 bg-slate-100 px-3'>
             <View className='mt-4'>
                 <View className='flex flex-row mb-5 items-center'>
-                    <TouchableOpacity className='bg-yellow-400 p-2 rounded-tl-xl rounded-br-xl w-[40px]'>
+                    <TouchableOpacity 
+                        onPress={handleQuit}
+                        className='bg-yellow-400 p-2 rounded-tl-xl rounded-br-xl w-[40px]'>
                         <FontAwesomeIcon icon={faArrowLeft} color='#374151' size={25} />
                     </TouchableOpacity>
                     <Text className='text-center w-full -left-[40px] text-sky-600 text-[22px] font-nunitoSemi'>
@@ -28,71 +55,54 @@ const RoomDetails = () => {
                     </Text>
                 </View>
             </View>
-            <ScrollView horizontal={false} className='space-y-4 mb-10'>
-                <View className='flex flex-row justify-between'>
-                    <Text className='p-3 bg-[#ACE5FF] text-[#005DB2] text-base w-[45%] rounded-lg text-center font-nunitoBold'>
-                        B1 - Intermediate
-                    </Text>
-                    <Text className='p-3 bg-[#F2DDCC] text-[#FF6B00] text-base w-[45%] rounded-lg text-center font-nunitoBold'>
-                        Daily life
-                    </Text>
-                </View>
-                <Text className='text-gray-700 font-nunitoSemi text-lg'>
-                    Do you prefer to have a lot of friends or just a few close friends?
+            <View className='flex flex-row justify-between mb-4'>
+                <Text className='p-3 bg-[#ACE5FF] text-[#005DB2] text-base w-[45%] rounded-lg text-center font-nunitoBold'>
+                    {room.topic.english_level_id}
                 </Text>
-                <View
-                    className='p-3 bg-white min-h-[300px] rounded-xl'
-                    style={{ elevation: 10, shadowColor: 'gray' }}
-                >
-                    <View className='flex flex-row justify-between items-center'>
-                        <Text className='text-[#005DB2] font-nunitoBold text-lg'>SPEAKERS</Text>
-                        <TouchableOpacity
-                            onPress={() => setIsVisible(!isVisible)}
-                            className='flex flex-row bg-[#E1F0FF] w-fit px-4 py-1 space-x-3 rounded-full items-center justify-center'
-                        >
-                            <FontAwesomeIcon icon={faHeadphones} size={25} color='#005DB2' />
-                            <Text className='text-[#005DB2] text-lg font-nunitoBold'>3</Text>
-                        </TouchableOpacity>
-                    </View>
-                    <View className='flex flex-row flex-wrap p-1'>
-                        <EngComUser isCreator={true} noUser={false} />
-                        <EngComUser isCreator={false} noUser={false} />
-                        <EngComUser isCreator={false} noUser={false} />
-                        <EngComUser isCreator={false} noUser={false} />
-                        <EngComUser isCreator={false} noUser={false} />
-                        <EngComUser isCreator={false} noUser={true} />
-                        <EngComUser isCreator={false} noUser={true} />
-                        <EngComUser isCreator={false} noUser={true} />
-                    </View>
+                <Text className='p-3 bg-[#F2DDCC] text-[#FF6B00] text-base w-[45%] rounded-lg text-center font-nunitoBold'>
+                    {room.topic.header}
+                </Text>
+            </View>
+            <Text className='text-gray-700 font-nunitoSemi text-lg mb-4'>
+                {room.room_name}
+            </Text>
+            <View className='p-3 bg-white min-h-[300px] rounded-xl mb-4' style={{ elevation: 10, shadowColor: 'gray' }}>
+                <View className='flex flex-row justify-between items-center mb-4'>
+                    <Text className='text-[#005DB2] font-nunitoBold text-lg'>SPEAKERS</Text>
+                    <TouchableOpacity
+                        onPress={() => setIsVisible(!isVisible)}
+                        className='flex flex-row bg-[#E1F0FF] w-fit px-4 py-1 space-x-3 rounded-full items-center justify-center'
+                    >
+                        <FontAwesomeIcon icon={faHeadphones} size={25} color='#005DB2' />
+                        <Text className='text-[#005DB2] text-lg font-nunitoBold'>3</Text>
+                    </TouchableOpacity>
                 </View>
-                <View className=''>
-                    <Text className='text-xl text-gray-700 font-nunitoBold'>
-                        There are 8 sample questions
-                    </Text>
-                    <View className='flex flex-col'>
-                        <Accordion
-                            header='Do you prefer to have a lot of friends or just a few close friends?'
-                            content='Personally I think that I will more inclined to close friends'
-                        />
-                        <Accordion
-                            header='Do you prefer to have a lot of friends or just a few close friends?'
-                            content='Personally I think that I will more inclined to close friends'
-                        />
-                        <Accordion
-                            header='Do you prefer to have a lot of friends or just a few close friends?'
-                            content='Personally I think that I will more inclined to close friends'
-                        />
-                        <Accordion
-                            header='Do you prefer to have a lot of friends or just a few close friends?'
-                            content='Personally I think that I will more inclined to close friends'
-                        />
-                        <Accordion
-                            header='Do you prefer to have a lot of friends or just a few close friends?'
-                            content='Personally I think that I will more inclined to close friends'
-                        />
-                    </View>
+                <View className='flex flex-row flex-wrap p-1'>
+                    <EngComUser isCreator={true} noUser={false} />
+                    <EngComUser isCreator={false} noUser={false} />
+                    <EngComUser isCreator={false} noUser={false} />
+                    <EngComUser isCreator={false} noUser={false} />
+                    <EngComUser isCreator={false} noUser={false} />
+                    <EngComUser isCreator={false} noUser={true} />
+                    <EngComUser isCreator={false} noUser={true} />
+                    <EngComUser isCreator={false} noUser={true} />
                 </View>
-            </ScrollView>
+            </View>
+            <Text className='text-xl text-gray-700 font-nunitoBold mb-4'>
+                There are {questions.length} sample questions
+            </Text>
+        </View>
+    );
+
+    return (
+        <SafeAreaView className='flex flex-1'>
+            <FlatList
+                data={questions}
+                keyExtractor={(item, index) => index.toString()}
+                renderItem={({ item }) => <Accordion header={item.question} content={item.sample_answer} />}
+                ListHeaderComponent={renderContent}
+                contentContainerStyle={{ paddingBottom: 20 }}
+            />
             <Modal
                 isVisible={isVisible}
                 onBackButtonPress={() => setIsVisible(!isVisible)}

@@ -9,7 +9,7 @@ import {
 } from '@type/T-type';
 
 export class DiscussionApi {
-    static async getTop5() {
+    static async getTop5(): Promise<ApiResponse<TDiscussionDto[]>> {
         try {
             const response = await http.get('/discussions/popular-discussions');
             return response.data;
@@ -83,14 +83,25 @@ export class DiscussionApi {
         }
     }
 
-    static async filterDiscussions(pageSize: number, pageNumber: number, options: string[]): Promise<ApiResponse<TDiscussionDto[]>> {
+    static async filterDiscussions(pageSize: number, pageNumber: number, options: string[], searchTerms?: string): Promise<ApiResponse<TDiscussionDto[]>> {
+        let obj;
+        if (searchTerms) {
+            obj = {
+                searchTerms: searchTerms,
+                pageNumber: pageNumber,
+                pageSize: pageSize,
+                options: options
+            };
+        } else {
+            obj = {
+                pageNumber: pageNumber,
+                pageSize: pageSize,
+                options: options
+            };
+        }
         try {
             const response = await http.get('/discussions/filter-discussions', {
-                params: {
-                    pageSize: pageSize,
-                    pageNumber: pageNumber,
-                    options: options
-                },
+                params: obj,
                 paramsSerializer: params => {
                     const keys = Object.keys(params).reduce((result, key) => {
                         if (Array.isArray(params[key])) {

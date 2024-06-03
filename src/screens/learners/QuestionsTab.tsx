@@ -10,6 +10,7 @@ import { BottomSheetModal, BottomSheetView, BottomSheetModalProvider, BottomShee
 import { FontAwesomeIcon } from '@fortawesome/react-native-fontawesome';
 import { faPlus } from '@fortawesome/free-solid-svg-icons';
 import Filter from '@component/Filter';
+import { text } from '@fortawesome/fontawesome-svg-core';
 
 const filterOptions: TFilter[] = [
     {
@@ -47,6 +48,7 @@ const QuestionsTab = ({ navigation }) => {
     const [options, setOptions] = useState<TFilter[]>(filterOptions);
     const [pageSize, setPageSize] = useState<number>(10);
     const [pageNumber, setPageNumber] = useState<number>(0);
+    const [searchTerms, setSearchTerms] = useState<string>('');
 
     const bottomSheetModalRef = useRef<BottomSheetModal>(null);
     const snapPoints = useMemo(() => ['25%', '50%'], []);
@@ -62,12 +64,14 @@ const QuestionsTab = ({ navigation }) => {
         }
     }, []);
 
-    const handleFilter = async () => {
+    const handleFilter = async (text?: string) => {
         try {
+            console.log(text);
             const arr: string[] = options.filter((item) => { if (item.isSelected) return item; }).map((item) => item.filterName);
-            const { data, message, status } = await DiscussionApi.filterDiscussions(pageSize, pageNumber, arr);
+            const { data, message, status } = await DiscussionApi.filterDiscussions(pageSize, pageNumber, arr, text === '' ? null : text);
             if (status === 'SUCCESS') {
                 setDiscussions(data);
+                setSearchTerms('');
             }
         } catch (error) {
             console.log(error);
@@ -98,8 +102,11 @@ const QuestionsTab = ({ navigation }) => {
                         className='bg-white rounded-xl font-nunitoSemi'
                         placeholderTextColor='#6b7280'
                         placeholder='Search here ...'
+                        returnKeyType='search'
+                        onSubmitEditing={() => handleFilter(searchTerms)}
                         spinnerVisibility={spinVisibility}
-                        onChangeText={(text) => console.log(text)}
+                        onClearPress={() => handleFilter(searchTerms)}
+                        onChangeText={(text) => setSearchTerms(text)}
                     />
                     <View className='w-[15%] items-center justify-center'>
                         <TouchableOpacity
@@ -138,7 +145,7 @@ const QuestionsTab = ({ navigation }) => {
                             </View>
                             <View className='h-[20%] flex items-center justify-center'>
                                 <TouchableOpacity 
-                                    onPress={handleFilter}
+                                    onPress={() => handleFilter(searchTerms)}
                                     className='flex h-full bg-yellow-400 px-4 py-2 rounded-lg'>
                                     <Text className='text-lg text-gray-700 font-nunitoBold'>Apply</Text>
                                 </TouchableOpacity>

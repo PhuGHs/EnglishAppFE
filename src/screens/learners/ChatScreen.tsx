@@ -84,7 +84,7 @@ const ChatScreen = ({ navigation }: TabsScreenProps) => {
         <>
             <SafeAreaView className='flex bg-slate-100 px-4 bg-slate-100'>
                 <View className='flex flex-col justify-between mb-4'>
-                    <Text className='text-center w-full text-sky-600 font-semibold text-2xl my-4'>
+                    <Text className='text-center w-full text-sky-600 font-Semi text-2xl my-4'>
                         Chats
                     </Text>
                     <SearchBar handleNavigation={() => navigation.push('SearchScreen')} />

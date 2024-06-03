@@ -37,4 +37,34 @@ export class UserApi {
             console.log(error);
         }
     }
+
+    static async recommendBasedOnLevel(userId: number, pageNumber: number, pageSize: number): Promise<ApiResponse<TSearch[]>> {
+        try {
+            const response = await http.get(`/users/${userId}/recommend-user-based-on-englishLevel`, {
+                params: {
+                    pageNumber: pageNumber,
+                    pageSize: pageSize
+                }
+            }
+            );
+            return response.data;
+        } catch (error) {
+            console.log(error);
+        }
+    }
+
+    static async recommendBasedOnCommonInterests(userId: number, pageNumber: number, pageSize: number): Promise<ApiResponse<TSearch[]>> {
+        try {
+            const response = await http.get(`/users/${userId}/recommend-user-based-on-common-interests`, {
+                params: {
+                    page: pageNumber,
+                    size: pageSize
+                }
+            }
+            );
+            return response.data;
+        } catch (error) {
+            console.log(error);
+        }
+    }
 }
