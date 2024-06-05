@@ -9,9 +9,10 @@ interface IEngComUser {
     noUser: boolean;
     withName?: boolean;
     avatar?: string;
+    name?: string
 }
 
-const EngComUser = ({ isCreator, noUser, withName = true, avatar }: IEngComUser) => {
+const EngComUser = ({ isCreator, noUser, withName = true, avatar, name }: IEngComUser) => {
     return (
         <View className={`flex flex-col ${withName && 'mb-3 mr-3'}`}>
             {noUser && (
@@ -22,18 +23,25 @@ const EngComUser = ({ isCreator, noUser, withName = true, avatar }: IEngComUser)
             {!noUser && (
                 <View>
                     <TouchableOpacity
+                        style={{
+                            width: 60,
+                            height: 60,
+                        }}
                         className={`${isCreator && 'border-solid border-yellow-500 border border-2 rounded-full'}`}
                     >
-                        <TouchableOpacity className='w-fit h-fit flex'>
+                        <TouchableOpacity style={{
+                            width: 55,
+                            height: 55
+                        }}>
                             <Image
                                 source={
                                     avatar ? { uri: avatar } : require('@asset/images/avatar.jpg')
                                 }
                                 style={{
                                     resizeMode: 'cover',
-                                    width: 50,
-                                    height: 50,
-                                    borderRadius: 50 / 2,
+                                    width: 60,
+                                    height: 60,
+                                    borderRadius: 60 / 2,
                                 }}
                             />
                         </TouchableOpacity>
@@ -43,7 +51,7 @@ const EngComUser = ({ isCreator, noUser, withName = true, avatar }: IEngComUser)
                             numberOfLines={1}
                             className={`max-w-[60px] text-base font-nunitoSemi text-center mt-2 ${isCreator ? 'text-yellow-500' : 'text-gray-700'}`}
                         >
-                            PhuGHs
+                            {name ? name : 'PhuGHs' }
                         </Text>
                     )}
                 </View>

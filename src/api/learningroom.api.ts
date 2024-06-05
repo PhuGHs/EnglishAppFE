@@ -96,6 +96,18 @@ export class LearningRoomApi {
         }
     }
 
+    static async leaveRoom(roomId: number, participantId): Promise<ApiResponse<string>> {
+        try {
+            const response = await http.put('/learning-rooms/leave-room', {
+                room_id: roomId,
+                participant_id: participantId
+            });
+            return response.data;
+        } catch (error) {
+            console.log(error);
+        }
+    }
+
     static async getMessages(roomId: number) {
         try {
             const response = await http.get(`/conversations/${roomId}`);

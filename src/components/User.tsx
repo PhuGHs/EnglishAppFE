@@ -25,7 +25,7 @@ const User = ({ press, isModerator, nameOnRight = false, room, user }: IUserProp
                                 ? { uri: user.profile_picture }
                                 : require('@asset/images/avatar.jpg')
                         }
-                        style={{ resizeMode: 'cover', width: 90, height: 90, borderRadius: 90 / 2 }}
+                        style={{ resizeMode: 'cover', width: 80, height: 80, borderRadius: 80 / 2 }}
                     />
                 ) : (
                     <Image

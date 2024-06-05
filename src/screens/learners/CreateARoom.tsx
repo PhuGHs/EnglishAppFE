@@ -3,8 +3,7 @@ import { FontAwesomeIcon } from '@fortawesome/react-native-fontawesome';
 import { TEnglishTopicDto, TLearningRoomPostInstant, TLearningRoomPostLater, TRadioButton } from '@type/T-type';
 import React, { useContext, useEffect, useMemo, useState } from 'react';
 import { FlatList, ScrollView, Switch, Text, TextInput, TouchableOpacity, View } from 'react-native';
-import { CalendarDaysIcon, ClockIcon } from 'react-native-heroicons/solid';
-import { RadioButtonProps } from 'react-native-radio-buttons-group';
+import { CalendarDaysIcon } from 'react-native-heroicons/solid';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import Modal from 'react-native-modal/dist/modal';
 import VocabSection from '@component/VocabSection';
@@ -63,7 +62,7 @@ const CreateARoom = ({ navigation }: CreateARoomScreenProps) => {
     const [isPrivateRoom, setIsPrivateRoom] = useState(false);
 
     const [selectedDate, setSelectedDate] = useState<Date>(new Date());
-    const [selectedTime, setSelectedTime] = useState<string>(null);
+    const [selectedTime, setSelectedTime] = useState<Date>(null);
     const [selectedDuration, setSelectedDuration] = useState<number>(1);
 
     const [showDP, setShowDP] = useState<boolean>(false);
@@ -92,20 +91,32 @@ const CreateARoom = ({ navigation }: CreateARoomScreenProps) => {
     } = useInput({ defaultValue: Helper.generateRoomPassword(), validationFn: (value) => value.length === 6 });
 
     const onChange = (event, date) => {
+        let currentDate = date || selectedDate; // Use the newly selected date/time or keep the existing one
+    
+        // Determine whether the current mode is 'date' or 'time'
         if (mode === 'date') {
-            const currentDate = date || selectedDate;
-            setShowDP(true);
-            setMode('time');
-            setSelectedDate(currentDate);
-        } else {
-            const currentDate = date || selectedDate;
-            setShowDP(false);
-            setMode('date');
-            setSelectedDate(currentDate);
-            const formattedDateTime = `${currentDate.getFullYear()}-${String(currentDate.getMonth() + 1).padStart(2, '0')}-${String(currentDate.getDate()).padStart(2, '0')} ${String(currentDate.getHours()).padStart(2, '0')}:${String(currentDate.getMinutes()).padStart(2, '0')}:${String(currentDate.getSeconds()).padStart(2, '0')}.${String(currentDate.getMilliseconds()).padStart(3, '0')}000`;
-            setSelectedTime(formattedDateTime);
+            setShowDP(true); // Show the date picker
+            setMode('time'); // Switch to time mode after selecting a date
+            setSelectedDate(currentDate); // Update the selected date
+        } else { // Assuming mode is 'time'
+            setShowDP(false); // Hide the date picker
+            setMode('date'); // Switch back to date mode after selecting a time// Keep the previously selected date
+            currentDate = date; // Use the newly selected time
+
+            const combinedDateTime = new Date(
+                selectedDate.getFullYear(),
+                selectedDate.getMonth(),
+                selectedDate.getDate(),
+                currentDate.getHours(),
+                currentDate.getMinutes(),
+                currentDate.getSeconds(),
+                currentDate.getMilliseconds()
+            );
+        
+            setSelectedTime(combinedDateTime);
         }
     };
+    
 
     const handleCreate = async () => {
         let bodyOut: TLearningRoomPostInstant | TLearningRoomPostLater;
@@ -137,7 +148,11 @@ const CreateARoom = ({ navigation }: CreateARoomScreenProps) => {
         const { data, message, status } = await LearningRoomApi.create(bodyOut, !isEnabled);
         if (status === 'SUCCESS') {
             showToast({ type: 'success', description: message, timeout: 3000 });
-            navigation.push('RoomDetails', {room: data});
+            if (isEnabled) {
+                navigation.pop();
+            } else {
+                navigation.push('RoomDetails', {room: data});
+            }
         }
     };
 
@@ -159,13 +174,16 @@ const CreateARoom = ({ navigation }: CreateARoomScreenProps) => {
         <SafeAreaView className='flex flex-1 bg-white'>
             <View className='flex flex-1'>
                 <View className='px-3 mt-4'>
-                    <View className='flex flex-row mb-5 items-center'>
-                        <TouchableOpacity className='bg-yellow-400 p-2 rounded-tl-xl rounded-br-xl w-[40px] h-[40px]'>
+                    <View className='flex flex-row mb-5 items-center justify-between'>
+                        <TouchableOpacity 
+                            onPress={() => navigation.pop()}
+                            className='bg-yellow-400 p-2 rounded-tl-xl rounded-br-xl w-[40px] h-[40px]'>
                             <FontAwesomeIcon icon={faArrowLeft} color='#374151' size={25} />
                         </TouchableOpacity>
-                        <Text className='text-center w-full -left-[35px] text-sky-600 text-[22px] font-nunitoSemi'>
+                        <Text className='text-center text-sky-600 text-[22px] font-nunitoSemi'>
                             Create A Room
                         </Text>
+                        <View className='w-[8%]'></View>
                     </View>
                 </View>
                 <ScrollView horizontal={false} className='flex flex-1 space-y-2 bg-slate-100'>
@@ -247,7 +265,7 @@ const CreateARoom = ({ navigation }: CreateARoomScreenProps) => {
                             onPress={() => setShowDP(true)}
                             className='bg-white py-4 px-2 rounded-xl flex flex-row justify-between items-center'>
                             <Text className='text-lg font-nunitoSemi text-gray-700'>
-                                {selectedTime ? selectedTime : 'Select your date'}
+                                {selectedTime ? Helper.formatDateTime(selectedTime) : 'Select your date'}
                             </Text>
                             <CalendarDaysIcon size={25} color='#374151' />
                         </TouchableOpacity>

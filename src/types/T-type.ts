@@ -355,7 +355,8 @@ export type TLearningRoomDto = {
     is_live: boolean,
     is_private: boolean,
     topic: TEnglishTopicDto,
-    participants: TParticipantDto[]
+    participants: TParticipantDto[],
+    owner: TUserNecessary
 };
 
 export type TLearningRoomPostInstant = {
@@ -372,7 +373,7 @@ export type TLearningRoomPostInstant = {
 export type TLearningRoomPostLater = {
     room_name: string,
     // created_at: string,
-    scheduled_to: string,
+    scheduled_to: Date,
     max_participants: number,
     duration: number,
     is_private: boolean,

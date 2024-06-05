@@ -4,7 +4,7 @@ import { useInput } from '@hook/useInput';
 import { AuthApi } from '@root/api/auth.api';
 import { SignUpScreenProps } from '@root/types';
 import { RegisterDto } from '@type/T-type';
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import {
     Text,
     Image,
@@ -13,11 +13,14 @@ import {
     View,
     ActivityIndicator,
     StyleSheet,
+    Keyboard,
 } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
 
 const SignUp = ({ navigation }: SignUpScreenProps) => {
     const [hasExecuted, setExecuted] = useState<boolean>(true);
+    const [isKeyboardVisible, setKeyboardVisible] = useState<boolean>(false);
+
     const {
         value: firstNameValue,
         handleInputChange: handleFirstNameChange,
@@ -57,6 +60,20 @@ const SignUp = ({ navigation }: SignUpScreenProps) => {
         setEnteredValue: setConfirmedPasswordValue,
         hasError: confirmedPasswordHasError,
     } = useInput({ defaultValue: '', validationFn: () => true });
+
+    useEffect(() => {
+        const keyboardDidShowListener = Keyboard.addListener('keyboardDidShow', () => {
+            setKeyboardVisible(true);
+        });
+        const keyboardDidHideListener = Keyboard.addListener('keyboardDidHide', () => {
+            setKeyboardVisible(false);
+        });
+
+        return () => {
+            keyboardDidShowListener.remove();
+            keyboardDidHideListener.remove();
+        };
+    }, []);
 
     const handleRegister = async () => {
         if (passwordValue !== confirmedPasswordValue) {
@@ -103,7 +120,8 @@ const SignUp = ({ navigation }: SignUpScreenProps) => {
                     <ActivityIndicator size='large' color='#0000ff' />
                 </View>
             )}
-            <View className='mx-3 flex flex-col h-[25%]'>
+            {!isKeyboardVisible &&
+                <View className='mx-3 flex flex-col h-[25%]'>
                 <View className='flex flex-row w-full'>
                     <TouchableOpacity
                         className='bg-yellow-400 p-2 rounded-tl-xl rounded-br-xl w-[40px] h-[40px]'
@@ -121,8 +139,9 @@ const SignUp = ({ navigation }: SignUpScreenProps) => {
                         style={{ resizeMode: 'contain', width: '100%', height: '100%' }}
                     />
                 </View>
-            </View>
-            <View className='bg-white h-[70%] rounded-t-3xl p-5 flex flex-col space-y-1'>
+                </View>
+            }
+            <View className={`${!isKeyboardVisible ? 'h-[70%]' : 'h-full'} bg-white rounded-t-3xl p-5 flex flex-col space-y-1`}>
                 <View className='flex flex-row space-x-3'>
                     <View className='flex flex-col gap-2 w-[48%]'>
                         <Text className='text-gray-700 font-nunitoBold text-lg'>First Name</Text>
