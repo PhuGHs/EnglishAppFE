@@ -26,9 +26,10 @@ const EngComRoomsScreen = ({ navigation }: EngComRoomsScreenProps) => {
             <View className='flex flex-1 bg-white'>
                 <View className='px-3'>
                     <View className='flex flex-row mb-5 items-center justify-between'>
-                        <TouchableOpacity 
+                        <TouchableOpacity
                             onPress={() => navigation.pop()}
-                            className='bg-yellow-400 p-2 rounded-tl-xl rounded-br-xl w-[40px] h-[40px]'>
+                            className='bg-yellow-400 p-2 rounded-tl-xl rounded-br-xl w-[40px] h-[40px]'
+                        >
                             <FontAwesomeIcon icon={faArrowLeft} color='#374151' size={25} />
                         </TouchableOpacity>
                         <Text className='text-center text-sky-600 text-[22px] font-nunitoSemi'>

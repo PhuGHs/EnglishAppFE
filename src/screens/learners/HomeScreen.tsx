@@ -37,7 +37,7 @@ const HomeScreen = ({ navigation }: TabsScreenProps) => {
                 if (status == 'FAIL') {
                     return;
                 }
-                const { data: dcs}  = await DiscussionApi.getTop5();
+                const { data: dcs } = await DiscussionApi.getTop5();
                 setDiscussions(dcs);
                 const { data: rooms } = await LearningRoomApi.getSuggestRooms(user_id);
                 setRooms(rooms);

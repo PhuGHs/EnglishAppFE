@@ -9,7 +9,7 @@ import SearchBar from 'react-native-dynamic-search-bar';
 const LevelTab = (navigation) => {
     const { user } = useContext(UserContext);
     const { user_id } = user.user;
-    
+
     const [pageNumber, setPageNumber] = useState<number>(0);
     const [pageSize, setPageSize] = useState<number>(20);
     const [userProfiles, setUserProfiles] = useState<TSearch[]>([]);
@@ -18,7 +18,11 @@ const LevelTab = (navigation) => {
     useEffect(() => {
         const fetch = async () => {
             try {
-                const { data, message, status } = await UserApi.recommendBasedOnLevel(user_id, pageNumber, pageSize);
+                const { data, message, status } = await UserApi.recommendBasedOnLevel(
+                    user_id,
+                    pageNumber,
+                    pageSize
+                );
                 if (status === 'SUCCESS') {
                     setUserProfiles(data);
                 }
@@ -45,7 +49,7 @@ const LevelTab = (navigation) => {
             <FlatList
                 data={userProfiles}
                 keyExtractor={(item, index) => index.toString()}
-                renderItem={({item, index}) => <UserProfile user={item} handlePress={() => {}}/>}
+                renderItem={({ item, index }) => <UserProfile user={item} handlePress={() => {}} />}
             />
         </View>
     );

@@ -9,7 +9,9 @@ interface IInterest {
 const Interest = ({ interest }: IInterest) => {
     return (
         <View className='bg-sky-100 mr-2 mb-2 p-2 rounded-xl'>
-            <Text className='text-sky-700 text-base font-nunitoRegular'>{interest.interest_name}</Text>
+            <Text className='text-sky-700 text-base font-nunitoRegular'>
+                {interest.interest_name}
+            </Text>
         </View>
     );
 };

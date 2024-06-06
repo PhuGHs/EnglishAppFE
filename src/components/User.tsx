@@ -54,7 +54,9 @@ const User = ({ press, isModerator, nameOnRight = false, room, user }: IUserProp
                 </Text>
                 {nameOnRight && (
                     <Text className='text-[#005DB2] text-base font-nunitoSemi'>
-                        {user.english_level_name ? user.english_level_name : user.english_level.levelName }
+                        {user.english_level_name
+                            ? user.english_level_name
+                            : user.english_level.levelName}
                     </Text>
                 )}
             </View>

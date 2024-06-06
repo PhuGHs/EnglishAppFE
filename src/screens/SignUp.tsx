@@ -120,28 +120,30 @@ const SignUp = ({ navigation }: SignUpScreenProps) => {
                     <ActivityIndicator size='large' color='#0000ff' />
                 </View>
             )}
-            {!isKeyboardVisible &&
+            {!isKeyboardVisible && (
                 <View className='mx-3 flex flex-col h-[25%]'>
-                <View className='flex flex-row w-full'>
-                    <TouchableOpacity
-                        className='bg-yellow-400 p-2 rounded-tl-xl rounded-br-xl w-[40px] h-[40px]'
-                        onPress={() => navigation.pop()}
-                    >
-                        <FontAwesomeIcon icon={faAngleLeft} color='#374151' size={25} />
-                    </TouchableOpacity>
-                    <Text className='w-full text-center font-nunitoBold text-white text-2xl -left-[35px]'>
-                        Register
-                    </Text>
+                    <View className='flex flex-row w-full'>
+                        <TouchableOpacity
+                            className='bg-yellow-400 p-2 rounded-tl-xl rounded-br-xl w-[40px] h-[40px]'
+                            onPress={() => navigation.pop()}
+                        >
+                            <FontAwesomeIcon icon={faAngleLeft} color='#374151' size={25} />
+                        </TouchableOpacity>
+                        <Text className='w-full text-center font-nunitoBold text-white text-2xl -left-[35px]'>
+                            Register
+                        </Text>
+                    </View>
+                    <View className='flex justify-center items-center'>
+                        <Image
+                            source={require('@asset/images/SignUp.png')}
+                            style={{ resizeMode: 'contain', width: '100%', height: '100%' }}
+                        />
+                    </View>
                 </View>
-                <View className='flex justify-center items-center'>
-                    <Image
-                        source={require('@asset/images/SignUp.png')}
-                        style={{ resizeMode: 'contain', width: '100%', height: '100%' }}
-                    />
-                </View>
-                </View>
-            }
-            <View className={`${!isKeyboardVisible ? 'h-[70%]' : 'h-full'} bg-white rounded-t-3xl p-5 flex flex-col space-y-1`}>
+            )}
+            <View
+                className={`${!isKeyboardVisible ? 'h-[70%]' : 'h-full'} bg-white rounded-t-3xl p-5 flex flex-col space-y-1`}
+            >
                 <View className='flex flex-row space-x-3'>
                     <View className='flex flex-col gap-2 w-[48%]'>
                         <Text className='text-gray-700 font-nunitoBold text-lg'>First Name</Text>

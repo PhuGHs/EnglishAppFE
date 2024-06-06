@@ -83,38 +83,47 @@ export class DiscussionApi {
         }
     }
 
-    static async filterDiscussions(pageSize: number, pageNumber: number, options: string[], searchTerms?: string): Promise<ApiResponse<TDiscussionDto[]>> {
+    static async filterDiscussions(
+        pageSize: number,
+        pageNumber: number,
+        options: string[],
+        searchTerms?: string
+    ): Promise<ApiResponse<TDiscussionDto[]>> {
         let obj;
         if (searchTerms) {
             obj = {
                 searchTerms: searchTerms,
                 pageNumber: pageNumber,
                 pageSize: pageSize,
-                options: options
+                options: options,
             };
         } else {
             obj = {
                 pageNumber: pageNumber,
                 pageSize: pageSize,
-                options: options
+                options: options,
             };
         }
         try {
             const response = await http.get('/discussions/filter-discussions', {
                 params: obj,
-                paramsSerializer: params => {
+                paramsSerializer: (params) => {
                     const keys = Object.keys(params).reduce((result, key) => {
                         if (Array.isArray(params[key])) {
                             params[key].forEach((val: string) => {
-                                result.push(`${encodeURIComponent(key)}=${encodeURIComponent(val)}`);
+                                result.push(
+                                    `${encodeURIComponent(key)}=${encodeURIComponent(val)}`
+                                );
                             });
                         } else {
-                            result.push(`${encodeURIComponent(key)}=${encodeURIComponent(params[key])}`);
+                            result.push(
+                                `${encodeURIComponent(key)}=${encodeURIComponent(params[key])}`
+                            );
                         }
                         return result;
                     }, [] as string[]);
                     return keys.join('&');
-                }
+                },
             });
             return response.data;
         } catch (error) {

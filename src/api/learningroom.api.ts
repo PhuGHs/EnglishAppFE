@@ -1,13 +1,21 @@
 import http from '@root/utils/axiosConfig';
-import { ApiResponse, TJoinLearningRoom, TLearningRoomDto, TLearningRoomPostInstant, TLearningRoomPostLater, TPromoteToOwner } from '@type/T-type';
+import {
+    ApiResponse,
+    TJoinLearningRoom,
+    TLearningRoomDto,
+    TLearningRoomPostInstant,
+    TLearningRoomPostLater,
+    TParticipantDto,
+    TPromoteToOwner,
+} from '@type/T-type';
 
 export class LearningRoomApi {
     static async getLearningRooms(isLive: boolean): Promise<ApiResponse<TLearningRoomDto[]>> {
         try {
             const response = await http.get('/learning-rooms', {
                 params: {
-                    isLive: isLive
-                }
+                    isLive: isLive,
+                },
             });
             return response.data;
         } catch (error) {
@@ -19,8 +27,8 @@ export class LearningRoomApi {
         try {
             const response = await http.get('/learning-rooms/suggest-rooms', {
                 params: {
-                    currentUserId: currentUserId
-                }
+                    currentUserId: currentUserId,
+                },
             });
             return response.data;
         } catch (error) {
@@ -28,7 +36,10 @@ export class LearningRoomApi {
         }
     }
 
-    static async create(body: TLearningRoomPostInstant | TLearningRoomPostLater, is_instant: boolean): Promise<ApiResponse<TLearningRoomDto>> {
+    static async create(
+        body: TLearningRoomPostInstant | TLearningRoomPostLater,
+        is_instant: boolean
+    ): Promise<ApiResponse<TLearningRoomDto>> {
         try {
             let path = '';
             if (is_instant) {
@@ -61,21 +72,24 @@ export class LearningRoomApi {
         }
     }
 
-    static async promoteToOwner(body: TPromoteToOwner): Promise<ApiResponse<TLearningRoomDto>> {
+    static async promoteToOwner(body: TPromoteToOwner): Promise<ApiResponse<TParticipantDto>> {
         try {
-            const response = await http.post('/learning-rooms/promote-to-owner', body);
+            const response = await http.put('/learning-rooms/promote-to-owner', body);
             return response.data;
         } catch (error) {
             console.log(error);
         }
     }
 
-    static async getParticipants(roomId: number, isSpeaker: boolean): Promise<ApiResponse<TLearningRoomDto>> {
+    static async getParticipants(
+        roomId: number,
+        isSpeaker: boolean
+    ): Promise<ApiResponse<TLearningRoomDto>> {
         try {
             const response = await http.get(`/learning-rooms/${roomId}/participants`, {
                 params: {
-                    isSpeaker: isSpeaker
-                }
+                    isSpeaker: isSpeaker,
+                },
             });
             return response.data;
         } catch (error) {
@@ -83,12 +97,15 @@ export class LearningRoomApi {
         }
     }
 
-    static async endRoom(roomId: number, isSpeaker: boolean): Promise<ApiResponse<TLearningRoomDto>> {
+    static async endRoom(
+        roomId: number,
+        isSpeaker: boolean
+    ): Promise<ApiResponse<TLearningRoomDto>> {
         try {
             const response = await http.get(`/learning-rooms/${roomId}/participants`, {
                 params: {
-                    isSpeaker: isSpeaker
-                }
+                    isSpeaker: isSpeaker,
+                },
             });
             return response.data;
         } catch (error) {
@@ -96,11 +113,22 @@ export class LearningRoomApi {
         }
     }
 
-    static async leaveRoom(roomId: number, participantId): Promise<ApiResponse<string>> {
+    static async leaveRoom(roomId: number, participantId: number): Promise<ApiResponse<string>> {
         try {
             const response = await http.put('/learning-rooms/leave-room', {
                 room_id: roomId,
-                participant_id: participantId
+                participant_id: participantId,
+            });
+            return response.data;
+        } catch (error) {
+            console.log(error);
+        }
+    }
+
+    static async toggleSpeaker(participantId: number): Promise<ApiResponse<TParticipantDto>> {
+        try {
+            const response = await http.put('/learning-rooms/toggle-speaker', {
+                participant_id: participantId,
             });
             return response.data;
         } catch (error) {

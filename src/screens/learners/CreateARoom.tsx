@@ -1,8 +1,21 @@
 import { faAngleRight, faArrowLeft } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-native-fontawesome';
-import { TEnglishTopicDto, TLearningRoomPostInstant, TLearningRoomPostLater, TRadioButton } from '@type/T-type';
+import {
+    TEnglishTopicDto,
+    TLearningRoomPostInstant,
+    TLearningRoomPostLater,
+    TRadioButton,
+} from '@type/T-type';
 import React, { useContext, useEffect, useMemo, useState } from 'react';
-import { FlatList, ScrollView, Switch, Text, TextInput, TouchableOpacity, View } from 'react-native';
+import {
+    FlatList,
+    ScrollView,
+    Switch,
+    Text,
+    TextInput,
+    TouchableOpacity,
+    View,
+} from 'react-native';
 import { CalendarDaysIcon } from 'react-native-heroicons/solid';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import Modal from 'react-native-modal/dist/modal';
@@ -16,7 +29,7 @@ import { UserContext } from '@root/context/user-context';
 import { useToast } from '@root/context/toast-context';
 import { CreateARoomScreenProps } from '@type/index';
 
-const arr: number[] = [1,2];
+const arr: number[] = [1, 2];
 
 const CreateARoom = ({ navigation }: CreateARoomScreenProps) => {
     const { user } = useContext(UserContext);
@@ -67,10 +80,9 @@ const CreateARoom = ({ navigation }: CreateARoomScreenProps) => {
 
     const [showDP, setShowDP] = useState<boolean>(false);
     const [mode, setMode] = useState<'date' | 'time'>('date');
-    
 
-    const toggle = () => setIsPrivateRoom(prev => !prev);
-    const toggleSwitch = () => setIsEnabled(previousState => !previousState);
+    const toggle = () => setIsPrivateRoom((prev) => !prev);
+    const toggleSwitch = () => setIsEnabled((previousState) => !previousState);
 
     const {
         value: content,
@@ -88,17 +100,21 @@ const CreateARoom = ({ navigation }: CreateARoomScreenProps) => {
         setEnteredValue: setPassword,
         hasError: passwordHasError,
         didEdit: passwordDidEdit,
-    } = useInput({ defaultValue: Helper.generateRoomPassword(), validationFn: (value) => value.length === 6 });
+    } = useInput({
+        defaultValue: Helper.generateRoomPassword(),
+        validationFn: (value) => value.length === 6,
+    });
 
     const onChange = (event, date) => {
         let currentDate = date || selectedDate; // Use the newly selected date/time or keep the existing one
-    
+
         // Determine whether the current mode is 'date' or 'time'
         if (mode === 'date') {
             setShowDP(true); // Show the date picker
             setMode('time'); // Switch to time mode after selecting a date
             setSelectedDate(currentDate); // Update the selected date
-        } else { // Assuming mode is 'time'
+        } else {
+            // Assuming mode is 'time'
             setShowDP(false); // Hide the date picker
             setMode('date'); // Switch back to date mode after selecting a time// Keep the previously selected date
             currentDate = date; // Use the newly selected time
@@ -112,11 +128,10 @@ const CreateARoom = ({ navigation }: CreateARoomScreenProps) => {
                 currentDate.getSeconds(),
                 currentDate.getMilliseconds()
             );
-        
+
             setSelectedTime(combinedDateTime);
         }
     };
-    
 
     const handleCreate = async () => {
         let bodyOut: TLearningRoomPostInstant | TLearningRoomPostLater;
@@ -129,7 +144,7 @@ const CreateARoom = ({ navigation }: CreateARoomScreenProps) => {
                 duration: selectedDuration,
                 topic_id: selectedTopic.topic_id,
                 user_id: user_id,
-                max_participants: 5
+                max_participants: 5,
             };
             bodyOut = body;
         } else {
@@ -140,7 +155,7 @@ const CreateARoom = ({ navigation }: CreateARoomScreenProps) => {
                 duration: selectedDuration,
                 topic_id: selectedTopic.topic_id,
                 user_id: user_id,
-                max_participants: 5
+                max_participants: 5,
             };
             bodyOut = body;
         }
@@ -151,7 +166,7 @@ const CreateARoom = ({ navigation }: CreateARoomScreenProps) => {
             if (isEnabled) {
                 navigation.pop();
             } else {
-                navigation.push('RoomDetails', {room: data});
+                navigation.push('RoomDetails', { room: data });
             }
         }
     };
@@ -175,9 +190,10 @@ const CreateARoom = ({ navigation }: CreateARoomScreenProps) => {
             <View className='flex flex-1'>
                 <View className='px-3 mt-4'>
                     <View className='flex flex-row mb-5 items-center justify-between'>
-                        <TouchableOpacity 
+                        <TouchableOpacity
                             onPress={() => navigation.pop()}
-                            className='bg-yellow-400 p-2 rounded-tl-xl rounded-br-xl w-[40px] h-[40px]'>
+                            className='bg-yellow-400 p-2 rounded-tl-xl rounded-br-xl w-[40px] h-[40px]'
+                        >
                             <FontAwesomeIcon icon={faArrowLeft} color='#374151' size={25} />
                         </TouchableOpacity>
                         <Text className='text-center text-sky-600 text-[22px] font-nunitoSemi'>
@@ -209,9 +225,10 @@ const CreateARoom = ({ navigation }: CreateARoomScreenProps) => {
                         <Text className='text-xl font-nunitoSemi text-gray-700 mt-4'>
                             Room Topic
                         </Text>
-                        <TouchableOpacity 
+                        <TouchableOpacity
                             onPress={() => setConfirmedModalVisible(true)}
-                            className='bg-white py-4 px-2 rounded-xl flex flex-row justify-between items-center'>
+                            className='bg-white py-4 px-2 rounded-xl flex flex-row justify-between items-center'
+                        >
                             <Text className='text-lg font-nunitoSemi text-gray-700'>
                                 {selectedTopic ? selectedTopic.header : 'Select a topic'}
                             </Text>
@@ -230,15 +247,18 @@ const CreateARoom = ({ navigation }: CreateARoomScreenProps) => {
                             className='bg-white py-4 px-3 rounded-xl text-lg font-nunitoRegular'
                             placeholder='Enter room name'
                         />
-                        {contentHasError && contentDidEdit && <Text className='text-base font-nunitoMedium text-red-400'>This field is required!</Text>}
+                        {contentHasError && contentDidEdit && (
+                            <Text className='text-base font-nunitoMedium text-red-400'>
+                                This field is required!
+                            </Text>
+                        )}
                     </View>
                     <View className='px-3 flex flex-1 space-y-4'>
-                        <Text className='text-xl font-nunitoSemi text-gray-700 mt-4'>
-                            Duration
-                        </Text>
+                        <Text className='text-xl font-nunitoSemi text-gray-700 mt-4'>Duration</Text>
                         <TouchableOpacity
                             onPress={() => setModalVisible(true)}
-                            className='bg-white py-4 px-2 rounded-xl flex flex-row justify-between items-center'>
+                            className='bg-white py-4 px-2 rounded-xl flex flex-row justify-between items-center'
+                        >
                             <Text className='text-lg font-nunitoSemi text-gray-700'>
                                 {selectedDuration ? selectedDuration + 'h' : 'Select duration'}
                             </Text>
@@ -250,54 +270,62 @@ const CreateARoom = ({ navigation }: CreateARoomScreenProps) => {
                             Schedule the room
                         </Text>
                         <Switch
-                            trackColor={{false: '#767577', true: '#81b0ff'}}
+                            trackColor={{ false: '#767577', true: '#81b0ff' }}
                             thumbColor={isEnabled ? '#f5dd4b' : '#f4f3f4'}
                             onValueChange={toggleSwitch}
                             value={isEnabled}
                         />
                     </View>
-                    {isEnabled &&
+                    {isEnabled && (
                         <View className='mx-6 flex space-y-4 flex-1'>
-                        <Text className='text-lg font-nunitoSemi text-gray-700'>
-                            Date
-                        </Text>
-                        <TouchableOpacity
-                            onPress={() => setShowDP(true)}
-                            className='bg-white py-4 px-2 rounded-xl flex flex-row justify-between items-center'>
-                            <Text className='text-lg font-nunitoSemi text-gray-700'>
-                                {selectedTime ? Helper.formatDateTime(selectedTime) : 'Select your date'}
-                            </Text>
-                            <CalendarDaysIcon size={25} color='#374151' />
-                        </TouchableOpacity>
-                        {showDP && <RNDateTimePicker mode={mode} display={mode === 'date' ? 'calendar' : 'spinner'} value={selectedDate} onChange={onChange}/>}
+                            <Text className='text-lg font-nunitoSemi text-gray-700'>Date</Text>
+                            <TouchableOpacity
+                                onPress={() => setShowDP(true)}
+                                className='bg-white py-4 px-2 rounded-xl flex flex-row justify-between items-center'
+                            >
+                                <Text className='text-lg font-nunitoSemi text-gray-700'>
+                                    {selectedTime
+                                        ? Helper.formatDateTime(selectedTime)
+                                        : 'Select your date'}
+                                </Text>
+                                <CalendarDaysIcon size={25} color='#374151' />
+                            </TouchableOpacity>
+                            {showDP && (
+                                <RNDateTimePicker
+                                    mode={mode}
+                                    display={mode === 'date' ? 'calendar' : 'spinner'}
+                                    value={selectedDate}
+                                    onChange={onChange}
+                                />
+                            )}
                         </View>
-                    }
+                    )}
                     <View className='px-3 flex flex-1 flex-row items-center justify-between'>
-                        <Text className='text-xl font-nunitoSemi text-gray-700'>
-                            Private room
-                        </Text>
+                        <Text className='text-xl font-nunitoSemi text-gray-700'>Private room</Text>
                         <Switch
-                            trackColor={{false: '#767577', true: '#81b0ff'}}
+                            trackColor={{ false: '#767577', true: '#81b0ff' }}
                             thumbColor={isPrivateRoom ? '#f5dd4b' : '#f4f3f4'}
                             onValueChange={toggle}
                             value={isPrivateRoom}
                         />
                     </View>
-                    {isPrivateRoom &&
+                    {isPrivateRoom && (
                         <View className='mx-6 flex space-y-4 flex-1'>
-                        <Text className='text-lg font-nunitoSemi text-gray-700'>
-                            Password
-                        </Text>
-                        <TextInput
-                            value={password}
-                            onChange={handlePasswordChange}
-                            onBlur={handlePasswordBlur}
-                            className='bg-white py-2 px-3 rounded-xl border-[1px] border-slate-300 text-base font-nunitoRegular'
-                            placeholder='Enter room password'
-                        />
-                        {passwordDidEdit && passwordHasError && <Text className='text-base font-nunitoMedium text-red-400'>Password must have 6 characters</Text>}
+                            <Text className='text-lg font-nunitoSemi text-gray-700'>Password</Text>
+                            <TextInput
+                                value={password}
+                                onChange={handlePasswordChange}
+                                onBlur={handlePasswordBlur}
+                                className='bg-white py-2 px-3 rounded-xl border-[1px] border-slate-300 text-base font-nunitoRegular'
+                                placeholder='Enter room password'
+                            />
+                            {passwordDidEdit && passwordHasError && (
+                                <Text className='text-base font-nunitoMedium text-red-400'>
+                                    Password must have 6 characters
+                                </Text>
+                            )}
                         </View>
-                    }
+                    )}
                     <View className='flex items-center justify-center my-4'>
                         <TouchableOpacity
                             disabled={contentHasError || passwordHasError || !selectedTopic}

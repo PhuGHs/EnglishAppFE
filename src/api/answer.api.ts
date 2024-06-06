@@ -2,14 +2,19 @@ import http from '@root/utils/axiosConfig';
 import { ApiResponse, TAnswer, TAnswerPost, TPagination } from '@type/T-type';
 
 export class AnswerApi {
-    static async getAnswers(discussionId: number, pageNumber: number, pageSize: number, sortBy: string): Promise<TPagination<TAnswer[]>> {
+    static async getAnswers(
+        discussionId: number,
+        pageNumber: number,
+        pageSize: number,
+        sortBy: string
+    ): Promise<TPagination<TAnswer[]>> {
         try {
             const response = await http.get(`/answers/${discussionId}/get-by-discussion`, {
                 params: {
                     pageNumber: pageNumber,
                     pageSize: pageSize,
-                    sortBy: sortBy
-                }
+                    sortBy: sortBy,
+                },
             });
             return response.data;
         } catch (error) {

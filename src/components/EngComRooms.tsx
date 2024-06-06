@@ -27,10 +27,12 @@ export interface IEngComRoomProps {
 export interface IEngComRoomsProps {
     horizontal: boolean;
     navigation;
-    data: TLearningRoomDto[]
+    data: TLearningRoomDto[];
 }
 
-const getNumberOfParticipant = (participants: TParticipantDto[]): {listeners: number, speakers: number} => {
+const getNumberOfParticipant = (
+    participants: TParticipantDto[]
+): { listeners: number; speakers: number } => {
     let listeners: number = 0;
     let speakers: number = 0;
     participants.forEach((item, index) => {
@@ -40,11 +42,21 @@ const getNumberOfParticipant = (participants: TParticipantDto[]): {listeners: nu
             speakers++;
         }
     });
-    return {listeners, speakers};
+    return { listeners, speakers };
 };
 
 const EngComRoom = ({ horizontal, navigation, room }: IEngComRoomProps) => {
-    const { room_name, created_at, scheduled_to, is_live, is_private, topic, participants, owner, id } = room;
+    const {
+        room_name,
+        created_at,
+        scheduled_to,
+        is_live,
+        is_private,
+        topic,
+        participants,
+        owner,
+        id,
+    } = room;
     const { listeners, speakers } = getNumberOfParticipant(participants);
 
     const { user } = useContext(UserContext);
@@ -57,22 +69,22 @@ const EngComRoom = ({ horizontal, navigation, room }: IEngComRoomProps) => {
                 const { data, message, status } = await LearningRoomApi.join({
                     user_id: user_id,
                     room_id: id,
-                    password: ''
+                    password: '',
                 });
                 if (status === 'SUCCESS') {
                     navigation.push('RoomDetails', { room: data });
                 } else {
-                    showToast({type: 'danger', description: message, timeout: 5000});
+                    showToast({ type: 'danger', description: message, timeout: 5000 });
                 }
             } else {
                 const { data, message, status } = await LearningRoomApi.join({
                     user_id: user_id,
-                    room_id: id
+                    room_id: id,
                 });
                 if (status === 'SUCCESS') {
                     navigation.push('RoomDetails', { room: data });
                 } else {
-                    showToast({type: 'danger', description: message, timeout: 5000});
+                    showToast({ type: 'danger', description: message, timeout: 5000 });
                 }
             }
         } catch (error) {
@@ -96,62 +108,86 @@ const EngComRoom = ({ horizontal, navigation, room }: IEngComRoomProps) => {
                 {is_private ? 'Tutor room' : 'Practice room'}
             </Text>
             <View>
-                <Text className='text-lg font-nunitoBold'>
-                    {room_name}
-                </Text>
+                <Text className='text-lg font-nunitoBold'>{room_name}</Text>
             </View>
             <View className='mt-2 flex flex-row'>
-                {participants.length === 0 &&
+                {participants.length === 0 && (
                     <View className='flex flex-col space-y-2'>
-                        <EngComUser withName={false} noUser={false} isCreator={false} avatar={owner.profile_picture}/>
+                        <EngComUser
+                            withName={false}
+                            noUser={false}
+                            isCreator={false}
+                            avatar={owner.profile_picture}
+                        />
                         <View className='flex flex-row'>
-                            <Text className='text-base font-nunitoBold text-gray-700'>{owner.full_name}</Text>
-                            <Text className='text-base font-nunitoRegular text-gray-700'> will host this room</Text>
+                            <Text className='text-base font-nunitoBold text-gray-700'>
+                                {owner.full_name}
+                            </Text>
+                            <Text className='text-base font-nunitoRegular text-gray-700'>
+                                {' '}
+                                will host this room
+                            </Text>
                         </View>
                     </View>
-                }
-                {participants.length > 0 &&
+                )}
+                {participants.length > 0 && (
                     <FlatList
-                    data={participants}
-                    keyExtractor={(item, index) => index.toString()}
-                    renderItem={({ item, index }) => {
-                        if (item.is_speaker) {
-                            return <EngComUser name={item.user.full_name} isCreator={item.is_owner} avatar={item.user.profile_picture} withName={true} noUser={false} />;
-                        }
-                    }}
-                />
-                }
+                        horizontal={true}
+                        data={participants}
+                        keyExtractor={(item, index) => index.toString()}
+                        renderItem={({ item, index }) => {
+                            if (item.is_speaker) {
+                                return (
+                                    <EngComUser
+                                        name={item.user.full_name}
+                                        isCreator={item.is_owner}
+                                        avatar={item.user.profile_picture}
+                                        withName={true}
+                                        noUser={false}
+                                    />
+                                );
+                            }
+                        }}
+                    />
+                )}
             </View>
             <View className='border border-sky-500 mt-4'></View>
             <View>
-                {participants.length === 0 &&
+                {participants.length === 0 && (
                     <View className='flex flex-row space-x-2 items-center'>
-                        <ClockIcon size={30} color='#374151'/>
-                        <Text className='font-nunitoXBold text-gray-700 text-base'>{Helper.formatDate(scheduled_to)}</Text>
+                        <ClockIcon size={30} color='#374151' />
+                        <Text className='font-nunitoXBold text-gray-700 text-base'>
+                            {Helper.formatDate(scheduled_to)}
+                        </Text>
                     </View>
-                }
-                {
-                    participants.length > 0 &&
+                )}
+                {participants.length > 0 && (
                     <View className='flex flex-row justify-between items-center mt-4'>
-                <View className='flex flex-row gap-x-2 items-center'>
-                    <View className='flex flex-row gap-x-2 items-center'>
-                        <Text className='text-2xl text-orange-400 font-nunitoBold'>{speakers}</Text>
-                        <FontAwesomeIcon icon={faMicrophone} color='#fb923c' size={25} />
+                        <View className='flex flex-row gap-x-2 items-center'>
+                            <View className='flex flex-row gap-x-2 items-center'>
+                                <Text className='text-2xl text-orange-400 font-nunitoBold'>
+                                    {speakers}
+                                </Text>
+                                <FontAwesomeIcon icon={faMicrophone} color='#fb923c' size={25} />
+                            </View>
+                            <Text>|</Text>
+                            <View className='flex flex-row gap-x-2 items-center'>
+                                <Text className='text-2xl text-orange-400 font-nunitoBold'>
+                                    {listeners}
+                                </Text>
+                                <FontAwesomeIcon icon={faHeadphones} color='#fb923c' size={25} />
+                            </View>
+                        </View>
+                        <TouchableOpacity
+                            className='bg-yellow-400 rounded-xl flex'
+                            onPress={handleJoin}
+                        >
+                            <Text className='p-2 text-lg font-nunitoBold text-gray-700 px-5'>
+                                Join
+                            </Text>
+                        </TouchableOpacity>
                     </View>
-                    <Text>|</Text>
-                    <View className='flex flex-row gap-x-2 items-center'>
-                        <Text className='text-2xl text-orange-400 font-nunitoBold'>{listeners}</Text>
-                        <FontAwesomeIcon icon={faHeadphones} color='#fb923c' size={25} />
-                    </View>
-                </View>
-                <TouchableOpacity
-                    className='bg-yellow-400 rounded-xl flex'
-                    onPress={handleJoin}
-                >
-                    <Text className='p-2 text-lg font-nunitoBold text-gray-700 px-5'>Join</Text>
-                </TouchableOpacity>
-            </View>
-                }
+                )}
             </View>
         </View>
     );
@@ -163,7 +199,14 @@ const EngComRooms = ({ horizontal, navigation, data }: IEngComRoomsProps) => {
             horizontal={horizontal}
             data={data}
             keyExtractor={(item, index) => index.toString()}
-            renderItem={({item, index}) => <EngComRoom horizontal={horizontal} navigation={navigation} room={item} key={index}/>}
+            renderItem={({ item, index }) => (
+                <EngComRoom
+                    horizontal={horizontal}
+                    navigation={navigation}
+                    room={item}
+                    key={index}
+                />
+            )}
         />
     );
 };

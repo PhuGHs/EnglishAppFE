@@ -41,7 +41,9 @@ const UserProfile = ({ user, handlePress }: IUserProfile) => {
         >
             <View className='h-[70px]'>
                 <Image
-                    source={user ? { uri: user.profilePicture }: require('@asset/images/avatar.jpg')}
+                    source={
+                        user ? { uri: user.profilePicture } : require('@asset/images/avatar.jpg')
+                    }
                     style={{ resizeMode: 'cover', width: 60, height: 60, borderRadius: 60 / 2 }}
                 />
                 <View className='flex flex-row items-center absolute left-0 bottom-1 bg-white rounded-2xl'>
@@ -50,14 +52,16 @@ const UserProfile = ({ user, handlePress }: IUserProfile) => {
                 </View>
             </View>
             <View className='flex flex-col ml-3'>
-                <Text className='text-xl font-nunitoBold ml-1'>{user ? user.fullName: 'xxxxx'}</Text>
+                <Text className='text-xl font-nunitoBold ml-1'>
+                    {user ? user.fullName : 'xxxxx'}
+                </Text>
                 <Text className='text-lg text-[#005DB2] font-nunitoBold ml-1 mb-2'>
-                    {user ? user.englishLevel: 'Intermediate'}
+                    {user ? user.englishLevel : 'Intermediate'}
                 </Text>
                 <View className='flex-row flex-wrap'>
-                    {
-                        user.interests.map((item, index) => <Interest interest={item} key={index} />)
-                    }
+                    {user.interests.map((item, index) => (
+                        <Interest interest={item} key={index} />
+                    ))}
                 </View>
             </View>
         </View>

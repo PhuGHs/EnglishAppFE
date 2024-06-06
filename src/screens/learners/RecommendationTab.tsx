@@ -18,7 +18,11 @@ const RecommendationTab = (navigation) => {
     useEffect(() => {
         const fetch = async () => {
             try {
-                const { data, message, status } = await UserApi.recommendBasedOnCommonInterests(user_id, pageNumber, pageSize);
+                const { data, message, status } = await UserApi.recommendBasedOnCommonInterests(
+                    user_id,
+                    pageNumber,
+                    pageSize
+                );
                 if (status === 'SUCCESS') {
                     setUserProfiles(data);
                 }
@@ -36,7 +40,7 @@ const RecommendationTab = (navigation) => {
             <FlatList
                 data={userProfiles}
                 keyExtractor={(item, index) => index.toString()}
-                renderItem={({item, index}) => <UserProfile user={item} handlePress={() => {}}/>}
+                renderItem={({ item, index }) => <UserProfile user={item} handlePress={() => {}} />}
             />
         </View>
     );

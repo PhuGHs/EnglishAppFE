@@ -73,7 +73,7 @@ export type TUserNecessary = {
     full_name: string;
     profile_picture: string;
     english_level: TEnglishLevel;
-    english_level_name?: string
+    english_level_name?: string;
 };
 
 export type TEngcomAsk = {
@@ -323,77 +323,82 @@ export type TFilter = {
 };
 
 export type TAnswerPost = {
-    discussion_id: number,
-    user_id: number,
-    answer_text: string
+    discussion_id: number;
+    user_id: number;
+    answer_text: string;
 };
 
 export type TAnswer = {
-    answer_id: number,
-    created_date: string,
-    updated_date: string,
-    discussion_id: number,
-    user: TUserNecessary,
-    answer_text: string
+    answer_id: number;
+    created_date: string;
+    updated_date: string;
+    discussion_id: number;
+    user: TUserNecessary;
+    answer_text: string;
 };
 
 export type TParticipantDto = {
-    participant_id: number,
-    user: TUserNecessary,
-    join_time: string,
-    is_speaker: boolean,
-    is_owner: boolean
+    participant_id: number;
+    user: TUserNecessary;
+    join_time: string;
+    is_speaker: boolean;
+    is_owner: boolean;
 };
 
 export type TLearningRoomDto = {
-    id: number,
-    room_name: string,
-    created_at: string,
-    scheduled_to: string,
-    max_participants: number,
-    duration: number,
-    is_live: boolean,
-    is_private: boolean,
-    topic: TEnglishTopicDto,
-    participants: TParticipantDto[],
-    owner: TUserNecessary
+    id: number;
+    room_name: string;
+    created_at: string;
+    scheduled_to: string;
+    max_participants: number;
+    duration: number;
+    is_live: boolean;
+    is_private: boolean;
+    topic: TEnglishTopicDto;
+    participants: TParticipantDto[];
+    owner: TUserNecessary;
 };
 
 export type TLearningRoomPostInstant = {
-    room_name: string,
+    room_name: string;
     // created_at: string,
-    max_participants: number,
-    duration: number,
-    is_private: boolean,
-    password?: string,
-    topic_id: number,
-    user_id: number
-}
+    max_participants: number;
+    duration: number;
+    is_private: boolean;
+    password?: string;
+    topic_id: number;
+    user_id: number;
+};
 
 export type TLearningRoomPostLater = {
-    room_name: string,
+    room_name: string;
     // created_at: string,
-    scheduled_to: Date,
-    max_participants: number,
-    duration: number,
-    is_private: boolean,
-    password?: string,
-    topic_id: number,
-    user_id: number
+    scheduled_to: Date;
+    max_participants: number;
+    duration: number;
+    is_private: boolean;
+    password?: string;
+    topic_id: number;
+    user_id: number;
 };
 
 export type TJoinLearningRoom = {
-    user_id: number,
-    room_id: number,
-    password?: string
-}
+    user_id: number;
+    room_id: number;
+    password?: string;
+};
 
 export type TPromoteToOwner = {
-    participant_id: number,
-    owner_id: number
-}
+    participant_id: number;
+    owner_id: number;
+};
 
 export type TRadioButton = {
-    id: number,
-    label: string
+    id: number;
+    label: string;
+};
+
+export type TWebsocketType<T> = {
+    type: 'leave' | 'promote' | 'kick' | 'join' | 'end';
+    data: T;
 };

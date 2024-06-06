@@ -102,7 +102,10 @@ export type UserProfileScreenProps = NativeStackScreenProps<
     RootStackParamList,
     'UserProfileScreen'
 >;
-export type UserRecommendationScreenProps = NativeStackScreenProps<RootStackParamList, 'UserRecommendation'>;
+export type UserRecommendationScreenProps = NativeStackScreenProps<
+    RootStackParamList,
+    'UserRecommendation'
+>;
 
 export type BottomTabParamList = {
     Home: undefined;
