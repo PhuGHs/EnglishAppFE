@@ -1,12 +1,11 @@
 import React, { useCallback, useContext, useEffect, useMemo, useRef, useState } from 'react';
-import { FlatList, Text, TouchableOpacity, View } from 'react-native';
+import { FlatList, Keyboard, Text, TouchableOpacity, View, Image, TextInput } from 'react-native';
 import { FontAwesomeIcon } from '@fortawesome/react-native-fontawesome';
 import {
-    faArrowLeft,
     faHeadphones,
     faMicrophone,
     faMicrophoneSlash,
-    faUserMinus,
+    faPaperPlane,
 } from '@fortawesome/free-solid-svg-icons';
 import Accordion from '@component/Accordion';
 import Modal from 'react-native-modal';
@@ -17,12 +16,11 @@ import { RoomDetailsScreenProps, RootStackParamList } from '@type/index';
 import { RouteProp } from '@react-navigation/native';
 import { UserContext } from '@root/context/user-context';
 import { LearningRoomApi } from '@root/api/learningroom.api';
-import { TEnglishTopicQuestionDto, TParticipantDto } from '@type/T-type';
+import { TEnglishTopicQuestionDto, TLearningRoomMessage, TLearningRoomMessagePostDto, TParticipantDto, TPostMessage, TSearch } from '@type/T-type';
 import { TopicApi } from '@root/api/topic.api';
-import { Client, Stomp } from '@stomp/stompjs';
+import { Stomp } from '@stomp/stompjs';
 import SockJS from 'sockjs-client';
 import { useToast } from '@root/context/toast-context';
-import { err } from 'react-native-svg';
 import {
     ArrowLeftStartOnRectangleIcon,
     ChatBubbleLeftRightIcon,
@@ -36,6 +34,13 @@ import {
     BottomSheetModalProvider,
     BottomSheetBackdrop,
 } from '@gorhom/bottom-sheet';
+import SearchBar from 'react-native-dynamic-search-bar';
+import SearchItem from '@component/SearchItem';
+import { UserApi } from '@root/api/user.api';
+import { ChatApi } from '@root/api/chat.api';
+import { useInput } from '@hook/useInput';
+import LearningRoomMessage from '@component/LearningRoomMessage';
+import { FlatList as FL } from 'react-native-gesture-handler';
 
 const getParticpantId = (participants: TParticipantDto[], user_id: number) => {
     let participant;
@@ -54,24 +59,110 @@ const RoomDetails = ({
 }: RoomDetailsScreenProps & { route: RouteProp<RootStackParamList, 'RoomDetails'> }) => {
     const { user } = useContext(UserContext);
     const { showToast } = useToast();
-    const { user_id } = user.user;
+    const { user_id, profile_picture } = user.user;
     const { room } = route.params;
-    const { participants, id } = room;
+    const { participants, id, is_private } = room;
 
     const [questions, setQuestions] = useState<TEnglishTopicQuestionDto[]>([]);
     const [isVisible, setIsVisible] = useState(false);
+    const [spinVisibility, setSpinVisibility] = useState<boolean>(false);
+    const [isKeyboardVisible, setKeyboardVisible] = useState<boolean>(false);
     const [userListVisible, setUserListVisible] = useState(false);
     const [people, setPeople] = useState<TParticipantDto[]>(participants);
     const [currentParticipant, setCurrentParticipant] = useState<TParticipantDto>(
         getParticpantId(people, user_id)
     );
     const [stompClient, setStompClient] = useState(null);
+    const [users, setUsers] = useState<TSearch[]>([]);
+    const [messages, setMessages] = useState<TLearningRoomMessage[]>([]);
+    const [text, setText] = useState<string>('');
+    
     const bottomSheetModalRef = useRef(null);
-    const snapPoints = useMemo(() => ['50%', '90%'], []);
+    const inviteModalRef = useRef(null);
+    const snapPoints = useMemo(() => ['50%', '95%'], []);
+
+    const {
+        value: content,
+        handleInputChange: handleContentChange,
+        handleInputBlur: handleContentBlur,
+        setEnteredValue: setContent,
+        hasError: contentHasError,
+        didEdit: contentDidEdit,
+    } = useInput({ defaultValue: '', validationFn: (value) => value !== '' });
+
+    const handleSearch = async (text) => {
+        try {
+            const data: TSearch[] = await UserApi.searchUsers(text, user_id);
+            if (data) {
+                setUsers(data);
+            }
+        } catch (error) {
+            console.error(error);
+        }
+    };
+
+    const handleTextChange = (text) => {
+        setText(text);
+        setSpinVisibility(true);
+        handleSearch(text);
+    };
+
+    const handleSendMessage = async () => {
+        const body: TLearningRoomMessagePostDto = {
+            learning_room_id: room.id,
+            message: content,
+            image: '',
+            user_id: user_id
+        };
+        try {
+            const { data, message, status } = await LearningRoomApi.sendMessage(body);
+            if (status === 'SUCCESS') {
+                setContent('');
+            }
+        } catch (error) {
+            console.error(error);
+        }
+    };
 
     const handlePresentModalPress = useCallback(() => {
         bottomSheetModalRef.current?.present();
     }, []);
+
+    const handleInviteModalPress = useCallback(() => {
+        inviteModalRef.current?.present();
+    }, []);
+
+    const handleSendLink = async (user: TSearch) => {
+        const roomDto = {
+            sender_id: user_id,
+            receiver_id: user.id,
+        };
+        try {
+            const {
+                data: conversation,
+                status,
+                message,
+            } = await ChatApi.checkIfExist(roomDto.sender_id, roomDto.receiver_id);
+            if (status === 'SUCCESS') {
+                const { data } = await LearningRoomApi.getPassword(room.id);
+                const body: TPostMessage = {
+                    message_room_id: conversation.message_room_id,
+                    sender_id: roomDto.sender_id,
+                    receiver_id: roomDto.receiver_id,
+                    message: 'Sent you an invitation to a learning room',
+                    is_read: false,
+                    invitation: `${room.id}/${data}`,
+                    image: ''
+                };
+                const { status } = await ChatApi.sendMessage(body);
+                if (status === 'SUCCESS') {
+                    showToast({type: 'success', description: 'Sent invitation', timeout: 3000});
+                }
+            }
+        } catch (error) {
+            console.log(error);
+        }
+    };
 
     const handleQuit = async () => {
         const { status } = await LearningRoomApi.leaveRoom(
@@ -127,6 +218,11 @@ const RoomDetails = ({
         }
     };
 
+    const handleIncomingChatMessage = (message) => {
+        const parsedMessage: TLearningRoomMessage = JSON.parse(message);
+        setMessages(prev => [...prev, parsedMessage]);
+    };
+
     const handleToggleSpeaker = async () => {
         try {
             const { data } = await LearningRoomApi.toggleSpeaker(currentParticipant.participant_id);
@@ -156,14 +252,32 @@ const RoomDetails = ({
     };
 
     useEffect(() => {
+        const keyboardDidShowListener = Keyboard.addListener('keyboardDidShow', () => {
+            setKeyboardVisible(true);
+        });
+        const keyboardDidHideListener = Keyboard.addListener('keyboardDidHide', () => {
+            setKeyboardVisible(false);
+        });
+
+        return () => {
+            keyboardDidShowListener.remove();
+            keyboardDidHideListener.remove();
+        };
+    }, []);
+
+    useEffect(() => {
         const fetch = async () => {
-            const { data, message, status } = await TopicApi.getAllQuestions(room.topic.topic_id);
+            const { data: dataMessages, status: messagesStatus} = await LearningRoomApi.getMessages(room.id);
+            if (messagesStatus === 'SUCCESS') {
+                setMessages(dataMessages);
+            }
+            const { data, status } = await TopicApi.getAllQuestions(room.topic.topic_id);
             if (status === 'SUCCESS') {
                 setQuestions(data);
             }
         };
         fetch();
-    }, []);
+    }, [room.id]);
 
     useEffect(() => {
         const client = Stomp.over(function () {
@@ -178,6 +292,9 @@ const RoomDetails = ({
         client.connect({}, () => {
             client.subscribe(`/topic/learning-room/${id}`, (message) => {
                 handleIncomingMessage(message.body);
+            });
+            client.subscribe(`/topic/learning-room/message/${id}`, (message) => {
+                handleIncomingChatMessage(message.body);
             });
         });
 
@@ -197,7 +314,9 @@ const RoomDetails = ({
                     <Text className='text-center  text-sky-600 text-[22px] font-nunitoSemi'>
                         EngCom Room
                     </Text>
-                    <TouchableOpacity>
+                    <TouchableOpacity
+                        onPress={handleInviteModalPress}
+                    >
                         <UserPlusIcon size={30} color='#0284c7' />
                     </TouchableOpacity>
                 </View>
@@ -336,7 +455,79 @@ const RoomDetails = ({
                     snapPoints={snapPoints}
                 >
                     <BottomSheetView>
-                        <Text></Text>
+                        <View className='w-full h-full bg-slate-100'>
+                        <FL
+                            data={messages}
+                            keyExtractor={(item, index) => index.toString()}
+                            renderItem={({item, index}) => <LearningRoomMessage key={index} is_mine={item.user.user_id === user_id} item={item} />}
+                        /> 
+                        <View
+                        className={`w-full justify-between mt-4 bg-white ${isKeyboardVisible ? 'h-[15%]' : 'h-[10%]'} border-t-[1px] flex-row border-gray-500 items-center px-2`}
+                        >
+                        <Image
+                            className='w-[7%] border-[1px]'
+                            source={{ uri: profile_picture }}
+                            style={{
+                                width: 50,
+                                height: 50,
+                                borderRadius: 50 / 2,
+                                borderWidth: 1,
+                            }}
+                        />
+                        <TextInput
+                            value={content}
+                            multiline={true}
+                            onChange={handleContentChange}
+                            onBlur={handleContentBlur}
+                            placeholder='Place your message here ...'
+                            className={`px-4 text-gray-700 text-lg rounded-3xl h-[80%] font-nunitoSemi text-base bg-gray-300 ${contentHasError ? 'w-[85%]' : 'w-[75%]'}`}
+                        />
+                        {!contentHasError && (
+                            <TouchableOpacity
+                                disabled={contentHasError}
+                                onPress={handleSendMessage}
+                                className='w-[10%] items-center justify-center'
+                            >
+                                <FontAwesomeIcon icon={faPaperPlane} size={25} color='#0ea5e9' />
+                            </TouchableOpacity>
+                        )}
+                    </View>
+                        </View>
+                    </BottomSheetView>
+                </BottomSheetModal>
+                <BottomSheetModal
+                    backdropComponent={(props) => <BottomSheetBackdrop {...props} opacity={0.7} />}
+                    ref={inviteModalRef}
+                    index={1}
+                    snapPoints={snapPoints}
+                >
+                    <BottomSheetView>
+                    <View className='h-[12%]'>
+                        <SearchBar
+                            style={{ height: 55 }}
+                            textInputStyle={{ fontSize: 18 }}
+                            className='bg-gray-200 rounded-full font-nunitoSemi'
+                            placeholderTextColor='#6b7280'
+                            placeholder='Search here'
+                            spinnerVisibility={spinVisibility}
+                            onChangeText={handleTextChange}
+                        />
+                    </View>
+                    <View className='bg-slate-100 h-[88%] p-4'>
+                {users.length > 0 ? (
+                    <FlatList
+                        data={users}
+                        keyExtractor={(item, index) => item.id.toString()}
+                        renderItem={({ item, index }) => (
+                            <SearchItem handleSendLink={() => handleSendLink(item)} user={item} key={index} />
+                        )}
+                    />
+                ) : (
+                    <Text className='text-center text-xl font-nunitoSemi text-gray-700'>
+                        No users with the keyword found!
+                    </Text>
+                )}
+            </View>
                     </BottomSheetView>
                 </BottomSheetModal>
                 <View className='w-full h-[10%] border-t-[1px] bg-white border-slate-500 justify-around flex flex-row'>

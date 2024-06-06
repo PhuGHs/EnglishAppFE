@@ -1,7 +1,7 @@
 {
   "expo": {
-    "name": "EnglishApp",
-    "slug": "EnglishApp",
+    "name": "EngCom",
+    "slug": "EngCom",
     "version": "1.0.0",
     "orientation": "portrait",
     "icon": ".src/assets/images/logo.png",

@@ -194,7 +194,8 @@ export type TPostMessage = {
     receiver_id: number;
     message: string;
     is_read: boolean;
-    image: string;
+    image?: string;
+    invitation?: string;
 };
 
 export type TMessage = {
@@ -205,7 +206,8 @@ export type TMessage = {
     message: string;
     is_read: boolean;
     created_at: string;
-    image: string;
+    image?: string;
+    invitation?: string;
 };
 
 export type MessageRoomDto = {
@@ -401,4 +403,21 @@ export type TRadioButton = {
 export type TWebsocketType<T> = {
     type: 'leave' | 'promote' | 'kick' | 'join' | 'end';
     data: T;
+};
+
+export type TLearningRoomMessage = {
+    learning_room_message_id: number,
+    learning_room_id: number,
+    user: TUserNecessary,
+    message: string,
+    image: string,
+    created_at: string
+}
+
+export type TLearningRoomMessagePostDto = {
+    learning_room_id: number,
+    message: string,
+    image: string,
+    // created_at: string,
+    user_id: number
 };

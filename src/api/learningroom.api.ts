@@ -3,6 +3,8 @@ import {
     ApiResponse,
     TJoinLearningRoom,
     TLearningRoomDto,
+    TLearningRoomMessage,
+    TLearningRoomMessagePostDto,
     TLearningRoomPostInstant,
     TLearningRoomPostLater,
     TParticipantDto,
@@ -36,6 +38,15 @@ export class LearningRoomApi {
         }
     }
 
+    static async getPassword(roomId: number): Promise<ApiResponse<string>> {
+        try {
+            const response = await http.get(`/learning-rooms/${roomId}/get-password`);
+            return response.data;
+        } catch (error) {
+            console.log(error);
+        }
+    }
+
     static async create(
         body: TLearningRoomPostInstant | TLearningRoomPostLater,
         is_instant: boolean
@@ -57,6 +68,15 @@ export class LearningRoomApi {
     static async join(body: TJoinLearningRoom): Promise<ApiResponse<TLearningRoomDto>> {
         try {
             const response = await http.post('/learning-rooms/join', body);
+            return response.data;
+        } catch (error) {
+            console.log(error);
+        }
+    }
+
+    static async sendMessage(body: TLearningRoomMessagePostDto): Promise<ApiResponse<TLearningRoomMessage>> {
+        try {
+            const response = await http.post('/learning-rooms/send-messages', body);
             return response.data;
         } catch (error) {
             console.log(error);
@@ -136,9 +156,9 @@ export class LearningRoomApi {
         }
     }
 
-    static async getMessages(roomId: number) {
+    static async getMessages(roomId: number): Promise<ApiResponse<TLearningRoomMessage[]>> {
         try {
-            const response = await http.get(`/conversations/${roomId}`);
+            const response = await http.get(`/learning-rooms/${roomId}/get-messages`);
             return response.data;
         } catch (error) {
             console.log(error);

@@ -7,10 +7,11 @@ import { View, Image, Text, TouchableOpacity } from 'react-native';
 interface ISearchItem {
     user?: TSearch;
     userNec?: TUserNecessary;
-    navigation;
+    handleSendLink?: () => void;
+    navigation?;
 }
 
-const SearchItem = ({ user, userNec, navigation }: ISearchItem) => {
+const SearchItem = ({ user, userNec, navigation, handleSendLink }: ISearchItem) => {
     const { user: sender } = useContext(UserContext);
     const { user_id } = sender.user;
     const [loaded, setLoaded] = useState<boolean>(false);
@@ -42,10 +43,18 @@ const SearchItem = ({ user, userNec, navigation }: ISearchItem) => {
         }
     };
 
+    const handlePress = () => {
+        if (user && navigation) {
+            handleCreateRoom();
+        } else if (handleSendLink) {
+            handleSendLink();
+        }
+    };
+
     return (
         <TouchableOpacity
             className='w-full py-2 flex flex-row space-x-2'
-            onPress={user && handleCreateRoom}
+            onPress={handlePress}
         >
             <Image
                 source={user ? { uri: user.profilePicture } : { uri: userNec.profile_picture }}

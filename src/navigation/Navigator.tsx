@@ -39,8 +39,20 @@ import { getData } from '@root/utils/asyncStorage';
 import { useAuth } from '@root/context/auth-context';
 import SearchScreen from '@screen/learners/SearchScreen';
 import UserProfileScreen from '@screen/learners/UserProfileScreen';
+import * as Linking from 'expo-linking';
 
 const Stack = createNativeStackNavigator<RootStackParamList>();
+
+// const prefix = Linking.createURL('/');
+
+// const linking = {
+//     prefixes: [prefix, 'engcom://'],
+//     config: {
+//         screens: {
+//             RoomDetails: 'room-details/:roomId/:password'
+//         }
+//     }
+// };
 
 const Navigator = () => {
     const { token } = useAuth();
