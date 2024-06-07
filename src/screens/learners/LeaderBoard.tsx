@@ -61,15 +61,15 @@ const LeaderBoard = ({ navigation }: LeaderBoardScreenProps) => {
                 <LeaderboardTopUser index={1} item={topThreeUsers[0]} />
                 <LeaderboardTopUser index={3} item={topThreeUsers[2]} />
             </View>
-                <FlatList
-                    data={remainingUsers}
-                    keyExtractor={(item, index) => index.toString()}
-                    renderItem={({item, index}) => <LeaderboardUser item={item} index={index + 4}/>}
-                    contentContainerStyle={{
-                        padding: 3,
-                        margin: 3
-                    }}
-                />
+            <FlatList
+                data={remainingUsers}
+                keyExtractor={(item, index) => index.toString()}
+                renderItem={({ item, index }) => <LeaderboardUser item={item} index={index + 4} />}
+                contentContainerStyle={{
+                    padding: 3,
+                    margin: 3,
+                }}
+            />
         </SafeAreaView>
     );
 };

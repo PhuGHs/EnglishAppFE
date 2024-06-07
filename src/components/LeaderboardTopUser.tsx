@@ -4,7 +4,7 @@ import { View, Image, Text } from 'react-native';
 
 interface ILeaderboardTopUser {
     item: TLeaderboardDto;
-    index: number
+    index: number;
 }
 
 const LeaderboardTopUser = ({ item, index }: ILeaderboardTopUser) => {

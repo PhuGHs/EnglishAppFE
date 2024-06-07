@@ -74,7 +74,9 @@ export class LearningRoomApi {
         }
     }
 
-    static async sendMessage(body: TLearningRoomMessagePostDto): Promise<ApiResponse<TLearningRoomMessage>> {
+    static async sendMessage(
+        body: TLearningRoomMessagePostDto
+    ): Promise<ApiResponse<TLearningRoomMessage>> {
         try {
             const response = await http.post('/learning-rooms/send-messages', body);
             return response.data;

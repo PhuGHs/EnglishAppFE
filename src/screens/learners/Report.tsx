@@ -1,13 +1,20 @@
-import { faCloudUpload, faXmark } from '@fortawesome/free-solid-svg-icons';
+import { faAngleRight, faCloudUpload, faXmark } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-native-fontawesome';
 import { useInput } from '@hook/useInput';
 import { RouteProp } from '@react-navigation/native';
+import { ReportLearnerScreenProps, RootStackParamList } from '@type/index';
+import React, { useContext, useEffect, useState } from 'react';
 import {
-    ReportLearnerScreenProps,
-    RootStackParamList,
-} from '@type/index';
-import React, { useContext, useState } from 'react';
-import { TouchableOpacity, View, Text, TextInput, Image, StyleSheet, ActivityIndicator } from 'react-native';
+    TouchableOpacity,
+    View,
+    Text,
+    TextInput,
+    Image,
+    StyleSheet,
+    ActivityIndicator,
+    FlatList,
+    Keyboard,
+} from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import Modal from 'react-native-modal/dist/modal';
 import { UserContext } from '@root/context/user-context';
@@ -15,6 +22,9 @@ import { useToast } from '@root/context/toast-context';
 import * as ImagePicker from 'expo-image-picker';
 import { ReportApi } from '@root/api/report.api';
 import { TPostReport } from '@type/T-type';
+import { reasons } from '@type/resource';
+import VocabSection from '@component/VocabSection';
+import { ScrollView } from 'react-native';
 
 const ReportLearner = ({
     route,
@@ -24,11 +34,14 @@ const ReportLearner = ({
     const { user } = useContext(UserContext);
     const { user_id: senderId } = user.user;
     const { showToast } = useToast();
+    const [selectedReason, setSelectedReason] = useState<string>('');
 
     const [confirmedModalVisible, setConfirmedModalVisible] = useState<boolean>(false);
+    const [modalVisible, setModalVisible] = useState<boolean>(false);
     const [image, setImage] = useState(null);
     const [imageBase64, setImageBase64] = useState<string>();
     const [loading, setLoading] = useState<boolean>(false);
+    const [isKeyboardVisible, setKeyboardVisible] = useState<boolean>(false);
 
     const {
         value: thoughts,
@@ -59,16 +72,22 @@ const ReportLearner = ({
         const body: TPostReport = {
             reported_id: receiverId,
             reporter_id: senderId,
+            reason: selectedReason,
             content: thoughts,
-            evidence_image: imageBase64
+            evidence_image: imageBase64,
         };
         try {
             const { message, status } = await ReportApi.report(body);
             if (status === 'SUCCESS') {
-                showToast({type: 'success', description: 'Thank you for helping us, we will letting you know when your report works', timeout: 10000});
+                showToast({
+                    type: 'success',
+                    description:
+                        'Thank you for helping us, we will letting you know when your report works',
+                    timeout: 10000,
+                });
                 navigation.pop();
             } else {
-                showToast({type: 'danger', description: message, timeout: 5000});
+                showToast({ type: 'danger', description: message, timeout: 5000 });
             }
             setLoading(false);
         } catch (error) {
@@ -100,20 +119,37 @@ const ReportLearner = ({
         }
     };
 
+    useEffect(() => {
+        const keyboardDidShowListener = Keyboard.addListener('keyboardDidShow', () => {
+            setKeyboardVisible(true);
+        });
+        const keyboardDidHideListener = Keyboard.addListener('keyboardDidHide', () => {
+            setKeyboardVisible(false);
+        });
+
+        return () => {
+            keyboardDidShowListener.remove();
+            keyboardDidHideListener.remove();
+        };
+    }, []);
+
     return (
         <>
             <SafeAreaView className='flex bg-slate-100 flex-1 space-y-3'>
-            <View className='w-full h-[10%] bg-white flex justify-center px-4'>
-                <TouchableOpacity onPress={handleGoOut}>
-                    <FontAwesomeIcon icon={faXmark} size={25} color='#7F7F81' />
-                </TouchableOpacity>
-            </View>
-            <View className='flex-1 bg-white rounded-2xl flex p-6 flex-col justify-between'>
-                <View className='space-y-3'>
-                    <Text className='font-nunitoBold text-2xl text-gray-700'>
-                        Tell us the reason why you want to report this learner? Describe the reason?
-                    </Text>
-                    {!image ? (
+                <View className='w-full h-[10%] bg-white flex justify-center px-4'>
+                    <TouchableOpacity onPress={handleGoOut}>
+                        <FontAwesomeIcon icon={faXmark} size={25} color='#7F7F81' />
+                    </TouchableOpacity>
+                </View>
+                <ScrollView className='flex-1 bg-white rounded-2xl flex p-6 flex-col'>
+                    <View className='space-y-3'>
+                        <Text className='font-nunitoBold text-2xl text-gray-700 mb-4'>
+                            Tell us the reason why you want to report this learner? Describe the
+                            reason?
+                        </Text>
+                        {!isKeyboardVisible && (
+                            <>
+                                {!image ? (
                                     <TouchableOpacity className='w-full' onPress={pickImage}>
                                         <View
                                             className='w-full bg-white rounded-xl px-4 py-8 flex items-center justify-center'
@@ -140,82 +176,136 @@ const ReportLearner = ({
                                         source={{ uri: image }}
                                     />
                                 )}
-                    <View className='w-full flex-col border-2 border-[#C7C7C7] rounded-lg p-2'>
-                        <TextInput
-                            className='w-full mb-8 font-nunitoMedium text-[17px] text-gray-700'
-                            multiline={true}
-                            value={thoughts}
-                            onChange={handleThoughtsChange}
-                            onBlur={handleThoughtsBlur}
-                            placeholder='Write your reasons here, and explain them.'
-                        />
-                        <Text className='text-[#F3641A] text-right font-nunitoMedium'>
-                            {remainingWords} words remaining
-                        </Text>
+                            </>
+                        )}
+                        <View className='flex flex-col w-full space-y-2'>
+                            <Text className='text-gray-700 text-xl font-nunitoBold'>Reason</Text>
+                            <TouchableOpacity
+                                onPress={() => setModalVisible(true)}
+                                className='p-3 rounded-xl border-[2px] border-[#C7C7C7]'
+                            >
+                                <Text className='text-gray-700 font-nunitoMedium text-base'>
+                                    {selectedReason !== '' ? selectedReason : 'Select a reason'}
+                                </Text>
+                            </TouchableOpacity>
+                        </View>
+                        <View className='space-y-2'>
+                            <Text className='text-gray-700 text-xl font-nunitoBold'>
+                                Additional content
+                            </Text>
+                            <View className='w-full flex-col border-[2px] border-[#C7C7C7] rounded-lg p-2'>
+                                <TextInput
+                                    className='w-full mb-8 font-nunitoMedium text-[17px] text-gray-700'
+                                    multiline={true}
+                                    value={thoughts}
+                                    onChange={handleThoughtsChange}
+                                    onBlur={handleThoughtsBlur}
+                                    placeholder='Write your reasons here, and explain them.'
+                                />
+                                <Text className='text-[#F3641A] text-right font-nunitoMedium'>
+                                    {remainingWords} words remaining
+                                </Text>
+                            </View>
+                        </View>
+                        {didEdit && thoughtsHasError && (
+                            <Text className='text-red-400 text-base font-nunitoMedium'>
+                                Your thoughts should be more lengthy, minimum of 6 words
+                            </Text>
+                        )}
                     </View>
-                    {didEdit && thoughtsHasError && (
-                        <Text className='text-red-400 text-base font-nunitoMedium'>
-                            Your thoughts should be more lengthy, minimum of 6 words
-                        </Text>
+                    {!isKeyboardVisible && (
+                        <View className='items-center mt-4'>
+                            <TouchableOpacity
+                                className={`${thoughtsHasError ? 'bg-yellow-300' : 'bg-yellow-400'} px-4 py-3 rounded-xl`}
+                                style={{ elevation: 5 }}
+                                disabled={thoughtsHasError || selectedReason === ''}
+                                onPress={handleReport}
+                            >
+                                <Text
+                                    className={`${thoughtsHasError ? 'text-gray-500' : 'text-gray-700'} font-nunitoXBold text-lg`}
+                                >
+                                    Report
+                                </Text>
+                            </TouchableOpacity>
+                        </View>
                     )}
-                </View>
-                <View className='items-center'>
-                    <TouchableOpacity
-                        className={`${thoughtsHasError ? 'bg-yellow-300' : 'bg-yellow-400'} px-4 py-3 rounded-xl`}
-                        style={{ elevation: 5 }}
-                        disabled={thoughtsHasError}
-                        onPress={handleReport}
-                    >
-                        <Text
-                            className={`${thoughtsHasError ? 'text-gray-500' : 'text-gray-700'} font-nunitoXBold text-lg`}
-                        >
-                            Report
+                </ScrollView>
+                <Modal
+                    isVisible={confirmedModalVisible}
+                    onBackButtonPress={() => setConfirmedModalVisible(!confirmedModalVisible)}
+                    onBackdropPress={() => setConfirmedModalVisible(!confirmedModalVisible)}
+                    style={{ display: 'flex', alignItems: 'center', justifyContent: 'center' }}
+                >
+                    <View className='flex flex-col bg-white rounded-2xl p-4 space-y-4'>
+                        <Text className='text-sky-600 text-center text-xl font-nunitoBold'>
+                            Confirmation
                         </Text>
-                    </TouchableOpacity>
-                </View>
-            </View>
-            <Modal
-                isVisible={confirmedModalVisible}
-                onBackButtonPress={() => setConfirmedModalVisible(!confirmedModalVisible)}
-                onBackdropPress={() => setConfirmedModalVisible(!confirmedModalVisible)}
-                style={{ display: 'flex', alignItems: 'center', justifyContent: 'center' }}
-            >
-                <View className='flex flex-col bg-white rounded-2xl p-4 space-y-4'>
-                    <Text className='text-sky-600 text-center text-xl font-nunitoBold'>
-                        Confirmation
-                    </Text>
-                    <Text className='text-base text-gray-700 font-nunitoSemi'>
-                        You are being in progress! Do you really want to quit?
-                    </Text>
-                    <View
-                        style={{
-                            borderBottomColor: '#d1d5db',
-                            borderBottomWidth: 2,
-                            marginTop: 10,
-                        }}
-                    />
-                    <View className='flex flex-row justify-evenly'>
-                        <TouchableOpacity
-                            className='py-4 px-6 rounded-xl bg-red-400'
-                            onPress={() => setConfirmedModalVisible(false)}
-                        >
-                            <Text className='text-white text-lg font-nunitoBold'>No</Text>
-                        </TouchableOpacity>
-                        <TouchableOpacity
-                            className='py-4 px-6 bg-yellow-400 text-gray-700 rounded-xl'
-                            onPress={() => navigation.pop()}
-                        >
-                            <Text className='text-gray-700 text-lg font-nunitoSemi'>Yes</Text>
-                        </TouchableOpacity>
+                        <Text className='text-base text-gray-700 font-nunitoSemi'>
+                            You are being in progress! Do you really want to quit?
+                        </Text>
+                        <View
+                            style={{
+                                borderBottomColor: '#d1d5db',
+                                borderBottomWidth: 2,
+                                marginTop: 10,
+                            }}
+                        />
+                        <View className='flex flex-row justify-evenly'>
+                            <TouchableOpacity
+                                className='py-4 px-6 rounded-xl bg-red-400'
+                                onPress={() => setConfirmedModalVisible(false)}
+                            >
+                                <Text className='text-white text-lg font-nunitoBold'>No</Text>
+                            </TouchableOpacity>
+                            <TouchableOpacity
+                                className='py-4 px-6 bg-yellow-400 text-gray-700 rounded-xl'
+                                onPress={() => navigation.pop()}
+                            >
+                                <Text className='text-gray-700 text-lg font-nunitoSemi'>Yes</Text>
+                            </TouchableOpacity>
+                        </View>
                     </View>
+                </Modal>
+                <Modal
+                    isVisible={modalVisible}
+                    onBackButtonPress={() => setModalVisible(!modalVisible)}
+                    onBackdropPress={() => setModalVisible(!modalVisible)}
+                    style={{ display: 'flex', alignItems: 'center', justifyContent: 'center' }}
+                >
+                    <View className='flex flex-col bg-slate-100 rounded-2xl p-4 space-y-4 w-[100%] max-h-[70%]'>
+                        <Text className='text-sky-600 text-center text-xl font-nunitoBold'>
+                            Choose a topic
+                        </Text>
+                        <View
+                            style={{
+                                borderBottomColor: '#d1d5db',
+                                borderBottomWidth: 2,
+                                marginTop: 10,
+                            }}
+                        />
+                        <FlatList
+                            data={reasons}
+                            keyExtractor={(item, index) => index.toString()}
+                            renderItem={({ item, index }) => (
+                                <VocabSection
+                                    press={() => {
+                                        setSelectedReason(item);
+                                        setModalVisible(false);
+                                    }}
+                                    topic={true}
+                                    header={item}
+                                    key={index}
+                                />
+                            )}
+                        />
+                    </View>
+                </Modal>
+            </SafeAreaView>
+            {loading && (
+                <View style={styles.overlay}>
+                    <ActivityIndicator size='large' color='#0000ff' />
                 </View>
-            </Modal>
-        </SafeAreaView>
-        {loading && (
-            <View style={styles.overlay}>
-                <ActivityIndicator size='large' color='#0000ff' />
-            </View>
-        )}
+            )}
         </>
     );
 };

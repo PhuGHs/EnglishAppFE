@@ -3,8 +3,8 @@ import React from 'react';
 import { Image, Text, View } from 'react-native';
 
 interface ILeaderboardUser {
-    item: TLeaderboardDto,
-    index: number
+    item: TLeaderboardDto;
+    index: number;
 }
 
 const LeaderboardUser = ({ item, index }: ILeaderboardUser) => {
@@ -14,7 +14,7 @@ const LeaderboardUser = ({ item, index }: ILeaderboardUser) => {
             <View className='flex flex-row rounded-[30px] w-[85%] bg-white/[.3] items-center justify-between pr-5'>
                 <View className='flex flex-row items-center space-x-6 '>
                     <Image
-                        source={{uri: item?.user?.profile_picture}}
+                        source={{ uri: item?.user?.profile_picture }}
                         style={{
                             resizeMode: 'cover',
                             width: 60,
@@ -22,7 +22,9 @@ const LeaderboardUser = ({ item, index }: ILeaderboardUser) => {
                             borderRadius: 60 / 2,
                         }}
                     />
-                    <Text className='text-white font-nunitoMedium text-[19px]'>{item?.user?.full_name}</Text>
+                    <Text className='text-white font-nunitoMedium text-[19px]'>
+                        {item?.user?.full_name}
+                    </Text>
                 </View>
                 <Text className='text-[#00FFDD] font-nunitoBold text-[19px]'>{item?.score}</Text>
             </View>

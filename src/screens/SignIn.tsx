@@ -16,6 +16,7 @@ import {
     View,
     StyleSheet,
     ActivityIndicator,
+    Keyboard,
 } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
 
@@ -24,6 +25,7 @@ const SignIn = ({ navigation }: SignInScreenProps) => {
     const { setUser } = useContext(UserContext);
     const { signIn } = useAuth();
     const [hasExecuted, setExecuted] = useState<boolean>(true);
+    const [isKeyboardVisible, setKeyboardVisible] = useState<boolean>(false);
     const {
         value: emailValue,
         handleInputChange: handleEmailChange,
@@ -44,6 +46,17 @@ const SignIn = ({ navigation }: SignInScreenProps) => {
 
     useEffect(() => {
         emailRef.current.focus();
+        const keyboardDidShowListener = Keyboard.addListener('keyboardDidShow', () => {
+            setKeyboardVisible(true);
+        });
+        const keyboardDidHideListener = Keyboard.addListener('keyboardDidHide', () => {
+            setKeyboardVisible(false);
+        });
+
+        return () => {
+            keyboardDidShowListener.remove();
+            keyboardDidHideListener.remove();
+        };
     }, []);
 
     const handleLogin = async () => {
@@ -70,15 +83,21 @@ const SignIn = ({ navigation }: SignInScreenProps) => {
                 setEmailValue('');
                 setPasswordValue('');
                 setExecuted(true);
+                if (account.is_banned) {
+                    showToast({
+                        type: 'danger',
+                        description: 'This account was banned!!!',
+                        timeout: 7000,
+                    });
+                    return;
+                }
                 setUser(account);
                 signIn('Bearer ' + accessToken);
-                if (account.is_active) {
+                if (account.is_active && !account.is_banned) {
                     navigation.push('Tabs');
-                } else {
+                } else if (!account.is_active && !account.is_banned) {
                     navigation.push('Interest', { userId: account.user.user_id });
                 }
-
-                showToast({ type: 'success', description: 'Login success', timeout: 2000 });
             } else {
                 throw new Error('Invalid response data');
             }
@@ -94,7 +113,7 @@ const SignIn = ({ navigation }: SignInScreenProps) => {
 
     return (
         <SafeAreaView className='flex bg-sky-400 flex-1 justify-between'>
-            <View className='mx-3 flex flex-col h-[40%]'>
+            <View className={`mx-3 flex flex-col ${isKeyboardVisible ? 'h-[10%]' : 'h-[40%]'}`}>
                 <View className='flex flex-row'>
                     <TouchableOpacity
                         className='bg-yellow-400 p-2 rounded-tl-xl rounded-br-xl w-[40px] h-[40px]'
@@ -106,14 +125,18 @@ const SignIn = ({ navigation }: SignInScreenProps) => {
                         Sign In
                     </Text>
                 </View>
-                <View className='flex justify-center items-center'>
-                    <Image
-                        source={require('@asset/images/SignUp.png')}
-                        style={{ resizeMode: 'contain', width: '100%', height: '100%' }}
-                    />
-                </View>
+                {!isKeyboardVisible && (
+                    <View className='flex justify-center items-center'>
+                        <Image
+                            source={require('@asset/images/SignUp.png')}
+                            style={{ resizeMode: 'contain', width: '100%', height: '100%' }}
+                        />
+                    </View>
+                )}
             </View>
-            <View className='bg-white h-[55%] rounded-t-3xl p-8 flex flex-col space-y-4'>
+            <View
+                className={`bg-white rounded-t-3xl p-8 flex flex-col space-y-4 ${isKeyboardVisible ? 'h-full' : 'h-[55%]'}`}
+            >
                 <View className='flex flex-col gap-3'>
                     <Text className='text-gray-700 font-nunitoBold text-lg'>Email Address</Text>
                     <TextInput

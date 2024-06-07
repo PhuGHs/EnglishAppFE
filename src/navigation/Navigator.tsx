@@ -1,4 +1,4 @@
-import { NavigationContainer } from '@react-navigation/native';
+import { NavigationContainer, useNavigation } from '@react-navigation/native';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import EnglishTest from '@screen/EnglishTest';
 import InterestScreen from '@screen/InterestScreen';
@@ -19,7 +19,7 @@ import StoryDetails from '@screen/learners/StoryDetails';
 import TopicDetails from '@screen/learners/TopicDetails';
 import Topics from '@screen/learners/Topics';
 import { RootStackParamList } from '@type/index';
-import React, { useContext } from 'react';
+import React, { useContext, useEffect, useState } from 'react';
 import Tabs from './Tabs';
 import LearnerComment from '@screen/learners/LearnerComment';
 import ReviewLearner from '@screen/learners/ReviewLearner';
@@ -41,6 +41,7 @@ import SearchScreen from '@screen/learners/SearchScreen';
 import UserProfileScreen from '@screen/learners/UserProfileScreen';
 import * as Linking from 'expo-linking';
 import ReportLearner from '@screen/learners/Report';
+import BanScreen from '@screen/learners/BanScreen';
 
 const Stack = createNativeStackNavigator<RootStackParamList>();
 
@@ -58,6 +59,7 @@ const Stack = createNativeStackNavigator<RootStackParamList>();
 const Navigator = () => {
     const { token } = useAuth();
     const { user } = useContext(UserContext);
+
     return (
         <NavigationContainer>
             <Stack.Navigator screenOptions={{ headerShown: false }}>
@@ -101,6 +103,7 @@ const Navigator = () => {
                         <Stack.Screen name='SearchScreen' component={SearchScreen} />
                         <Stack.Screen name='UserProfileScreen' component={UserProfileScreen} />
                         <Stack.Screen name='ReportLearner' component={ReportLearner} />
+                        <Stack.Screen name='Ban' component={BanScreen} />
                     </>
                 )}
             </Stack.Navigator>

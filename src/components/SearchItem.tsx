@@ -52,10 +52,7 @@ const SearchItem = ({ user, userNec, navigation, handleSendLink }: ISearchItem) 
     };
 
     return (
-        <TouchableOpacity
-            className='w-full py-2 flex flex-row space-x-2'
-            onPress={handlePress}
-        >
+        <TouchableOpacity className='w-full py-2 flex flex-row space-x-2' onPress={handlePress}>
             <Image
                 source={user ? { uri: user.profilePicture } : { uri: userNec.profile_picture }}
                 resizeMode='cover'

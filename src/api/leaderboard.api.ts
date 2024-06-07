@@ -7,8 +7,8 @@ export class LeaderboardApi {
             const response = await http.get('/leaderboard/year', {
                 params: {
                     startRank: startRank,
-                    endRank: endRank
-                }
+                    endRank: endRank,
+                },
             });
             return response.data;
         } catch (error) {
@@ -21,8 +21,8 @@ export class LeaderboardApi {
             const response = await http.get('/leaderboard/month', {
                 params: {
                     startRank: startRank,
-                    endRank: endRank
-                }
+                    endRank: endRank,
+                },
             });
             return response.data;
         } catch (error) {
@@ -35,8 +35,8 @@ export class LeaderboardApi {
             const response = await http.get('/leaderboard/week', {
                 params: {
                     startRank: startRank,
-                    endRank: endRank
-                }
+                    endRank: endRank,
+                },
             });
             return response.data;
         } catch (error) {

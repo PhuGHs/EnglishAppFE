@@ -16,7 +16,14 @@ import { RoomDetailsScreenProps, RootStackParamList } from '@type/index';
 import { RouteProp } from '@react-navigation/native';
 import { UserContext } from '@root/context/user-context';
 import { LearningRoomApi } from '@root/api/learningroom.api';
-import { TEnglishTopicQuestionDto, TLearningRoomMessage, TLearningRoomMessagePostDto, TParticipantDto, TPostMessage, TSearch } from '@type/T-type';
+import {
+    TEnglishTopicQuestionDto,
+    TLearningRoomMessage,
+    TLearningRoomMessagePostDto,
+    TParticipantDto,
+    TPostMessage,
+    TSearch,
+} from '@type/T-type';
 import { TopicApi } from '@root/api/topic.api';
 import { Stomp } from '@stomp/stompjs';
 import SockJS from 'sockjs-client';
@@ -76,7 +83,7 @@ const RoomDetails = ({
     const [users, setUsers] = useState<TSearch[]>([]);
     const [messages, setMessages] = useState<TLearningRoomMessage[]>([]);
     const [text, setText] = useState<string>('');
-    
+
     const bottomSheetModalRef = useRef(null);
     const inviteModalRef = useRef(null);
     const snapPoints = useMemo(() => ['50%', '95%'], []);
@@ -112,7 +119,7 @@ const RoomDetails = ({
             learning_room_id: room.id,
             message: content,
             image: '',
-            user_id: user_id
+            user_id: user_id,
         };
         try {
             const { data, message, status } = await LearningRoomApi.sendMessage(body);
@@ -152,11 +159,11 @@ const RoomDetails = ({
                     message: 'Sent you an invitation to a learning room',
                     is_read: false,
                     invitation: `${room.id}/${data}`,
-                    image: ''
+                    image: '',
                 };
                 const { status } = await ChatApi.sendMessage(body);
                 if (status === 'SUCCESS') {
-                    showToast({type: 'success', description: 'Sent invitation', timeout: 3000});
+                    showToast({ type: 'success', description: 'Sent invitation', timeout: 3000 });
                 }
             }
         } catch (error) {
@@ -220,7 +227,7 @@ const RoomDetails = ({
 
     const handleIncomingChatMessage = (message) => {
         const parsedMessage: TLearningRoomMessage = JSON.parse(message);
-        setMessages(prev => [...prev, parsedMessage]);
+        setMessages((prev) => [...prev, parsedMessage]);
     };
 
     const handleToggleSpeaker = async () => {
@@ -267,7 +274,8 @@ const RoomDetails = ({
 
     useEffect(() => {
         const fetch = async () => {
-            const { data: dataMessages, status: messagesStatus} = await LearningRoomApi.getMessages(room.id);
+            const { data: dataMessages, status: messagesStatus } =
+                await LearningRoomApi.getMessages(room.id);
             if (messagesStatus === 'SUCCESS') {
                 setMessages(dataMessages);
             }
@@ -314,9 +322,7 @@ const RoomDetails = ({
                     <Text className='text-center  text-sky-600 text-[22px] font-nunitoSemi'>
                         EngCom Room
                     </Text>
-                    <TouchableOpacity
-                        onPress={handleInviteModalPress}
-                    >
+                    <TouchableOpacity onPress={handleInviteModalPress}>
                         <UserPlusIcon size={30} color='#0284c7' />
                     </TouchableOpacity>
                 </View>
@@ -456,42 +462,52 @@ const RoomDetails = ({
                 >
                     <BottomSheetView>
                         <View className='w-full h-full bg-slate-100'>
-                        <FL
-                            data={messages}
-                            keyExtractor={(item, index) => index.toString()}
-                            renderItem={({item, index}) => <LearningRoomMessage key={index} is_mine={item.user.user_id === user_id} item={item} />}
-                        /> 
-                        <View
-                        className={`w-full justify-between mt-4 bg-white ${isKeyboardVisible ? 'h-[15%]' : 'h-[10%]'} border-t-[1px] flex-row border-gray-500 items-center px-2`}
-                        >
-                        <Image
-                            className='w-[7%] border-[1px]'
-                            source={{ uri: profile_picture }}
-                            style={{
-                                width: 50,
-                                height: 50,
-                                borderRadius: 50 / 2,
-                                borderWidth: 1,
-                            }}
-                        />
-                        <TextInput
-                            value={content}
-                            multiline={true}
-                            onChange={handleContentChange}
-                            onBlur={handleContentBlur}
-                            placeholder='Place your message here ...'
-                            className={`px-4 text-gray-700 text-lg rounded-3xl h-[80%] font-nunitoSemi text-base bg-gray-300 ${contentHasError ? 'w-[85%]' : 'w-[75%]'}`}
-                        />
-                        {!contentHasError && (
-                            <TouchableOpacity
-                                disabled={contentHasError}
-                                onPress={handleSendMessage}
-                                className='w-[10%] items-center justify-center'
+                            <FL
+                                data={messages}
+                                keyExtractor={(item, index) => index.toString()}
+                                renderItem={({ item, index }) => (
+                                    <LearningRoomMessage
+                                        key={index}
+                                        is_mine={item.user.user_id === user_id}
+                                        item={item}
+                                    />
+                                )}
+                            />
+                            <View
+                                className={`w-full justify-between mt-4 bg-white ${isKeyboardVisible ? 'h-[15%]' : 'h-[10%]'} border-t-[1px] flex-row border-gray-500 items-center px-2`}
                             >
-                                <FontAwesomeIcon icon={faPaperPlane} size={25} color='#0ea5e9' />
-                            </TouchableOpacity>
-                        )}
-                    </View>
+                                <Image
+                                    className='w-[7%] border-[1px]'
+                                    source={{ uri: profile_picture }}
+                                    style={{
+                                        width: 50,
+                                        height: 50,
+                                        borderRadius: 50 / 2,
+                                        borderWidth: 1,
+                                    }}
+                                />
+                                <TextInput
+                                    value={content}
+                                    multiline={true}
+                                    onChange={handleContentChange}
+                                    onBlur={handleContentBlur}
+                                    placeholder='Place your message here ...'
+                                    className={`px-4 text-gray-700 text-lg rounded-3xl h-[80%] font-nunitoSemi text-base bg-gray-300 ${contentHasError ? 'w-[85%]' : 'w-[75%]'}`}
+                                />
+                                {!contentHasError && (
+                                    <TouchableOpacity
+                                        disabled={contentHasError}
+                                        onPress={handleSendMessage}
+                                        className='w-[10%] items-center justify-center'
+                                    >
+                                        <FontAwesomeIcon
+                                            icon={faPaperPlane}
+                                            size={25}
+                                            color='#0ea5e9'
+                                        />
+                                    </TouchableOpacity>
+                                )}
+                            </View>
                         </View>
                     </BottomSheetView>
                 </BottomSheetModal>
@@ -502,32 +518,36 @@ const RoomDetails = ({
                     snapPoints={snapPoints}
                 >
                     <BottomSheetView>
-                    <View className='h-[12%]'>
-                        <SearchBar
-                            style={{ height: 55 }}
-                            textInputStyle={{ fontSize: 18 }}
-                            className='bg-gray-200 rounded-full font-nunitoSemi'
-                            placeholderTextColor='#6b7280'
-                            placeholder='Search here'
-                            spinnerVisibility={spinVisibility}
-                            onChangeText={handleTextChange}
-                        />
-                    </View>
-                    <View className='bg-slate-100 h-[88%] p-4'>
-                {users.length > 0 ? (
-                    <FlatList
-                        data={users}
-                        keyExtractor={(item, index) => item.id.toString()}
-                        renderItem={({ item, index }) => (
-                            <SearchItem handleSendLink={() => handleSendLink(item)} user={item} key={index} />
-                        )}
-                    />
-                ) : (
-                    <Text className='text-center text-xl font-nunitoSemi text-gray-700'>
-                        No users with the keyword found!
-                    </Text>
-                )}
-            </View>
+                        <View className='h-[12%]'>
+                            <SearchBar
+                                style={{ height: 55 }}
+                                textInputStyle={{ fontSize: 18 }}
+                                className='bg-gray-200 rounded-full font-nunitoSemi'
+                                placeholderTextColor='#6b7280'
+                                placeholder='Search here'
+                                spinnerVisibility={spinVisibility}
+                                onChangeText={handleTextChange}
+                            />
+                        </View>
+                        <View className='bg-slate-100 h-[88%] p-4'>
+                            {users.length > 0 ? (
+                                <FlatList
+                                    data={users}
+                                    keyExtractor={(item, index) => item.id.toString()}
+                                    renderItem={({ item, index }) => (
+                                        <SearchItem
+                                            handleSendLink={() => handleSendLink(item)}
+                                            user={item}
+                                            key={index}
+                                        />
+                                    )}
+                                />
+                            ) : (
+                                <Text className='text-center text-xl font-nunitoSemi text-gray-700'>
+                                    No users with the keyword found!
+                                </Text>
+                            )}
+                        </View>
                     </BottomSheetView>
                 </BottomSheetModal>
                 <View className='w-full h-[10%] border-t-[1px] bg-white border-slate-500 justify-around flex flex-row'>

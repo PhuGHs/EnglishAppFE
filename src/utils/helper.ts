@@ -1,4 +1,5 @@
 import moment from 'moment';
+import { format } from 'date-fns';
 export class Helper {
     static validateEmail(email: string): boolean {
         if (email === '') return false;
@@ -54,6 +55,11 @@ export class Helper {
 
         return inputDate.format('D MMMM YYYY [at] h:mm A');
     };
+
+    static formatReportDate(inputString: string): string {
+        const inputDate = moment(inputString, 'DD-MM-YYYY HH:mm:ss');
+        return inputDate.format('D MMMM YYYY [at] h:mm A');
+    }
 
     static generateRoomPassword(): string {
         const characters = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789';

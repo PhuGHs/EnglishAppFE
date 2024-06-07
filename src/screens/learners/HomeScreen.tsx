@@ -14,6 +14,8 @@ import { DiscussionApi } from '@root/api/discussion.api';
 import { NotificationApi } from '@root/api/notification.api';
 import { TDiscussionDto, TLearningRoomDto, TNotification } from '@type/T-type';
 import { LearningRoomApi } from '@root/api/learningroom.api';
+import { Client, Stomp } from '@stomp/stompjs';
+import SockJS from 'sockjs-client';
 
 const HomeScreen = ({ navigation }: TabsScreenProps) => {
     const { user } = useContext(UserContext);
@@ -24,6 +26,7 @@ const HomeScreen = ({ navigation }: TabsScreenProps) => {
     const [numberOfNotifications, setNumberOfNotifications] = useState<number>(0);
     const [discussions, setDiscussions] = useState<TDiscussionDto[]>([]);
     const [rooms, setRooms] = useState<TLearningRoomDto[]>([]);
+    const [client, setClient] = useState<Client>(null);
 
     if (!user) {
         showToast({ type: 'danger', description: 'There is something wrong', timeout: 2000 });
@@ -51,6 +54,30 @@ const HomeScreen = ({ navigation }: TabsScreenProps) => {
         fetch();
         setLoaded(true);
     }, []);
+
+    useEffect(() => {
+        const unsubscribe = navigation.addListener('focus', () => {
+            const client = Stomp.over(function () {
+                return new SockJS('http://10.0.2.2:8080/ws');
+            });
+            client.reconnectDelay = 5000;
+            client.connectHeaders = {};
+            client.heartbeatIncoming = 4000;
+            client.heartbeatOutgoing = 4000;
+            client.debug = (msg) => console.log('STOMP: ', msg);
+
+            client.connect({}, () => {
+                client.subscribe(`/topic/user/ban/${user.user.user_id}`, (message) => {
+                    console.log(message.body);
+                    navigation.navigate('Ban');
+                });
+            });
+
+            setClient(client);
+        });
+
+        return unsubscribe;
+    }, [navigation]);
 
     return (
         <SafeAreaView className='flex px-4 bg-slate-100 space-y-3' style={{ marginBottom: 70 }}>

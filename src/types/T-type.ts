@@ -125,6 +125,7 @@ export type TAccount = {
     role: TRole;
     email: string;
     is_active: boolean;
+    is_banned: boolean;
 };
 
 export type RegisterDto = {
@@ -407,40 +408,42 @@ export type TWebsocketType<T> = {
 };
 
 export type TLearningRoomMessage = {
-    learning_room_message_id: number,
-    learning_room_id: number,
-    user: TUserNecessary,
-    message: string,
-    image: string,
-    created_at: string
-}
+    learning_room_message_id: number;
+    learning_room_id: number;
+    user: TUserNecessary;
+    message: string;
+    image: string;
+    created_at: string;
+};
 
 export type TLearningRoomMessagePostDto = {
-    learning_room_id: number,
-    message: string,
-    image: string,
+    learning_room_id: number;
+    message: string;
+    image: string;
     // created_at: string,
-    user_id: number
+    user_id: number;
 };
 
 export type TLeaderboardDto = {
-    user: TUserNecessary,
-    score: number
-}
+    user: TUserNecessary;
+    score: number;
+};
 
 export type TReportDto = {
-    id: number,
-    evidence_image: string,
-    content: string,
-    reporter_id: number,
-    reported_id: number,
-    is_solved: boolean,
-    created_date: string
+    id: number;
+    evidence_image: string;
+    content: string;
+    reason: string;
+    reporter: TUserNecessary;
+    reported: TUserNecessary;
+    is_solved: boolean;
+    created_date: string;
 };
 
 export type TPostReport = {
-    evidence_image: string,
-    content: string,
-    reporter_id: number,
-    reported_id: number
+    evidence_image: string;
+    content: string;
+    reason: string;
+    reporter_id: number;
+    reported_id: number;
 };
