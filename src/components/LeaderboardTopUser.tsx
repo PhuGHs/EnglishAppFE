@@ -1,11 +1,17 @@
+import { TLeaderboardDto } from '@type/T-type';
 import React, { useEffect } from 'react';
 import { View, Image, Text } from 'react-native';
 
-const LeaderboardTopUser = ({ top, points }) => {
+interface ILeaderboardTopUser {
+    item: TLeaderboardDto;
+    index: number
+}
+
+const LeaderboardTopUser = ({ item, index }: ILeaderboardTopUser) => {
     const handleGetContainerWidth = () => {
-        if (top === 1) {
+        if (index === 1) {
             return 150;
-        } else if (top == 2) {
+        } else if (index == 2) {
             return 120;
         } else {
             return 100;
@@ -13,9 +19,9 @@ const LeaderboardTopUser = ({ top, points }) => {
     };
 
     const handleGetImageWidth = () => {
-        if (top === 1) {
+        if (index === 1) {
             return 130;
-        } else if (top === 2) {
+        } else if (index === 2) {
             return 100;
         }
         return 80;
@@ -23,8 +29,8 @@ const LeaderboardTopUser = ({ top, points }) => {
 
     return (
         <View className='flex flex-col items-center justify-end space-y-2'>
-            <Text className='text-white text-2xl font-nunitoBold'>{top}</Text>
-            {top == 1 && (
+            <Text className='text-white text-2xl font-nunitoBold'>{index}</Text>
+            {index == 1 && (
                 <Image source={require('@asset/images/crown.png')} className='w-[70px] h-[50px]' />
             )}
             <View
@@ -38,7 +44,7 @@ const LeaderboardTopUser = ({ top, points }) => {
                 }}
             >
                 <Image
-                    source={require('@asset/images/avatar.jpg')}
+                    source={{ uri: item?.user?.profile_picture }}
                     style={{
                         resizeMode: 'cover',
                         width: handleGetImageWidth(),
@@ -47,8 +53,8 @@ const LeaderboardTopUser = ({ top, points }) => {
                     }}
                 />
             </View>
-            <Text className='text-white text-lg font-nunitoMedium'>Calphil</Text>
-            <Text className='text-[#00FFDD] font-nunitoBold text-lg'>{points}</Text>
+            <Text className='text-white text-lg font-nunitoMedium'>{item?.user?.full_name}</Text>
+            <Text className='text-[#00FFDD] font-nunitoBold text-lg'>{item?.score}</Text>
         </View>
     );
 };

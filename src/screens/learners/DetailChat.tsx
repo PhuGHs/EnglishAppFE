@@ -121,7 +121,7 @@ const DetailChat = ({
                 showToast({ type: 'danger', description: message, timeout: 5000 });
             }
             const returnedMessage: TMessage = data as TMessage;
-            setMessages((old) => [returnedMessage, ...old]);
+            setMessages((old) => [...old, returnedMessage]);
             scrollToTop(true);
             setMessageValue('');
             setImage(null);
@@ -199,7 +199,7 @@ const DetailChat = ({
                 </View>
             </View>
             <View className='px-3 bg-white h-[80%] rounded-t-[40px]'>
-                <Messages flatListRef={flatlistRef} messages={messages} />
+                <Messages flatListRef={flatlistRef} messages={messages} navigation={navigation} />
             </View>
             <View className='w-full h-[10%] bg-white flex flex-row justify-between items-center px-3'>
                 <View className='flex flex-row space-x-2 items-center w-[85%]'>

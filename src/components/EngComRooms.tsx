@@ -101,7 +101,7 @@ const EngComRoom = ({ horizontal, navigation, room }: IEngComRoomProps) => {
                     {topic.header}
                 </Text>
                 <Text className='p-3 bg-[#ACE5FF] text-[#005DB2] text-base w-[45%] rounded-lg text-center font-nunitoBold'>
-                    {topic.english_level_id}
+                    {topic.english_level_name}
                 </Text>
             </View>
             <Text className='mt-2 p-3 bg-amber-100 text-amber-600 text-base w-[45%] rounded-lg text-center font-nunitoBold'>

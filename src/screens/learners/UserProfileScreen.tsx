@@ -88,7 +88,9 @@ const UserProfileScreen = ({
     return (
         <SafeAreaView className='flex flex-1 bg-sky-400'>
             <View className='h-[15%] w-full flex flex-row justify-end p-4'>
-                <TouchableOpacity>
+                <TouchableOpacity
+                    onPress={() => navigation.push('ReportLearner', { userId: receiver_id })}
+                >
                     <FlagIcon size={25} color='#f97316' />
                 </TouchableOpacity>
             </View>

@@ -2,11 +2,13 @@ import Story from '@component/Story';
 import { faArrowLeft, faHeart, faLanguage } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-native-fontawesome';
 import { RouteProp } from '@react-navigation/native';
+import { MissionApi } from '@root/api/mission.api';
 import { ShortStoryApi } from '@root/api/shortstory.api';
 import { useToast } from '@root/context/toast-context';
+import { UserContext } from '@root/context/user-context';
 import { ShortStoryDto } from '@type/T-type';
 import { RootStackParamList, StoryDetailsScreenProps } from '@type/index';
-import React, { useEffect, useState } from 'react';
+import React, { useContext, useEffect, useState } from 'react';
 import {
     TouchableOpacity,
     View,
@@ -28,6 +30,7 @@ const StoryDetails = ({
     navigation,
 }: StoryDetailsScreenProps & { route: RouteProp<RootStackParamList, 'StoryDetails'> }) => {
     const { shortStoryId } = route.params;
+    const { user } = useContext(UserContext);
     const { showToast } = useToast();
 
     const [story, setStory] = useState<ShortStoryDto>(null);
@@ -38,6 +41,7 @@ const StoryDetails = ({
     useEffect(() => {
         const fetch = async () => {
             setExecuted(false);
+            await MissionApi.doMission(1, user.user.user_id);
             const { data, message, status } = await ShortStoryApi.getOne(shortStoryId);
             const { data: random, status: randomStatus } =
                 await ShortStoryApi.getRandom5(shortStoryId);

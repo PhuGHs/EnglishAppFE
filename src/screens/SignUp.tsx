@@ -99,7 +99,7 @@ const SignUp = ({ navigation }: SignUpScreenProps) => {
             setLastNameValue('');
             setPasswordValue('');
             setConfirmedPasswordValue('');
-            navigation.push('Interest', { userId });
+            navigation.push('SignIn');
         }
     };
 

@@ -44,6 +44,7 @@ export type RootStackParamList = {
     SearchScreen: undefined;
     UserProfileScreen: { userId: number };
     UserRecommendation: undefined;
+    ReportLearner: { userId: number };
 };
 
 export type WelcomeScreenProps = NativeStackScreenProps<RootStackParamList, 'Welcome'>;
@@ -66,6 +67,7 @@ export type ShortStoriesScreenProps = NativeStackScreenProps<RootStackParamList,
 export type StoryDetailsScreenProps = NativeStackScreenProps<RootStackParamList, 'StoryDetails'>;
 export type LeaderBoardScreenProps = NativeStackScreenProps<RootStackParamList, 'LeaderBoard'>;
 export type MissionScreenProps = NativeStackScreenProps<RootStackParamList, 'MissionScreen'>;
+export type ReportLearnerScreenProps = NativeStackScreenProps<RootStackParamList, 'ReportLearner'>;
 export type LearnerCommentScreenProps = NativeStackScreenProps<
     RootStackParamList,
     'LearnerComment'

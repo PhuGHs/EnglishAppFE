@@ -280,6 +280,7 @@ export type TEnglishTopicDto = {
     header: string;
     content: string;
     english_level_id: number;
+    english_level_name: string;
 };
 
 export type TEnglishTopicQuestionPostDto = {
@@ -420,4 +421,26 @@ export type TLearningRoomMessagePostDto = {
     image: string,
     // created_at: string,
     user_id: number
+};
+
+export type TLeaderboardDto = {
+    user: TUserNecessary,
+    score: number
+}
+
+export type TReportDto = {
+    id: number,
+    evidence_image: string,
+    content: string,
+    reporter_id: number,
+    reported_id: number,
+    is_solved: boolean,
+    created_date: string
+};
+
+export type TPostReport = {
+    evidence_image: string,
+    content: string,
+    reporter_id: number,
+    reported_id: number
 };

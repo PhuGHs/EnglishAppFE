@@ -323,7 +323,7 @@ const RoomDetails = ({
             </View>
             <View className='flex flex-row justify-between mb-4'>
                 <Text className='p-3 bg-[#ACE5FF] text-[#005DB2] text-base w-[45%] rounded-lg text-center font-nunitoBold'>
-                    {room.topic.english_level_id}
+                    {room.topic.english_level_name}
                 </Text>
                 <Text className='p-3 bg-[#F2DDCC] text-[#FF6B00] text-base w-[45%] rounded-lg text-center font-nunitoBold'>
                     {room.topic.header}

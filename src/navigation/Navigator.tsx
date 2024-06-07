@@ -40,6 +40,7 @@ import { useAuth } from '@root/context/auth-context';
 import SearchScreen from '@screen/learners/SearchScreen';
 import UserProfileScreen from '@screen/learners/UserProfileScreen';
 import * as Linking from 'expo-linking';
+import ReportLearner from '@screen/learners/Report';
 
 const Stack = createNativeStackNavigator<RootStackParamList>();
 
@@ -99,6 +100,7 @@ const Navigator = () => {
                         <Stack.Screen name='LevelOptions' component={LevelOptionScreen} />
                         <Stack.Screen name='SearchScreen' component={SearchScreen} />
                         <Stack.Screen name='UserProfileScreen' component={UserProfileScreen} />
+                        <Stack.Screen name='ReportLearner' component={ReportLearner} />
                     </>
                 )}
             </Stack.Navigator>
