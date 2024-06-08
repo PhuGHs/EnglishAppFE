@@ -9,9 +9,12 @@ import {
 } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-native-fontawesome';
 import { RouteProp } from '@react-navigation/native';
+import { EnglishTestApi } from '@root/api/englishtest.api';
+import { UserContext } from '@root/context/user-context';
+import { TUserTestDto } from '@type/T-type';
 import { EnglishTestListScreenProps, RootStackParamList } from '@type/index';
-import React from 'react';
-import { TouchableOpacity, View, Text } from 'react-native';
+import React, { useContext, useEffect, useState } from 'react';
+import { TouchableOpacity, View, Text, FlatList } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
 
 const EnglishTestScreen = ({
@@ -20,8 +23,33 @@ const EnglishTestScreen = ({
 }: EnglishTestListScreenProps & {
     route: RouteProp<RootStackParamList, 'EnglishTestListScreen'>;
 }) => {
+    const { user } = useContext(UserContext);
+    const { user_id } = user.user;
     const { levelId } = route.params;
-    console.log(levelId);
+    
+    const [tests, setTests] = useState<TUserTestDto[]>([]);
+    const [doneCount, setDoneCount] = useState<number>(0);
+
+    useEffect(() => {
+        const fetch = async () => {
+            try {
+                const { data, message, status } = await EnglishTestApi.getUserTests(user_id, levelId);
+                if (status === 'SUCCESS') {
+                    setTests(data);
+                    const doneCount = data.reduce((count, test) => count + (test.is_passed ? 1 : 0), 0);
+                    setDoneCount(doneCount);
+                }
+            } catch (error) {
+                console.error(error);
+            }
+        };
+        fetch();
+    }, [levelId, user_id]);
+
+    const handleNavigate = async (testId: number) => {
+        navigation.push('Test', {testId: testId });
+    };
+
     return (
         <SafeAreaView className='flex bg-slate-100 flex-1 mx-4 space-y-8'>
             <View className='flex flex-row justify-between items-center mt-3'>
@@ -48,9 +76,13 @@ const EnglishTestScreen = ({
                     </Text>
                 </View>
                 <Text className='text-right w-full text-xl font-nunitoBold text-gray-700 mb-4'>
-                    Tests: 1/1
+                    Tests: {doneCount}/{tests?.length}
                 </Text>
-                <Test />
+                <FlatList
+                    data={tests}
+                    keyExtractor={(item, index) => index.toString()}
+                    renderItem={({ item, index}) => <Test handleNavigate={() => handleNavigate(item.english_test.english_test_id)} test={item} key={index} index={index + 1}/>}
+                />
             </View>
         </SafeAreaView>
     );

@@ -42,6 +42,8 @@ import UserProfileScreen from '@screen/learners/UserProfileScreen';
 import * as Linking from 'expo-linking';
 import ReportLearner from '@screen/learners/Report';
 import BanScreen from '@screen/learners/BanScreen';
+import TestScreen from '@screen/learners/TestScreen';
+import ResultScreen from '@screen/learners/ResultScreen';
 
 const Stack = createNativeStackNavigator<RootStackParamList>();
 
@@ -104,6 +106,8 @@ const Navigator = () => {
                         <Stack.Screen name='UserProfileScreen' component={UserProfileScreen} />
                         <Stack.Screen name='ReportLearner' component={ReportLearner} />
                         <Stack.Screen name='Ban' component={BanScreen} />
+                        <Stack.Screen name='Test' component={TestScreen} />
+                        <Stack.Screen name='ResultScreen' component={ResultScreen} />
                     </>
                 )}
             </Stack.Navigator>

@@ -210,6 +210,7 @@ const CreateARoom = ({ navigation }: CreateARoomScreenProps) => {
                         {radGroup.map((value, index) => (
                             <TouchableOpacity
                                 key={value.id}
+                                disabled={user.user.english_level.levelId < index + 1}
                                 onPress={() => setSelectedId(value.id)}
                                 className='flex justify-center items-start w-full'
                             >

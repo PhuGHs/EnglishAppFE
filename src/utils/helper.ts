@@ -1,5 +1,6 @@
 import moment from 'moment';
 import { format } from 'date-fns';
+import { TQuestionDto, TResultDto, TUserAnswerDto } from '@type/T-type';
 export class Helper {
     static validateEmail(email: string): boolean {
         if (email === '') return false;
@@ -84,4 +85,21 @@ export class Helper {
 
         return `${year}-${month}-${day} ${hours}:${minutes}:${seconds}.${milliseconds}`;
     }
+
+    static evaluateTest(questions: TQuestionDto[], userAnswers: TUserAnswerDto[]): TResultDto[] {
+        return userAnswers.map(answer => {
+            const question = questions.find(q => q.question_id === answer.question_id);
+            if (!question) {
+                throw new Error(`Question with ID ${answer.question_id} not found.`);
+            }
+            const selectedOption = question.options.find(opt => opt.option_id === answer.selected_option_id);
+            if (!selectedOption) {
+                throw new Error(`Option with ID ${answer.selected_option_id} not found.`);
+            }
+            return {
+                question_id: answer.question_id,
+                correct: selectedOption.is_correct
+            };
+        });
+    };
 }

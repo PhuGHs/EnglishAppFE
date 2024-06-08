@@ -46,6 +46,8 @@ export type RootStackParamList = {
     UserRecommendation: undefined;
     ReportLearner: { userId: number };
     Ban: undefined;
+    Test: { testId: number };
+    ResultScreen: { score: number, numberOfQuestions: number, levelName: string, testId: number};
 };
 
 export type WelcomeScreenProps = NativeStackScreenProps<RootStackParamList, 'Welcome'>;
@@ -70,6 +72,8 @@ export type LeaderBoardScreenProps = NativeStackScreenProps<RootStackParamList, 
 export type MissionScreenProps = NativeStackScreenProps<RootStackParamList, 'MissionScreen'>;
 export type ReportLearnerScreenProps = NativeStackScreenProps<RootStackParamList, 'ReportLearner'>;
 export type BanScreenProps = NativeStackScreenProps<RootStackParamList, 'Ban'>;
+export type TestScreenProps = NativeStackScreenProps<RootStackParamList, 'Test'>;
+export type ResultScreenProps = NativeStackScreenProps<RootStackParamList, 'ResultScreen'>;
 export type LearnerCommentScreenProps = NativeStackScreenProps<
     RootStackParamList,
     'LearnerComment'

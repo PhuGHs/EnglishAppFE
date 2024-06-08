@@ -1,5 +1,4 @@
 import EnglishLevel from '@component/EnglishLevel';
-import Stories from '@component/Stories';
 import { faArrowLeft, faCircleInfo, faHeart } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-native-fontawesome';
 import { UserContext } from '@root/context/user-context';
@@ -74,10 +73,10 @@ const EnglishLevelScreen = ({ navigation }: EnglishLevelScreenProps) => {
                 <Text className='text-sky-600 text-xl font-nunitoBold'>Your current level</Text>
                 <View className='flex flex-col space-y-2 rounded-xl p-2 border-[1px] border-gray-400'>
                     <Text className='text-lg font-nunitoBold text-gray-800'>
-                        {test[0].levelName}
+                        {test[user.user.english_level.levelId - 1].levelName}
                     </Text>
                     <Text className='text-base font-nunitoMedium text-gray-700'>
-                        {test[0].description}
+                        {test[user.user.english_level.levelId - 1].description}
                     </Text>
                 </View>
             </View>

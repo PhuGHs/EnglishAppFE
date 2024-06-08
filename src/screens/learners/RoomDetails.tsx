@@ -48,6 +48,8 @@ import { ChatApi } from '@root/api/chat.api';
 import { useInput } from '@hook/useInput';
 import LearningRoomMessage from '@component/LearningRoomMessage';
 import { FlatList as FL } from 'react-native-gesture-handler';
+import { PermissionsAndroid, Platform } from 'react-native';
+import { ClientRoleType, createAgoraRtcEngine, IRtcEngine, ChannelProfileType } from 'react-native-agora';
 
 const getParticpantId = (participants: TParticipantDto[], user_id: number) => {
     let participant;
@@ -59,6 +61,8 @@ const getParticpantId = (participants: TParticipantDto[], user_id: number) => {
     });
     return participant;
 };
+
+const appId = process.env.appId;
 
 const RoomDetails = ({
     route,
@@ -83,8 +87,12 @@ const RoomDetails = ({
     const [users, setUsers] = useState<TSearch[]>([]);
     const [messages, setMessages] = useState<TLearningRoomMessage[]>([]);
     const [text, setText] = useState<string>('');
+    const [isJoined, setJoined] = useState<boolean>(false);
+    const [remoteUsers, setRemoteUsers] = useState<number[]>([]);
+    const [token, setToken] = useState<string>();
 
     const bottomSheetModalRef = useRef(null);
+    const agoraEngineRef = useRef<IRtcEngine>();
     const inviteModalRef = useRef(null);
     const snapPoints = useMemo(() => ['50%', '95%'], []);
 
@@ -96,6 +104,57 @@ const RoomDetails = ({
         hasError: contentHasError,
         didEdit: contentDidEdit,
     } = useInput({ defaultValue: '', validationFn: (value) => value !== '' });
+
+    const setUpAgoraSDKEngine = async () => {
+        try {
+            if (Platform.OS === 'android') {
+                await getPermission();
+            }
+            agoraEngineRef.current =createAgoraRtcEngine();
+            const agoraEngine = agoraEngineRef.current;
+
+            agoraEngine.registerEventHandler({
+                onJoinChannelSuccess: () => {
+                    console.log('Succesfully joined the channel');
+                    setJoined(true);
+                },
+                onUserJoined(connection, remoteUid, elapsed) {
+                    console.log('Remote user ' + remoteUid + ' joined');
+                    setRemoteUsers(prev => [...prev, remoteUid]);
+                },
+                onUserOffline(connection, remoteUid, reason) {
+                    console.log('Remote user ' + remoteUid + ' left the channel');
+                    setRemoteUsers(prev => prev.filter((item, index) => item !== remoteUid));
+                },
+            });
+
+            agoraEngine.initialize({
+                appId: appId
+            });
+        } catch (error) {
+            console.error(error);
+        }
+    };
+
+    const handleJoin = async (s_token: string) => {
+        try {
+            agoraEngineRef.current?.setChannelProfile(ChannelProfileType.ChannelProfileCommunication);
+            agoraEngineRef.current?.joinChannel(s_token, 'room_'+room.id, user_id, {
+                clientRoleType: ClientRoleType.ClientRoleBroadcaster
+            });
+        } catch (error) {
+            console.log(error);
+        }
+    };
+
+    const handleLeave = async () => {
+        try {
+            agoraEngineRef.current?.leaveChannel();
+            console.log('You left the channel');
+        } catch (error) {
+            console.error(error);
+        }
+    };
 
     const handleSearch = async (text) => {
         try {
@@ -177,6 +236,7 @@ const RoomDetails = ({
             currentParticipant.participant_id
         );
         if (status === 'SUCCESS') {
+            handleLeave();
             navigation.popToTop();
         }
     };
@@ -273,7 +333,11 @@ const RoomDetails = ({
     }, []);
 
     useEffect(() => {
+        setUpAgoraSDKEngine();
         const fetch = async () => {
+            const token = await LearningRoomApi.generateToken('room_' + room.id, user_id);
+            handleJoin(token);
+            setToken(token);
             const { data: dataMessages, status: messagesStatus } =
                 await LearningRoomApi.getMessages(room.id);
             if (messagesStatus === 'SUCCESS') {
@@ -597,6 +661,14 @@ const RoomDetails = ({
             </SafeAreaView>
         </BottomSheetModalProvider>
     );
+};
+
+const getPermission = async () => {
+    if (Platform.OS === 'android') {
+        await PermissionsAndroid.requestMultiple([
+            PermissionsAndroid.PERMISSIONS.RECORD_AUDIO,
+        ]);
+    }
 };
 
 export default RoomDetails;

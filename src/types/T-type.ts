@@ -68,6 +68,12 @@ export type TEnglishTopic = {
     englishLevelId: number;
 };
 
+export type TEnglishLevelDto = {
+    english_level_id: number,
+    level_name: string,
+    description: string
+};
+
 export type TUserNecessary = {
     user_id: number;
     full_name: string;
@@ -75,6 +81,14 @@ export type TUserNecessary = {
     english_level: TEnglishLevel;
     english_level_name?: string;
 };
+
+export type TUserNec = {
+    user_id: number;
+    full_name: string;
+    profile_picture: string;
+    english_level: TEnglishLevelDto;
+    english_level_name?: string;
+}
 
 export type TEngcomAsk = {
     id: number;
@@ -446,4 +460,51 @@ export type TPostReport = {
     reason: string;
     reporter_id: number;
     reported_id: number;
+};
+
+export type TEnglishTest = {
+    english_test_id: number,
+    english_level_id: number,
+    number_of_questions: number,
+    title: string,
+    description: string
+};
+
+export type TOptionDto = {
+    option_id: number,
+    option_name: string,
+    is_correct: boolean,
+    question_id: number
+};
+
+export type TQuestionDto = {
+    question_id: number,
+    question_name: string,
+    options: TOptionDto[],
+    english_test_id: number
+};
+
+export type TUserTestDto = {
+    user_test_id: number;
+    english_test: TEnglishTest,
+    user_id: number,
+    score: number,
+    is_passed: boolean
+};
+
+export type TSubmitTestDto = {
+    english_test_id: number,
+    score: number,
+    user_id: number,
+    is_entry_level_test: boolean
+};
+
+export type TUserAnswerDto = {
+    question_id: number,
+    selected_option_id: number
+};
+
+export type TResultDto = {
+    question_id: number,
+    correct: boolean;
 };

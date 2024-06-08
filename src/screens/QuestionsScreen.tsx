@@ -142,11 +142,6 @@ const QuestionsScreen = ({ navigation }: QuestionsScreenProps) => {
                     <Text className='text-2xl text-gray-700'>
                         1. Do you feel comfortable asking for help when youre stuck?
                     </Text>
-                    {/* <View className='border border-gray-300 h-auto rounded-2xl'>
-                        <View className='flex flex-col p-4'>
-                            {radGroup.map((value, index) => <RadioButton id={value.id} labelStyle={styles.label} label={value.label} color='#4ade80' selected={value.id === selectedId} onPress={(id) => setSelectedId(id)}/>)}
-                        </View>
-                    </View> */}
                     <View>
                         {radGroup.map((value, index) => (
                             <TouchableOpacity
