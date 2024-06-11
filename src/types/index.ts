@@ -6,7 +6,7 @@ export type RootStackParamList = {
     SignUp: undefined;
     SignIn: undefined;
     Interest: { userId: number };
-    EnglishTest: undefined;
+    EnglishTest: { userId: number };
     QuestionsScreen: undefined;
     HomeScreen: undefined;
     Tabs: undefined;
@@ -41,7 +41,7 @@ export type RootStackParamList = {
         screenType?: 'topic' | 'question';
     };
     LevelOptions: { levelId: number };
-    SearchScreen: undefined;
+    SearchScreen: { isProfileSearch: boolean };
     UserProfileScreen: { userId: number };
     UserRecommendation: undefined;
     ReportLearner: { userId: number };

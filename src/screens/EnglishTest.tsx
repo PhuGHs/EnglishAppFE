@@ -1,12 +1,16 @@
 import Checkbox from 'expo-checkbox';
-import { EnglishTestScreenProps } from '@root/types';
+import { EnglishTestScreenProps, RootStackParamList } from '@root/types';
 import React from 'react';
 import { Text, TouchableOpacity, View, Image } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { FontAwesomeIcon } from '@fortawesome/react-native-fontawesome';
 import { faAngleLeft } from '@fortawesome/free-solid-svg-icons';
+import { RouteProp } from '@react-navigation/native';
 
-const EnglishTest = ({ navigation }: EnglishTestScreenProps) => {
+const EnglishTest = ({
+    route,
+    navigation,
+}: EnglishTestScreenProps & { route: RouteProp<RootStackParamList, 'EnglishTest'> }) => {
     return (
         <SafeAreaView className='flex-1 bg-neutral-100 px-4 space-y-4 flex justify-between'>
             <View>
@@ -27,7 +31,7 @@ const EnglishTest = ({ navigation }: EnglishTestScreenProps) => {
                         so that we can assess your English abilitiy acurately.
                     </Text>
                     <Text className='text-gray-700 text-lg'>
-                        In this test, you will have to take 30 minutes to answer 30 multiple choices
+                        In this test, you will have to take 20 minutes to answer 20 multiple choices
                         questions
                     </Text>
                     <View className='flex w-full relative'>
@@ -44,12 +48,20 @@ const EnglishTest = ({ navigation }: EnglishTestScreenProps) => {
                     <Checkbox value={true} />
                     <Text className='text-base text-gray-500'>Agree to take the test</Text>
                 </View>
-                <TouchableOpacity
-                    className='rounded-2xl bg-yellow-400 p-4 mb-5 flex justify-center items-center'
-                    onPress={() => navigation.navigate('QuestionsScreen')}
+                <View className='flex flex-row justify-evenly'>
+                    <TouchableOpacity
+                    className='rounded-2xl bg-yellow-400 px-8 py-4 mb-5 flex justify-center items-center'
+                    onPress={() => navigation.navigate('Tabs')}
                 >
-                    <Text className='font-nunitoBold text-gray-700 text-xl'>Next</Text>
+                    <Text className='font-nunitoBold text-gray-700 text-xl'>Skip</Text>
                 </TouchableOpacity>
+                <TouchableOpacity
+                        className='rounded-2xl bg-yellow-400 px-8 py-2 mb-5 flex justify-center items-center'
+                        onPress={() => navigation.navigate('Test', { testId: 1})}
+                    >
+                        <Text className='font-nunitoBold text-gray-700 text-xl'>Next</Text>
+                    </TouchableOpacity>
+                </View>
             </View>
         </SafeAreaView>
     );

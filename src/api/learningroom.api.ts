@@ -169,7 +169,10 @@ export class LearningRoomApi {
 
     static async generateToken(channelName: string, uid: number): Promise<string> {
         try {
-            const response = await http.post('/agora/generate-token');
+            const response = await http.post('/agora/generate-token', {
+                channel_name: channelName,
+                uid: uid
+            });
             return response.data;
         } catch (error) {
             console.log(error);

@@ -49,7 +49,7 @@ import { useInput } from '@hook/useInput';
 import LearningRoomMessage from '@component/LearningRoomMessage';
 import { FlatList as FL } from 'react-native-gesture-handler';
 import { PermissionsAndroid, Platform } from 'react-native';
-import { ClientRoleType, createAgoraRtcEngine, IRtcEngine, ChannelProfileType } from 'react-native-agora';
+import { ClientRoleType, createAgoraRtcEngine, IRtcEngine, ChannelProfileType, RtcEngineContext, RtcConnection, LogLevel, RtcStats, RemoteAudioState, RemoteAudioStateReason } from 'react-native-agora';
 
 const getParticpantId = (participants: TParticipantDto[], user_id: number) => {
     let participant;
@@ -62,7 +62,9 @@ const getParticpantId = (participants: TParticipantDto[], user_id: number) => {
     return participant;
 };
 
-const appId = process.env.appId;
+const appId = 'fd6fca5e51804db6bc31b11a29432f1d';
+
+const tk = '007eJxTYLgyRyFq0R3NhMwnGiV2LVqnks2e+m/mS+b9OPX8bhO9Ly4KDGkpZmnJiaappoYWBiYpSWZJycaGSYaGiUaWJsZGaYYp3MfS0xoCGRn0V/cyMjJAIIjPxlCUn58bb8LAAAB0rh+M';
 
 const RoomDetails = ({
     route,
@@ -90,6 +92,7 @@ const RoomDetails = ({
     const [isJoined, setJoined] = useState<boolean>(false);
     const [remoteUsers, setRemoteUsers] = useState<number[]>([]);
     const [token, setToken] = useState<string>();
+    const [micOff, setMicOff] = useState<boolean>(true);
 
     const bottomSheetModalRef = useRef(null);
     const agoraEngineRef = useRef<IRtcEngine>();
@@ -105,31 +108,102 @@ const RoomDetails = ({
         didEdit: contentDidEdit,
     } = useInput({ defaultValue: '', validationFn: (value) => value !== '' });
 
+    useEffect(() => {
+        const keyboardDidShowListener = Keyboard.addListener('keyboardDidShow', () => {
+            setKeyboardVisible(true);
+        });
+        const keyboardDidHideListener = Keyboard.addListener('keyboardDidHide', () => {
+            setKeyboardVisible(false);
+        });
+
+        return () => {
+            keyboardDidShowListener.remove();
+            keyboardDidHideListener.remove();
+        };
+    }, []);
+
+
+    useEffect(() => {
+        setUpAgoraSDKEngine();
+        const fetch = async () => {
+            const token = await LearningRoomApi.generateToken('room_' + room.id, user_id);
+            handleJoin(tk);
+            console.log(tk);
+            setToken(tk);
+            const { data: dataMessages, status: messagesStatus } =
+                await LearningRoomApi.getMessages(room.id);
+            if (messagesStatus === 'SUCCESS') {
+                setMessages(dataMessages);
+            }
+            const { data, status } = await TopicApi.getAllQuestions(room.topic.topic_id);
+            if (status === 'SUCCESS') {
+                setQuestions(data);
+            }
+        };
+        fetch();
+    }, [room.id, agoraEngineRef]);
+
+    useEffect(() => {
+        const client = Stomp.over(function () {
+            return new SockJS('https://1a0b-171-250-164-111.ngrok-free.app/ws');
+        });
+        client.reconnectDelay = 5000;
+        client.connectHeaders = {};
+        client.heartbeatIncoming = 4000;
+        client.heartbeatOutgoing = 4000;
+        client.debug = (msg) => console.log('STOMP: ', msg);
+
+        client.connect({}, () => {
+            client.subscribe(`/topic/learning-room/${id}`, (message) => {
+                handleIncomingMessage(message.body);
+            });
+            client.subscribe(`/topic/learning-room/message/${id}`, (message) => {
+                handleIncomingChatMessage(message.body);
+            });
+        });
+
+        setStompClient(client);
+        return () => {
+            client.disconnect();
+        };
+    }, [id]);
+
     const setUpAgoraSDKEngine = async () => {
         try {
             if (Platform.OS === 'android') {
                 await getPermission();
             }
-            agoraEngineRef.current =createAgoraRtcEngine();
+            agoraEngineRef.current = createAgoraRtcEngine();
             const agoraEngine = agoraEngineRef.current;
 
-            agoraEngine.registerEventHandler({
-                onJoinChannelSuccess: () => {
-                    console.log('Succesfully joined the channel');
-                    setJoined(true);
-                },
-                onUserJoined(connection, remoteUid, elapsed) {
-                    console.log('Remote user ' + remoteUid + ' joined');
-                    setRemoteUsers(prev => [...prev, remoteUid]);
-                },
-                onUserOffline(connection, remoteUid, reason) {
-                    console.log('Remote user ' + remoteUid + ' left the channel');
-                    setRemoteUsers(prev => prev.filter((item, index) => item !== remoteUid));
-                },
+            agoraEngine.initialize({
+                appId: appId,
             });
 
-            agoraEngine.initialize({
-                appId: appId
+            agoraEngine.registerEventHandler({
+                onError(err, msg) {
+                    console.log(err, msg);
+                },
+                onJoinChannelSuccess: (connection: RtcConnection) => {
+                    console.log('joined');
+                    agoraEngine.muteLocalAudioStream(true);
+                    console.log(connection);
+                },
+                onLeaveChannel: (connection: RtcConnection, stats: RtcStats) => {
+                    console.log('leave');
+                    console.log(connection);
+                    console.log(stats);
+                },
+                onUserJoined: (connection: RtcConnection, remoteUid) => {
+                    console.log('user joined');
+                    console.log(connection);
+                    console.log('remote uid', remoteUid);
+                },
+                onRemoteAudioStateChanged: (connection, remoteUid, state: RemoteAudioState, reason: RemoteAudioStateReason) => {
+                    console.log('state', state);
+                    console.log('reason', reason);
+                    console.log('remoteUId', remoteUid);
+                }
             });
         } catch (error) {
             console.error(error);
@@ -138,12 +212,19 @@ const RoomDetails = ({
 
     const handleJoin = async (s_token: string) => {
         try {
-            agoraEngineRef.current?.setChannelProfile(ChannelProfileType.ChannelProfileCommunication);
-            agoraEngineRef.current?.joinChannel(s_token, 'room_'+room.id, user_id, {
-                clientRoleType: ClientRoleType.ClientRoleBroadcaster
+            if (agoraEngineRef.current === null) {
+                console.log('null');
+            } else {
+                console.log('not null');
+            }
+            const profile = agoraEngineRef.current?.setChannelProfile(ChannelProfileType.ChannelProfileLiveBroadcasting);
+            console.log(profile);
+            const channel = agoraEngineRef.current?.joinChannel(s_token, 'room_4', user_id, {
+                    clientRoleType: ClientRoleType.ClientRoleBroadcaster
             });
+            console.log(channel);
         } catch (error) {
-            console.log(error);
+            console.error('Failed to join the channel:', error);
         }
     };
 
@@ -262,6 +343,7 @@ const RoomDetails = ({
             });
         } else if (type === 'end') {
             showToast({ type: 'info', description: 'Room has expired', timeout: 10000 });
+            handleQuit();
         } else if (type === 'toggle') {
             setPeople((prev) =>
                 prev.map((item: TParticipantDto) =>
@@ -293,7 +375,29 @@ const RoomDetails = ({
     const handleToggleSpeaker = async () => {
         try {
             const { data } = await LearningRoomApi.toggleSpeaker(currentParticipant.participant_id);
+            if (data.is_speaker) {
+                setMicOff(false);
+                agoraEngineRef.current?.muteLocalAudioStream(false);
+            } else {
+                setMicOff(true);
+                agoraEngineRef.current?.muteLocalAudioStream(true);
+            }
+            
             setCurrentParticipant(data);
+        } catch (error) {
+            console.error(error);
+        }
+    };
+
+    const handleToggleMute = async () => {
+        try {
+            setMicOff(prev => !prev);
+            if (micOff) {
+                agoraEngineRef.current?.muteLocalAudioStream(false);
+            } else {
+                agoraEngineRef.current?.muteLocalAudioStream(true);
+            }
+            
         } catch (error) {
             console.error(error);
         }
@@ -317,64 +421,6 @@ const RoomDetails = ({
             console.log(error);
         }
     };
-
-    useEffect(() => {
-        const keyboardDidShowListener = Keyboard.addListener('keyboardDidShow', () => {
-            setKeyboardVisible(true);
-        });
-        const keyboardDidHideListener = Keyboard.addListener('keyboardDidHide', () => {
-            setKeyboardVisible(false);
-        });
-
-        return () => {
-            keyboardDidShowListener.remove();
-            keyboardDidHideListener.remove();
-        };
-    }, []);
-
-    useEffect(() => {
-        setUpAgoraSDKEngine();
-        const fetch = async () => {
-            const token = await LearningRoomApi.generateToken('room_' + room.id, user_id);
-            handleJoin(token);
-            setToken(token);
-            const { data: dataMessages, status: messagesStatus } =
-                await LearningRoomApi.getMessages(room.id);
-            if (messagesStatus === 'SUCCESS') {
-                setMessages(dataMessages);
-            }
-            const { data, status } = await TopicApi.getAllQuestions(room.topic.topic_id);
-            if (status === 'SUCCESS') {
-                setQuestions(data);
-            }
-        };
-        fetch();
-    }, [room.id]);
-
-    useEffect(() => {
-        const client = Stomp.over(function () {
-            return new SockJS('http://10.0.2.2:8080/ws');
-        });
-        client.reconnectDelay = 5000;
-        client.connectHeaders = {};
-        client.heartbeatIncoming = 4000;
-        client.heartbeatOutgoing = 4000;
-        client.debug = (msg) => console.log('STOMP: ', msg);
-
-        client.connect({}, () => {
-            client.subscribe(`/topic/learning-room/${id}`, (message) => {
-                handleIncomingMessage(message.body);
-            });
-            client.subscribe(`/topic/learning-room/message/${id}`, (message) => {
-                handleIncomingChatMessage(message.body);
-            });
-        });
-
-        setStompClient(client);
-        return () => {
-            client.disconnect();
-        };
-    }, [id]);
 
     const renderContent = () => (
         <View className='flex flex-1 bg-slate-100 px-3'>
@@ -624,12 +670,12 @@ const RoomDetails = ({
                     </TouchableOpacity>
                     {currentParticipant.is_speaker && (
                         <TouchableOpacity
-                            onPress={handleToggleSpeaker}
+                            onPress={handleToggleMute}
                             className='h-[100%] w-[25%] items-center justify-center px-5'
                         >
                             <FontAwesomeIcon
                                 icon={
-                                    currentParticipant.is_speaker ? faMicrophoneSlash : faMicrophone
+                                    micOff ? faMicrophone : faMicrophoneSlash
                                 }
                                 size={25}
                                 color='#334155'

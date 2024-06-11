@@ -65,18 +65,20 @@ const Navigator = () => {
     return (
         <NavigationContainer>
             <Stack.Navigator screenOptions={{ headerShown: false }}>
-                {token === null || !user.is_active ? (
+                {token === null ? (
                     <>
                         <Stack.Screen name='Welcome' component={Welcome} />
                         <Stack.Screen name='SignIn' component={SignIn} />
                         <Stack.Screen name='SignUp' component={SignUp} />
-                        <Stack.Screen name='Interest' component={InterestScreen} />
-                        <Stack.Screen name='EnglishTest' component={EnglishTest} />
-                        <Stack.Screen name='QuestionsScreen' component={QuestionsScreen} />
+
                     </>
                 ) : (
                     <>
                         <Stack.Screen name='Tabs' component={Tabs} />
+                        <Stack.Screen name='Interest' component={InterestScreen} />
+                        <Stack.Screen name='EnglishTest' component={EnglishTest} />
+                        <Stack.Screen name='Test' component={TestScreen} />
+                        <Stack.Screen name='ResultScreen' component={ResultScreen} />
                         <Stack.Screen name='EngComAskScreen' component={EngComAskScreen} />
                         <Stack.Screen name='AskAQuestion' component={AskAQuestion} />
                         <Stack.Screen name='DetailChat' component={DetailChat} />
@@ -106,8 +108,6 @@ const Navigator = () => {
                         <Stack.Screen name='UserProfileScreen' component={UserProfileScreen} />
                         <Stack.Screen name='ReportLearner' component={ReportLearner} />
                         <Stack.Screen name='Ban' component={BanScreen} />
-                        <Stack.Screen name='Test' component={TestScreen} />
-                        <Stack.Screen name='ResultScreen' component={ResultScreen} />
                     </>
                 )}
             </Stack.Navigator>

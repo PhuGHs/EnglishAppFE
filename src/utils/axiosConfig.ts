@@ -2,7 +2,7 @@ import axios, { AxiosError, AxiosInstance } from 'axios';
 import { getData, storeData } from './asyncStorage';
 import { useToast } from '@root/context/toast-context';
 
-export const BASE_ENDPOINT = 'http://10.0.2.2:8080/api/v1';
+export const BASE_ENDPOINT = 'https://1a0b-171-250-164-111.ngrok-free.app/api/v1';
 const URL_LOGIN = '/auth/login';
 
 class Http {

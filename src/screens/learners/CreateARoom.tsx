@@ -106,32 +106,37 @@ const CreateARoom = ({ navigation }: CreateARoomScreenProps) => {
     });
 
     const onChange = (event, date) => {
-        let currentDate = date || selectedDate; // Use the newly selected date/time or keep the existing one
-
-        // Determine whether the current mode is 'date' or 'time'
         if (mode === 'date') {
-            setShowDP(true); // Show the date picker
-            setMode('time'); // Switch to time mode after selecting a date
-            setSelectedDate(currentDate); // Update the selected date
+            // Handle date selection
+            if (date) {
+                setSelectedDate(date); // Update the selected date
+            }
+            setShowDP(true); // Show the time picker after selecting a date
+            setMode('time'); // Switch to time mode
         } else {
-            // Assuming mode is 'time'
-            setShowDP(false); // Hide the date picker
-            setMode('date'); // Switch back to date mode after selecting a time// Keep the previously selected date
-            currentDate = date; // Use the newly selected time
-
-            const combinedDateTime = new Date(
-                selectedDate.getFullYear(),
-                selectedDate.getMonth(),
-                selectedDate.getDate(),
-                currentDate.getHours(),
-                currentDate.getMinutes(),
-                currentDate.getSeconds(),
-                currentDate.getMilliseconds()
-            );
-
-            setSelectedTime(combinedDateTime);
+            // Handle time selection
+            if (date) {
+                // Ensure we have both date and time to create a new Date object
+                if (selectedDate && date) {
+                    const newDate = new Date(
+                        selectedDate.getFullYear(),
+                        selectedDate.getMonth(),
+                        selectedDate.getDate(),
+                        date.getHours(),
+                        date.getMinutes(),
+                        date.getSeconds(),
+                        date.getMilliseconds()
+                    );
+        
+                    setSelectedTime(newDate); // Update the selected date and time
+                }
+            }
+            setShowDP(false); // Hide the date/time picker
+            setMode('date'); // Switch back to date mode
         }
     };
+    
+    
 
     const handleCreate = async () => {
         let bodyOut: TLearningRoomPostInstant | TLearningRoomPostLater;

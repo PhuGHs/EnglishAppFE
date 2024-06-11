@@ -3,9 +3,10 @@ import { NativeStackScreenProps } from '@react-navigation/native-stack';
 import { InterestApi } from '@root/api/interest.api';
 import Chips, { ChipProps } from '@root/components/Chips';
 import { useToast } from '@root/context/toast-context';
+import { UserContext } from '@root/context/user-context';
 import { InterestScreenProps, RootStackParamList } from '@root/types';
 import { TInterestPutDto } from '@type/T-type';
-import React, { useEffect, useState } from 'react';
+import React, { useContext, useEffect, useState } from 'react';
 import { Text, TouchableOpacity, View } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
 
@@ -39,8 +40,9 @@ const InterestScreen = ({
     navigation,
 }: InterestScreenProps & { route: RouteProp<RootStackParamList, 'Interest'> }) => {
     const [interests, setInterests] = useState<ChipProps[]>([]);
-    const { userId } = route.params;
     const { showToast } = useToast();
+    const { user } = useContext(UserContext);
+    const { user_id } = user.user;
 
     useEffect(() => {
         const fetch = async () => {
@@ -63,7 +65,7 @@ const InterestScreen = ({
             .filter((interest) => interest.isSelected)
             .map((interest) => interest.id);
         const reqBody: TInterestPutDto = {
-            user_id: userId,
+            user_id: user_id,
             interests: ids,
         };
 
@@ -76,6 +78,11 @@ const InterestScreen = ({
             return;
         }
         const data = await InterestApi.selectInterests(reqBody);
+    };
+
+    const handleNavigation = () => {
+        handleSelectInterests();
+        navigation.push('EnglishTest');
     };
 
     return (
@@ -92,7 +99,7 @@ const InterestScreen = ({
             </View>
             <TouchableOpacity
                 className='rounded-2xl bg-yellow-400 p-4 mb-5 flex justify-center items-center'
-                onPress={handleSelectInterests}
+                onPress={handleNavigation}
             >
                 <Text className='font-nunitoBold text-gray-700 text-xl'>Next</Text>
             </TouchableOpacity>

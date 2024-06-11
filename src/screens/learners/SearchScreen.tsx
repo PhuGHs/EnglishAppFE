@@ -11,6 +11,7 @@ import SearchItem from '@component/SearchItem';
 import { TSearch } from '@type/T-type';
 import { UserApi } from '@root/api/user.api';
 import { UserContext } from '@root/context/user-context';
+import UserProfile from '@component/UserProfile';
 
 const SearchScreen = ({
     route,
@@ -21,6 +22,8 @@ const SearchScreen = ({
     const [text, setText] = useState<string>('');
     const { user } = useContext(UserContext);
     const { user_id } = user.user;
+
+    const { isProfileSearch } = route.params;
 
     const handleSearch = async (text) => {
         try {
@@ -59,9 +62,13 @@ const SearchScreen = ({
                     <FlatList
                         data={users}
                         keyExtractor={(item, index) => item.id.toString()}
-                        renderItem={({ item, index }) => (
-                            <SearchItem navigation={navigation} user={item} key={index} />
-                        )}
+                        renderItem={({ item, index }) => {
+                            if (isProfileSearch) {
+                               return <UserProfile user={item} handlePress={() => navigation.navigate('UserProfileScreen', { userId: item.id } as { userId: number } )} />;
+                            } else {
+                                return <SearchItem navigation={navigation} user={item} key={index} />;
+                            }
+                        }}
                     />
                 ) : (
                     <Text className='text-center text-xl font-nunitoSemi text-gray-700'>

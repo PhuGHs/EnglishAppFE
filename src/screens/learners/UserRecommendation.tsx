@@ -1,13 +1,8 @@
-import MyQuestionsTab from '@screen/learners/MyQuestionsTab';
-import QuestionsTab from '@screen/learners/QuestionsTab';
 import React, { useState } from 'react';
-import { TouchableOpacity, View, useWindowDimensions } from 'react-native';
+import { View, useWindowDimensions } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { SceneMap, TabBar, TabView } from 'react-native-tab-view';
-import { Text } from 'react-native';
-import { FontAwesomeIcon } from '@fortawesome/react-native-fontawesome';
-import { faArrowLeft, faPlus } from '@fortawesome/free-solid-svg-icons';
-import { EngComAskScreenProps, TabsScreenProps } from '@type/index';
+import { UserRecommendationScreenProps } from '@type/index';
 import RecommendationTab from './RecommendationTab';
 import LevelTab from './LevelTab';
 
@@ -26,7 +21,7 @@ const renderTabBar = (props) => (
     />
 );
 
-const UserRecommendation = ({ navigation }: EngComAskScreenProps) => {
+const UserRecommendation = ({ navigation }: UserRecommendationScreenProps) => {
     const layout = useWindowDimensions();
     const [index, setIndex] = useState(0);
     const [routes] = React.useState([
@@ -48,8 +43,8 @@ const UserRecommendation = ({ navigation }: EngComAskScreenProps) => {
                     onIndexChange={setIndex}
                     initialLayout={{ width: layout.width }}
                     renderScene={SceneMap({
-                        first: () => <RecommendationTab navigation={navigation} />,
-                        second: () => <LevelTab navigation={navigation} />,
+                        first: () => <RecommendationTab />,
+                        second: () => <LevelTab />,
                     })}
                 />
             </View>

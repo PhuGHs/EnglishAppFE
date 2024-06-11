@@ -58,7 +58,7 @@ const HomeScreen = ({ navigation }: TabsScreenProps) => {
     useEffect(() => {
         const unsubscribe = navigation.addListener('focus', () => {
             const client = Stomp.over(function () {
-                return new SockJS('http://10.0.2.2:8080/ws');
+                return new SockJS('https://1a0b-171-250-164-111.ngrok-free.app/ws');
             });
             client.reconnectDelay = 5000;
             client.connectHeaders = {};

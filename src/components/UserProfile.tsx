@@ -1,5 +1,5 @@
 import React from 'react';
-import { ScrollView, View, Image, Text, FlatList } from 'react-native';
+import { ScrollView, View, Image, Text, FlatList, TouchableOpacity } from 'react-native';
 import { StarIcon } from 'react-native-heroicons/solid';
 import Chips, { ChipProps } from './Chips';
 import { TSearch } from '@type/T-type';
@@ -35,7 +35,8 @@ interface IUserProfile {
 
 const UserProfile = ({ user, handlePress }: IUserProfile) => {
     return (
-        <View
+        <TouchableOpacity
+            onPress={handlePress}
             className='flex-row gap-y-4 bg-white p-4 mt-4 rounded-2xl'
             style={{ elevation: 10, shadowColor: '#7dd3fc' }}
         >
@@ -64,7 +65,7 @@ const UserProfile = ({ user, handlePress }: IUserProfile) => {
                     ))}
                 </View>
             </View>
-        </View>
+        </TouchableOpacity>
     );
 };
 

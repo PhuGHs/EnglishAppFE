@@ -5,8 +5,9 @@ import { UserContext } from '@root/context/user-context';
 import { UserApi } from '@root/api/user.api';
 import { TSearch } from '@type/T-type';
 import SearchBar from 'react-native-dynamic-search-bar';
+import { useNavigation } from '@react-navigation/native';
 
-const LevelTab = (navigation) => {
+const LevelTab = () => {
     const { user } = useContext(UserContext);
     const { user_id } = user.user;
 
@@ -14,6 +15,8 @@ const LevelTab = (navigation) => {
     const [pageSize, setPageSize] = useState<number>(20);
     const [userProfiles, setUserProfiles] = useState<TSearch[]>([]);
     const [spinVisibility, setSpinVisibility] = useState<boolean>(false);
+
+    const navigation = useNavigation();
 
     useEffect(() => {
         const fetch = async () => {
@@ -49,7 +52,7 @@ const LevelTab = (navigation) => {
             <FlatList
                 data={userProfiles}
                 keyExtractor={(item, index) => index.toString()}
-                renderItem={({ item, index }) => <UserProfile user={item} handlePress={() => {}} />}
+                renderItem={({ item, index }) => <UserProfile user={item} handlePress={() => navigation.navigate('UserProfileScreen', { userId: item.id })} />}
             />
         </View>
     );

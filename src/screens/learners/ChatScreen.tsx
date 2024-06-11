@@ -63,7 +63,7 @@ const ChatScreen = ({ navigation }: TabsScreenProps) => {
         fetchChat();
 
         const client = Stomp.over(function () {
-            return new SockJS('http://10.0.2.2:8080/ws');
+            return new SockJS('https://1a0b-171-250-164-111.ngrok-free.app/ws');
         });
         client.reconnectDelay = 5000;
         client.connectHeaders = {};
@@ -87,7 +87,7 @@ const ChatScreen = ({ navigation }: TabsScreenProps) => {
                     <Text className='text-center w-full text-sky-600 font-Semi text-2xl my-4'>
                         Chats
                     </Text>
-                    <SearchBar handleNavigation={() => navigation.push('SearchScreen')} />
+                    <SearchBar handleNavigation={() => navigation.push('SearchScreen', { isProfileSearch: false })} />
                 </View>
                 <Conversations data={conversations} navigation={navigation} />
             </SafeAreaView>
